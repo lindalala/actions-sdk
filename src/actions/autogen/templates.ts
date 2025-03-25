@@ -149,7 +149,7 @@ export const confluenceFetchPageContentDefinition: ActionTemplate = {
 };
 export const jiraCommentJiraTicketDefinition: ActionTemplate = {
   description: "Comments on a Jira ticket with specified content",
-  scopes: [],
+  scopes: ["write:comment:jira"],
   parameters: {
     type: "object",
     required: ["projectKey", "issueId", "comment"],
@@ -170,8 +170,16 @@ export const jiraCommentJiraTicketDefinition: ActionTemplate = {
   },
   output: {
     type: "object",
-    required: ["commentUrl"],
+    required: ["success"],
     properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the comment was sent successfully",
+      },
+      error: {
+        type: "string",
+        description: "The error that occurred if the comment was not sent successfully",
+      },
       commentUrl: {
         type: "string",
         description: "The url to the created Jira comment",

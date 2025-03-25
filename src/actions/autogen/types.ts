@@ -121,7 +121,9 @@ export const jiraCommentJiraTicketParamsSchema = z.object({
 export type jiraCommentJiraTicketParamsType = z.infer<typeof jiraCommentJiraTicketParamsSchema>;
 
 export const jiraCommentJiraTicketOutputSchema = z.object({
-  commentUrl: z.string().describe("The url to the created Jira comment"),
+  success: z.boolean().describe("Whether the comment was sent successfully"),
+  error: z.string().describe("The error that occurred if the comment was not sent successfully").optional(),
+  commentUrl: z.string().describe("The url to the created Jira comment").optional(),
 });
 
 export type jiraCommentJiraTicketOutputType = z.infer<typeof jiraCommentJiraTicketOutputSchema>;

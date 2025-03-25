@@ -20,37 +20,47 @@ const CommentJiraTicket: jiraCommentJiraTicketFunction = async ({
     throw new Error("Cloud ID and Issue ID are required to comment on a Jira ticket");
   }
   const apiUrl = `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3/issue/${params.issueId}/comment`;
-  const response = await axiosClient.post(
-    apiUrl,
-    {
-      body: {
-        type: "doc",
-        version: 1,
-        content: [
-          {
-            type: "paragraph",
-            content: [
-              {
-                type: "text",
-                text: params.comment,
-              },
-            ],
-          },
-        ],
-      },
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    },
-  );
 
-  return {
-    commentUrl: `${baseUrl}/browse/${params.issueId}?focusedCommentId=${response.data.id}`,
-  };
+  try {
+    const response = await axiosClient.post(
+      apiUrl,
+      {
+        body: {
+          type: "doc",
+          version: 1,
+          content: [
+            {
+              type: "paragraph",
+              content: [
+                {
+                  type: "text",
+                  text: params.comment,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    return {
+      success: true,
+      commentUrl: `${baseUrl}/browse/${params.issueId}?focusedCommentId=${response.data.id}`,
+    };
+  } catch (error) {
+    console.error("Error commenting on Jira ticket: ", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
+  }
 };
 
 export default CommentJiraTicket;
