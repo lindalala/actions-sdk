@@ -147,6 +147,40 @@ export const confluenceFetchPageContentDefinition: ActionTemplate = {
   name: "fetchPageContent",
   provider: "confluence",
 };
+export const jiraCommentJiraTicketDefinition: ActionTemplate = {
+  description: "Comments on a Jira ticket with specified content",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: ["projectKey", "issueId", "comment"],
+    properties: {
+      projectKey: {
+        type: "string",
+        description: "The key for the project you want to add it to",
+      },
+      issueId: {
+        type: "string",
+        description: "The issue ID associated with the ticket to be commented on",
+      },
+      comment: {
+        type: "string",
+        description: "The text to be commented on the ticket",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["commentUrl"],
+    properties: {
+      commentUrl: {
+        type: "string",
+        description: "The url to the created Jira comment",
+      },
+    },
+  },
+  name: "commentJiraTicket",
+  provider: "jira",
+};
 export const jiraCreateJiraTicketDefinition: ActionTemplate = {
   description: "Create a jira ticket with new content specified",
   scopes: [],

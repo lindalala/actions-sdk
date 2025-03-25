@@ -10,6 +10,7 @@ import {
   zendeskCreateZendeskTicketDefinition,
   openstreetmapGetLatitudeLongitudeFromLocationDefinition,
   nwsGetForecastForLocationDefinition,
+  jiraCommentJiraTicketDefinition,
   jiraCreateJiraTicketDefinition,
   googlemapsNearbysearchRestaurantsDefinition,
   firecrawlScrapeUrlDefinition,
@@ -68,6 +69,10 @@ export const ACTION_GROUPS: ActionGroups = {
   SNOWFLAKE_ACTIONS: {
     description: "Action for getting content from a Snowflake table",
     actions: [snowflakeGetRowByFieldValueDefinition, snowflakeRunSnowflakeQueryDefinition],
+  },
+  JIRA_COMMENT_TICKET: {
+    description: "Action for commenting on a Jira ticket",
+    actions: [jiraCommentJiraTicketDefinition],
   },
   JIRA_CREATE_TICKET: {
     description: "Action for creating a Jira ticket",
