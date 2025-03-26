@@ -245,7 +245,7 @@ export type jiraAssignJiraTicketFunction = ActionFunction<
 >;
 
 export const jiraCommentJiraTicketParamsSchema = z.object({
-  projectKey: z.string().describe("The key for the project you want to add it to"),
+  projectKey: z.string().describe("The key for the project"),
   issueId: z.string().describe("The issue ID associated with the ticket to be commented on"),
   comment: z.string().describe("The text to be commented on the ticket"),
 });
@@ -293,7 +293,7 @@ export type jiraCreateJiraTicketFunction = ActionFunction<
 >;
 
 export const jiraGetJiraTicketDetailsParamsSchema = z.object({
-  projectKey: z.string().describe("The key for the project you want to add it to"),
+  projectKey: z.string().describe("The key for the project"),
   issueId: z.string().describe("The ID of the ticket"),
 });
 
@@ -310,6 +310,26 @@ export type jiraGetJiraTicketDetailsFunction = ActionFunction<
   jiraGetJiraTicketDetailsParamsType,
   AuthParamsType,
   jiraGetJiraTicketDetailsOutputType
+>;
+
+export const jiraGetJiraTicketHistoryParamsSchema = z.object({
+  projectKey: z.string().describe("The key for the project"),
+  issueId: z.string().describe("The ID of the ticket"),
+});
+
+export type jiraGetJiraTicketHistoryParamsType = z.infer<typeof jiraGetJiraTicketHistoryParamsSchema>;
+
+export const jiraGetJiraTicketHistoryOutputSchema = z.object({
+  success: z.boolean().describe("Whether the status was updated successfully"),
+  error: z.string().describe("The error that occurred if the retrieval was unsuccessful").optional(),
+  history: z.string().describe("The history data of the Jira ticket").optional(),
+});
+
+export type jiraGetJiraTicketHistoryOutputType = z.infer<typeof jiraGetJiraTicketHistoryOutputSchema>;
+export type jiraGetJiraTicketHistoryFunction = ActionFunction<
+  jiraGetJiraTicketHistoryParamsType,
+  AuthParamsType,
+  jiraGetJiraTicketHistoryOutputType
 >;
 
 export const jiraUpdateJiraTicketDetailsParamsSchema = z.object({

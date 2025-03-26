@@ -415,7 +415,7 @@ export const jiraCommentJiraTicketDefinition: ActionTemplate = {
     properties: {
       projectKey: {
         type: "string",
-        description: "The key for the project you want to add it to",
+        description: "The key for the project",
       },
       issueId: {
         type: "string",
@@ -508,7 +508,7 @@ export const jiraGetJiraTicketDetailsDefinition: ActionTemplate = {
     properties: {
       projectKey: {
         type: "string",
-        description: "The key for the project you want to add it to",
+        description: "The key for the project",
       },
       issueId: {
         type: "string",
@@ -535,6 +535,44 @@ export const jiraGetJiraTicketDetailsDefinition: ActionTemplate = {
     },
   },
   name: "getJiraTicketDetails",
+  provider: "jira",
+};
+export const jiraGetJiraTicketHistoryDefinition: ActionTemplate = {
+  description: "Get ticket history of a ticket in Jira",
+  scopes: ["read:jira-work"],
+  parameters: {
+    type: "object",
+    required: ["projectKey", "issueId"],
+    properties: {
+      projectKey: {
+        type: "string",
+        description: "The key for the project",
+      },
+      issueId: {
+        type: "string",
+        description: "The ID of the ticket",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the status was updated successfully",
+      },
+      error: {
+        type: "string",
+        description: "The error that occurred if the retrieval was unsuccessful",
+      },
+      history: {
+        type: "string",
+        description: "The history data of the Jira ticket",
+      },
+    },
+  },
+  name: "getJiraTicketHistory",
   provider: "jira",
 };
 export const jiraUpdateJiraTicketDetailsDefinition: ActionTemplate = {

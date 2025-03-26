@@ -6,7 +6,7 @@ import {
 } from "../../autogen/types";
 import { axiosClient } from "../../util/axiosClient";
 
-const UpdateJiraTicketStatus: jiraUpdateJiraTicketStatusFunction = async ({
+const updateJiraTicketStatus: jiraUpdateJiraTicketStatusFunction = async ({
   params,
   authParams,
 }: {
@@ -68,4 +68,4 @@ const UpdateJiraTicketStatus: jiraUpdateJiraTicketStatusFunction = async ({
   }
 };
 
-export default UpdateJiraTicketStatus;
+export default updateJiraTicketStatus;

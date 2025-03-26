@@ -39,6 +39,8 @@ import {
   jiraCreateJiraTicketOutputSchema,
   jiraGetJiraTicketDetailsParamsSchema,
   jiraGetJiraTicketDetailsOutputSchema,
+  jiraGetJiraTicketHistoryParamsSchema,
+  jiraGetJiraTicketHistoryOutputSchema,
   jiraUpdateJiraTicketDetailsParamsSchema,
   jiraUpdateJiraTicketDetailsOutputSchema,
   jiraUpdateJiraTicketStatusParamsSchema,
@@ -114,13 +116,14 @@ import getChannelMessages from "./providers/slack/getChannelMessages";
 import getRowByFieldValue from "./providers/snowflake/getRowByFieldValue";
 import createZendeskTicket from "./providers/zendesk/createZendeskTicket";
 import getZendeskTicketDetails from "./providers/zendesk/getTicketDetails";
-import assignJiraTicket from "./providers/jira/assignJiraTicket";
 import updateTicketStatus from "./providers/zendesk/updateTicketStatus";
 import addCommentToTicket from "./providers/zendesk/addCommentToTicket";
 import assignTicket from "./providers/zendesk/assignTicket";
+import assignJiraTicket from "./providers/jira/assignJiraTicket";
 import commentJiraTicket from "./providers/jira/commentJiraTicket";
 import createJiraTicket from "./providers/jira/createJiraTicket";
 import getJiraTicketDetails from "./providers/jira/getJiraTicketDetails";
+import getJiraTicketHistory from "./providers/jira/getJiraTicketHistory";
 import updateJiraTicketDetails from "./providers/jira/updateJiraTicketDetails";
 import updateJiraTicketStatus from "./providers/jira/updateJiraTicketStatus";
 import getLatitudeLongitudeFromLocation from "./providers/openstreetmap/getLatitudeLongitudeFromLocation";
@@ -310,6 +313,11 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       fn: getJiraTicketDetails,
       paramsSchema: jiraGetJiraTicketDetailsParamsSchema,
       outputSchema: jiraGetJiraTicketDetailsOutputSchema,
+    },
+    getJiraTicketHistory: {
+      fn: getJiraTicketHistory,
+      paramsSchema: jiraGetJiraTicketHistoryParamsSchema,
+      outputSchema: jiraGetJiraTicketHistoryOutputSchema,
     },
     updateJiraTicketDetails: {
       fn: updateJiraTicketDetails,

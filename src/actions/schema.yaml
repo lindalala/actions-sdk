@@ -334,7 +334,7 @@ actions:
         properties:
           projectKey:
             type: string
-            description: The key for the project you want to add it to
+            description: The key for the project
           issueId:
             type: string
             description: The issue ID associated with the ticket to be commented on
@@ -400,7 +400,7 @@ actions:
         properties:
           projectKey:
             type: string
-            description: The key for the project you want to add it to
+            description: The key for the project
           issueId:
             type: string
             description: The ID of the ticket
@@ -417,6 +417,33 @@ actions:
           data:
             type: string
             description: The data of the Jira ticket
+    getJiraTicketHistory:
+      description: Get ticket history of a ticket in Jira
+      scopes: 
+        - read:jira-work
+      parameters:
+        type: object
+        required: [projectKey, issueId]
+        properties:
+          projectKey:
+            type: string
+            description: The key for the project 
+          issueId:
+            type: string
+            description: The ID of the ticket
+      output:
+        type: object
+        required: [success]
+        properties:
+          success:
+            type: boolean
+            description: Whether the status was updated successfully
+          error:
+            type: string
+            description: The error that occurred if the retrieval was unsuccessful
+          history:
+            type: string
+            description: The history data of the Jira ticket
     updateJiraTicketDetails:
       description: Update a Jira ticket with new content specified
       scopes: 
@@ -442,7 +469,7 @@ actions:
             description: The updated issue type 
           customFields:
             type: object
-            description: Custom fields to be set on the create ticket request
+            description: Custom fields to be set on the update ticket request
             additionalProperties: true
       output:
         type: object
