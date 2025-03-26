@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import { runAction } from "../../src/app";
-import { jiraConfig } from './utils'; 
+import { jiraConfig } from "./utils";
 
 async function runTest() {
 

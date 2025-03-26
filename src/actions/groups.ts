@@ -10,6 +10,7 @@ import {
   zendeskCreateZendeskTicketDefinition,
   openstreetmapGetLatitudeLongitudeFromLocationDefinition,
   nwsGetForecastForLocationDefinition,
+  jiraAssignJiraTicketDefinition,
   jiraCommentJiraTicketDefinition,
   jiraCreateJiraTicketDefinition,
   googlemapsNearbysearchRestaurantsDefinition,
@@ -70,13 +71,9 @@ export const ACTION_GROUPS: ActionGroups = {
     description: "Action for getting content from a Snowflake table",
     actions: [snowflakeGetRowByFieldValueDefinition, snowflakeRunSnowflakeQueryDefinition],
   },
-  JIRA_COMMENT_TICKET: {
-    description: "Action for commenting on a Jira ticket",
-    actions: [jiraCommentJiraTicketDefinition],
-  },
-  JIRA_CREATE_TICKET: {
-    description: "Action for creating a Jira ticket",
-    actions: [jiraCreateJiraTicketDefinition],
+  JIRA_ACTIONS: {
+    description: "Action for interating with Jira tickets",
+    actions: [jiraCreateJiraTicketDefinition, jiraCommentJiraTicketDefinition, jiraAssignJiraTicketDefinition],
   },
   OPENSTREETMAP_GET_LATITUDE_LONGITUDE_FROM_LOCATION: {
     description: "Action for getting the latitude and longitude of a location",

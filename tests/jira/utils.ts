@@ -5,4 +5,5 @@ export const jiraConfig = {
   baseUrl: "your-base-url-here",
   projectKey: "your-projectkey-here",
   issueId: "your-issueId-here",
+  assignee: "your-assignee-here",
 };
