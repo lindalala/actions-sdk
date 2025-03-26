@@ -499,6 +499,44 @@ export const jiraCreateJiraTicketDefinition: ActionTemplate = {
   name: "createJiraTicket",
   provider: "jira",
 };
+export const jiraGetJiraTicketDetailsDefinition: ActionTemplate = {
+  description: "Get details of a ticket in Jira",
+  scopes: ["read:jira-work"],
+  parameters: {
+    type: "object",
+    required: ["projectKey", "issueId"],
+    properties: {
+      projectKey: {
+        type: "string",
+        description: "The key for the project you want to add it to",
+      },
+      issueId: {
+        type: "string",
+        description: "The ID of the ticket",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the status was updated successfully",
+      },
+      error: {
+        type: "string",
+        description: "The error that occurred if the retrieval was unsuccessful",
+      },
+      data: {
+        type: "string",
+        description: "The data of the Jira ticket",
+      },
+    },
+  },
+  name: "getJiraTicketDetails",
+  provider: "jira",
+};
 export const jiraUpdateJiraTicketDetailsDefinition: ActionTemplate = {
   description: "Update a Jira ticket with new content specified",
   scopes: ["write:jira-work"],

@@ -292,6 +292,26 @@ export type jiraCreateJiraTicketFunction = ActionFunction<
   jiraCreateJiraTicketOutputType
 >;
 
+export const jiraGetJiraTicketDetailsParamsSchema = z.object({
+  projectKey: z.string().describe("The key for the project you want to add it to"),
+  issueId: z.string().describe("The ID of the ticket"),
+});
+
+export type jiraGetJiraTicketDetailsParamsType = z.infer<typeof jiraGetJiraTicketDetailsParamsSchema>;
+
+export const jiraGetJiraTicketDetailsOutputSchema = z.object({
+  success: z.boolean().describe("Whether the status was updated successfully"),
+  error: z.string().describe("The error that occurred if the retrieval was unsuccessful").optional(),
+  data: z.string().describe("The data of the Jira ticket").optional(),
+});
+
+export type jiraGetJiraTicketDetailsOutputType = z.infer<typeof jiraGetJiraTicketDetailsOutputSchema>;
+export type jiraGetJiraTicketDetailsFunction = ActionFunction<
+  jiraGetJiraTicketDetailsParamsType,
+  AuthParamsType,
+  jiraGetJiraTicketDetailsOutputType
+>;
+
 export const jiraUpdateJiraTicketDetailsParamsSchema = z.object({
   projectKey: z.string().describe("The key for the project you want to add it to"),
   issueId: z.string().describe("The issue ID associated with the ticket to be updated"),

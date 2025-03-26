@@ -13,6 +13,7 @@ import {
   jiraAssignJiraTicketDefinition,
   jiraCommentJiraTicketDefinition,
   jiraCreateJiraTicketDefinition,
+  jiraGetJiraTicketDetailsDefinition,
   jiraUpdateJiraTicketDetailsDefinition,
   jiraUpdateJiraTicketStatusDefinition,
   googlemapsNearbysearchRestaurantsDefinition,
@@ -94,9 +95,10 @@ export const ACTION_GROUPS: ActionGroups = {
   JIRA_ACTIONS: {
     description: "Action for interacting with Jira tickets",
     actions: [
-      jiraCreateJiraTicketDefinition,
       jiraAssignJiraTicketDefinition,
+      jiraCreateJiraTicketDefinition,
       jiraCommentJiraTicketDefinition,
+      jiraGetJiraTicketDetailsDefinition,
       jiraUpdateJiraTicketDetailsDefinition,
       jiraUpdateJiraTicketStatusDefinition,
     ],
