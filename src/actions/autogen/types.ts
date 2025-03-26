@@ -292,6 +292,53 @@ export type jiraCreateJiraTicketFunction = ActionFunction<
   jiraCreateJiraTicketOutputType
 >;
 
+export const jiraUpdateJiraTicketDetailsParamsSchema = z.object({
+  projectKey: z.string().describe("The key for the project you want to add it to"),
+  issueId: z.string().describe("The issue ID associated with the ticket to be updated"),
+  summary: z.string().describe("The updated summary").optional(),
+  description: z.string().describe("The updated description").optional(),
+  issueType: z.string().describe("The updated issue type").optional(),
+  customFields: z
+    .object({})
+    .catchall(z.any())
+    .describe("Custom fields to be set on the create ticket request")
+    .optional(),
+});
+
+export type jiraUpdateJiraTicketDetailsParamsType = z.infer<typeof jiraUpdateJiraTicketDetailsParamsSchema>;
+
+export const jiraUpdateJiraTicketDetailsOutputSchema = z.object({
+  ticketUrl: z.string().describe("The url to the Jira ticket"),
+});
+
+export type jiraUpdateJiraTicketDetailsOutputType = z.infer<typeof jiraUpdateJiraTicketDetailsOutputSchema>;
+export type jiraUpdateJiraTicketDetailsFunction = ActionFunction<
+  jiraUpdateJiraTicketDetailsParamsType,
+  AuthParamsType,
+  jiraUpdateJiraTicketDetailsOutputType
+>;
+
+export const jiraUpdateJiraTicketStatusParamsSchema = z.object({
+  projectKey: z.string().describe("The key for the project you want to add it to"),
+  issueId: z.string().describe("The issue ID associated with the ticket"),
+  status: z.string().describe('The status the ticket should be changed to (eg "In Progress", "Closed")'),
+});
+
+export type jiraUpdateJiraTicketStatusParamsType = z.infer<typeof jiraUpdateJiraTicketStatusParamsSchema>;
+
+export const jiraUpdateJiraTicketStatusOutputSchema = z.object({
+  success: z.boolean().describe("Whether the status was updated successfully"),
+  error: z.string().describe("The error that occurred if the status was not updated successfully").optional(),
+  ticketUrl: z.string().describe("The url to the Jira ticket").optional(),
+});
+
+export type jiraUpdateJiraTicketStatusOutputType = z.infer<typeof jiraUpdateJiraTicketStatusOutputSchema>;
+export type jiraUpdateJiraTicketStatusFunction = ActionFunction<
+  jiraUpdateJiraTicketStatusParamsType,
+  AuthParamsType,
+  jiraUpdateJiraTicketStatusOutputType
+>;
+
 export const googlemapsValidateAddressParamsSchema = z.object({
   regionCode: z.string().describe("The country of the address being verified."),
   locality: z.string().describe("The locality of the address being verified. This is likely a city."),

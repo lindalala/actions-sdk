@@ -13,6 +13,8 @@ import {
   jiraAssignJiraTicketDefinition,
   jiraCommentJiraTicketDefinition,
   jiraCreateJiraTicketDefinition,
+  jiraUpdateJiraTicketDetailsDefinition,
+  jiraUpdateJiraTicketStatusDefinition,
   googlemapsNearbysearchRestaurantsDefinition,
   firecrawlScrapeUrlDefinition,
   resendSendEmailDefinition,
@@ -90,8 +92,14 @@ export const ACTION_GROUPS: ActionGroups = {
     actions: [snowflakeGetRowByFieldValueDefinition, snowflakeRunSnowflakeQueryDefinition],
   },
   JIRA_ACTIONS: {
-    description: "Action for interating with Jira tickets",
-    actions: [jiraCreateJiraTicketDefinition, jiraAssignJiraTicketDefinition, jiraCommentJiraTicketDefinition],
+    description: "Action for interacting with Jira tickets",
+    actions: [
+      jiraCreateJiraTicketDefinition,
+      jiraAssignJiraTicketDefinition,
+      jiraCommentJiraTicketDefinition,
+      jiraUpdateJiraTicketDetailsDefinition,
+      jiraUpdateJiraTicketStatusDefinition,
+    ],
   },
   OPENSTREETMAP_GET_LATITUDE_LONGITUDE_FROM_LOCATION: {
     description: "Action for getting the latitude and longitude of a location",

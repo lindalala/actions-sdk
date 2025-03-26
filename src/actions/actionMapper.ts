@@ -37,6 +37,10 @@ import {
   jiraCommentJiraTicketOutputSchema,
   jiraCreateJiraTicketParamsSchema,
   jiraCreateJiraTicketOutputSchema,
+  jiraUpdateJiraTicketDetailsParamsSchema,
+  jiraUpdateJiraTicketDetailsOutputSchema,
+  jiraUpdateJiraTicketStatusParamsSchema,
+  jiraUpdateJiraTicketStatusOutputSchema,
   openstreetmapGetLatitudeLongitudeFromLocationParamsSchema,
   openstreetmapGetLatitudeLongitudeFromLocationOutputSchema,
   nwsGetForecastForLocationParamsSchema,
@@ -114,6 +118,8 @@ import addCommentToTicket from "./providers/zendesk/addCommentToTicket";
 import assignTicket from "./providers/zendesk/assignTicket";
 import commentJiraTicket from "./providers/jira/commentJiraTicket";
 import createJiraTicket from "./providers/jira/createJiraTicket";
+import updateJiraTicketDetails from "./providers/jira/updateJiraTicketDetails";
+import updateJiraTicketStatus from "./providers/jira/updateJiraTicketStatus";
 import getLatitudeLongitudeFromLocation from "./providers/openstreetmap/getLatitudeLongitudeFromLocation";
 import getForecastForLocation from "./providers/nws/getForecastForLocation";
 import nearbysearch from "./providers/googlemaps/nearbysearchRestaurants";
@@ -296,6 +302,16 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       fn: createJiraTicket,
       paramsSchema: jiraCreateJiraTicketParamsSchema,
       outputSchema: jiraCreateJiraTicketOutputSchema,
+    },
+    updateJiraTicketDetails: {
+      fn: updateJiraTicketDetails,
+      paramsSchema: jiraUpdateJiraTicketDetailsParamsSchema,
+      outputSchema: jiraUpdateJiraTicketDetailsOutputSchema,
+    },
+    updateJiraTicketStatus: {
+      fn: updateJiraTicketStatus,
+      paramsSchema: jiraUpdateJiraTicketStatusParamsSchema,
+      outputSchema: jiraUpdateJiraTicketStatusOutputSchema,
     },
   },
   openstreetmap: {
