@@ -1,26 +1,26 @@
 import {
   AuthParamsType,
-  jiraGetJiraTicketDetailsFunction,
-  jiraGetJiraTicketDetailsOutputType,
-  jiraGetJiraTicketDetailsParamsType,
+  jiraGetJiraTicketHistoryFunction,
+  jiraGetJiraTicketHistoryOutputType,
+  jiraGetJiraTicketHistoryParamsType,
 } from "../../autogen/types";
 import { axiosClient } from "../../util/axiosClient";
 
-const getJiraTicketDetails: jiraGetJiraTicketDetailsFunction = async ({
+const getJiraTicketHistory: jiraGetJiraTicketHistoryFunction = async ({
   params,
   authParams,
 }: {
-  params: jiraGetJiraTicketDetailsParamsType;
+  params: jiraGetJiraTicketHistoryParamsType;
   authParams: AuthParamsType;
-}): Promise<jiraGetJiraTicketDetailsOutputType> => {
+}): Promise<jiraGetJiraTicketHistoryOutputType> => {
   const { authToken, cloudId } = authParams;
   const { issueId } = params;
 
   if (!cloudId || !issueId) {
-    throw new Error("Cloud ID and Issue ID are required to fetch Jira ticket details");
+    throw new Error("Cloud ID and Issue ID are required to retrieve ticket history");
   }
 
-  const apiUrl = `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3/issue/${issueId}`;
+  const apiUrl = `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3/issue/${issueId}/changelog`;
 
   try {
     const response = await axiosClient.get(apiUrl, {
@@ -32,10 +32,10 @@ const getJiraTicketDetails: jiraGetJiraTicketDetailsFunction = async ({
 
     return {
       success: true,
-      data: response.data,
+      history: response?.data?.values,
     };
   } catch (error) {
-    console.error("Error retrieving Jira ticket details: ", error);
+    console.error("Error retrieving Jira ticket history: ", error);
     return {
       success: false,
       error: error instanceof Error ? error.message : "Unknown error",
@@ -43,4 +43,4 @@ const getJiraTicketDetails: jiraGetJiraTicketDetailsFunction = async ({
   }
 };
 
-export default getJiraTicketDetails;
+export default getJiraTicketHistory;
