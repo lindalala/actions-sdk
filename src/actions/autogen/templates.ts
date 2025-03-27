@@ -361,7 +361,7 @@ export const jiraGetJiraTicketDetailsDefinition: ActionTemplate = {
         description: "The error that occurred if the retrieval was unsuccessful",
       },
       data: {
-        type: "string",
+        type: "object",
         description: "The data of the Jira ticket",
       },
     },
@@ -399,7 +399,7 @@ export const jiraGetJiraTicketHistoryDefinition: ActionTemplate = {
         description: "The error that occurred if the retrieval was unsuccessful",
       },
       history: {
-        type: "string",
+        type: "array",
         description: "The history data of the Jira ticket",
       },
     },
@@ -436,7 +436,7 @@ export const jiraUpdateJiraTicketDetailsDefinition: ActionTemplate = {
       },
       customFields: {
         type: "object",
-        description: "Custom fields to be set on the create ticket request",
+        description: "Custom fields to be set on the update ticket request",
         additionalProperties: true,
       },
     },
