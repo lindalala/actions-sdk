@@ -415,7 +415,7 @@ actions:
             type: string
             description: The error that occurred if the retrieval was unsuccessful
           data:
-            type: string
+            type: object
             description: The data of the Jira ticket
     getJiraTicketHistory:
       description: Get ticket history of a ticket in Jira
@@ -442,7 +442,7 @@ actions:
             type: string
             description: The error that occurred if the retrieval was unsuccessful
           history:
-            type: string
+            type: array
             description: The history data of the Jira ticket
     updateJiraTicketDetails:
       description: Update a Jira ticket with new content specified

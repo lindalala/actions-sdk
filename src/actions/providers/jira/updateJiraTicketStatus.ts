@@ -35,7 +35,7 @@ const updateJiraTicketStatus: jiraUpdateJiraTicketStatusFunction = async ({
       throw new Error("No available transitions found for this issue.");
     }
 
-    const transition = transitions.find((t: { name: string }) => t.name.toLowerCase() === status.toLowerCase());
+    const transition = transitions.find((t: { name: string }) => t.name.toLowerCase() === status.trim().toLowerCase());
     if (!transition) {
       throw new Error(
         `Status '${status}' not found for this issue. Available statuses: ${transitions.map((t: { name: string }) => t.name).join(", ")}`,

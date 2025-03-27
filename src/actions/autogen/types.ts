@@ -302,7 +302,7 @@ export type jiraGetJiraTicketDetailsParamsType = z.infer<typeof jiraGetJiraTicke
 export const jiraGetJiraTicketDetailsOutputSchema = z.object({
   success: z.boolean().describe("Whether the status was updated successfully"),
   error: z.string().describe("The error that occurred if the retrieval was unsuccessful").optional(),
-  data: z.string().describe("The data of the Jira ticket").optional(),
+  data: z.object({}).catchall(z.any()).describe("The data of the Jira ticket").optional(),
 });
 
 export type jiraGetJiraTicketDetailsOutputType = z.infer<typeof jiraGetJiraTicketDetailsOutputSchema>;
@@ -322,7 +322,7 @@ export type jiraGetJiraTicketHistoryParamsType = z.infer<typeof jiraGetJiraTicke
 export const jiraGetJiraTicketHistoryOutputSchema = z.object({
   success: z.boolean().describe("Whether the status was updated successfully"),
   error: z.string().describe("The error that occurred if the retrieval was unsuccessful").optional(),
-  history: z.string().describe("The history data of the Jira ticket").optional(),
+  history: z.array(z.any()).describe("The history data of the Jira ticket").optional(),
 });
 
 export type jiraGetJiraTicketHistoryOutputType = z.infer<typeof jiraGetJiraTicketHistoryOutputSchema>;
@@ -341,7 +341,7 @@ export const jiraUpdateJiraTicketDetailsParamsSchema = z.object({
   customFields: z
     .object({})
     .catchall(z.any())
-    .describe("Custom fields to be set on the create ticket request")
+    .describe("Custom fields to be set on the update ticket request")
     .optional(),
 });
 
