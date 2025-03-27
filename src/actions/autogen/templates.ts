@@ -1,5 +1,68 @@
 import { ActionTemplate } from "../../actions/parse";
 
+export const asanaCreateTaskDefinition: ActionTemplate = {
+  description: "Create a Asana task with specified content using optional template",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: ["name", "projectId"],
+    properties: {
+      projectId: {
+        type: "string",
+        description: "Project gid the task belongs to",
+      },
+      name: {
+        type: "string",
+        description: "The name of the new task",
+      },
+      approvalStatus: {
+        type: "string",
+        description: "Status of task (pending, approved, ...)",
+      },
+      description: {
+        type: "string",
+        description: "The description for the new task",
+      },
+      dueAt: {
+        type: "string",
+        description: "ISO 8601 date string in UTC for due date of task",
+      },
+      assignee: {
+        type: "string",
+        description: "The assignee gid or email for the new task",
+      },
+      taskTemplate: {
+        type: "string",
+        description: "The template to use, takes id or name",
+      },
+      customFields: {
+        type: "object",
+        description: "Custom fields to be set on the create task request",
+        additionalProperties: true,
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      error: {
+        type: "string",
+        description: "Error if task creation was unsuccessful",
+      },
+      success: {
+        type: "boolean",
+        description: "Whether task creation was successful",
+      },
+      taskUrl: {
+        type: "string",
+        description: "The url to the created Asana task",
+      },
+    },
+  },
+  name: "createTask",
+  provider: "asana",
+};
 export const slackSendMessageDefinition: ActionTemplate = {
   description: "Sends a message to a Slack channel",
   scopes: ["chat:write"],
@@ -1579,7 +1642,7 @@ export const ashbyGetCandidateInfoDefinition: ActionTemplate = {
     properties: {
       candidateId: {
         type: "string",
-        description: "The ID of the candidate whose information is to be retrieved",
+        description: "The ID of the candidate to create a note for",
       },
     },
   },
