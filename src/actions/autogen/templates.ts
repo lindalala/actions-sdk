@@ -63,6 +63,69 @@ export const asanaCreateTaskDefinition: ActionTemplate = {
   name: "createTask",
   provider: "asana",
 };
+export const asanaUpdateTaskDefinition: ActionTemplate = {
+  description: "Updates a Asana task with specified content",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: ["taskId"],
+    properties: {
+      taskId: {
+        type: "string",
+        description: "Task gid of the task to update",
+      },
+      name: {
+        type: "string",
+        description: "The name of the task",
+      },
+      approvalStatus: {
+        type: "string",
+        description: "Status of task (pending, approved, ...)",
+      },
+      description: {
+        type: "string",
+        description: "The updated description",
+      },
+      dueAt: {
+        type: "string",
+        description: "ISO 8601 date string in UTC for due date of task",
+      },
+      assignee: {
+        type: "string",
+        description: "The assignee gid or email for the task",
+      },
+      completed: {
+        type: "boolean",
+        description: "Whether the task should be marked as completed",
+      },
+      customFields: {
+        type: "object",
+        description: "Custom fields to be updated",
+        additionalProperties: true,
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      error: {
+        type: "string",
+        description: "Error if task update was unsuccessful",
+      },
+      success: {
+        type: "boolean",
+        description: "Whether task update was successful",
+      },
+      taskUrl: {
+        type: "string",
+        description: "The url to the created Asana task",
+      },
+    },
+  },
+  name: "updateTask",
+  provider: "asana",
+};
 export const slackSendMessageDefinition: ActionTemplate = {
   description: "Sends a message to a Slack channel",
   scopes: ["chat:write"],

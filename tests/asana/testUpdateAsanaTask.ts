@@ -3,19 +3,18 @@ import { runAction } from "../../src/app";
 
 async function runTest() {
   const result = await runAction(
-    "createTask",
+    "updateTask",
     "asana",
     // Replace with actual valid test fields
     {authToken:"auth-token-here"} ,
     {
-      name: `Test Task created on ${new Date().toISOString()}`,
-      workspaceId: "workpace-id-here",
-      projectId: "project-id-here",
-      description: `This is a test task for Asana`,
+      name: `Updated: Test Task updated on ${new Date().toISOString()}`,
+      taskId: "task-id-here",
+      description: `This is a test task update for Asana`,
       assignee: "test@vulcancollective.io",
-      dueAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // Due in 7 days
+      dueAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // Due in 14 days
       approvalStatus: "pending",
-      taskTemplate:"test-template-name",
+      completed: true,
       custom_fields: {
         "1234567890123456": "Custom Value" 
       },
