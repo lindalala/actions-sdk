@@ -93,6 +93,8 @@ import {
   microsoftMessageTeamsChannelOutputSchema,
   asanaCreateTaskParamsSchema,
   asanaCreateTaskOutputSchema,
+  asanaUpdateTaskParamsSchema,
+  asanaUpdateTaskOutputSchema,
 } from "./autogen/types";
 import callCopilot from "./providers/credal/callCopilot";
 import validateAddress from "./providers/googlemaps/validateAddress";
@@ -116,6 +118,7 @@ import nearbysearch from "./providers/googlemaps/nearbysearchRestaurants";
 import scrapeUrl from "./providers/firecrawl/scrapeUrl";
 import sendEmail from "./providers/resend/sendEmail";
 import createAsanaTask from "./providers/asana/createAsanaTask";
+import updateAsanaTask from "./providers/asana/updateAsanaTask";
 import createShareLinkedinPostUrl from "./providers/linkedin/createSharePostLinkedinUrl";
 import createNewGoogleDoc from "./providers/google-oauth/createNewGoogleDoc";
 import createXSharePostUrl from "./providers/x/createXSharePostUrl";
@@ -155,6 +158,11 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       fn: createAsanaTask,
       paramsSchema: asanaCreateTaskParamsSchema,
       outputSchema: asanaCreateTaskOutputSchema,
+    },
+    updateTask: {
+      fn: updateAsanaTask,
+      paramsSchema: asanaUpdateTaskParamsSchema,
+      outputSchema: asanaUpdateTaskOutputSchema,
     },
   },
   math: {

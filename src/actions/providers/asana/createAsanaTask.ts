@@ -5,24 +5,7 @@ import {
   asanaCreateTaskParamsType,
 } from "../../autogen/types";
 import { axiosClient } from "../../util/axiosClient";
-
-const getWorkspaceIdFromProject = async (projectId: string, authToken: string): Promise<string | null> => {
-  if (!projectId || !authToken) {
-    console.error("Project ID and authToken are required");
-    return null;
-  }
-
-  try {
-    const response = await axiosClient.get(`https://app.asana.com/api/1.0/projects/${projectId}`, {
-      headers: { Authorization: `Bearer ${authToken}` },
-    });
-
-    return response.data?.data?.workspace?.gid || null;
-  } catch (error) {
-    console.error("Error fetching workspace ID from project:", error);
-    return null;
-  }
-};
+import { getWorkspaceIdFromProject, getUserIdByEmail } from "./utils";
 
 const getTaskTemplates = async (authToken: string, projectId: string) => {
   const url = `https://app.asana.com/api/1.0/task_templates/?project=${projectId}`;
@@ -37,19 +20,6 @@ const getTaskTemplates = async (authToken: string, projectId: string) => {
   }
 };
 
-const getUserIdByEmail = async (authToken: string, workspaceId: string, email: string) => {
-  const url = `https://app.asana.com/api/1.0/workspaces/${workspaceId}/users?email=${encodeURIComponent(email)}`;
-  try {
-    const response = await axiosClient.get(url, {
-      headers: { Authorization: `Bearer ${authToken}` },
-    });
-    return response.data.data.length > 0 ? response.data.data[0].gid : null;
-  } catch (error) {
-    console.error("Error fetching user by email:", error);
-    return null;
-  }
-};
-
 const createAsanaTask: asanaCreateTaskFunction = async ({
   params,
   authParams,
@@ -61,12 +31,12 @@ const createAsanaTask: asanaCreateTaskFunction = async ({
   const { name, projectId, description, customFields, taskTemplate, assignee, approvalStatus, dueAt } = params;
 
   if (!name || !authToken || !projectId) {
-    return { success: false, error: "Task name, valid authToken, and workspaceId are required" };
+    return { success: false, error: "Task name, valid authToken, and projectId are required" };
   }
 
   const workspaceId = await getWorkspaceIdFromProject(projectId, authToken);
   if (!workspaceId) {
-    return { success: false, error: "Project ID invalid" };
+    return { success: false, error: "Project ID invalid: unable to get workspaceID" };
   }
 
   let assigneeId;
@@ -122,9 +92,15 @@ const createAsanaTask: asanaCreateTaskFunction = async ({
       },
     );
 
+    // Validate response
+    const taskGid = response?.data?.data?.gid;
+    if (!taskGid) {
+      throw new Error("Failed to create task: No valid task ID returned from Asana");
+    }
+
     return {
       success: true,
-      taskUrl: `https://app.asana.com/0/${projectId}/${response.data.data.gid}`,
+      taskUrl: `https://app.asana.com/0/${projectId}/${taskGid}`,
     };
   } catch (error) {
     console.error("Error creating Asana task:", error);

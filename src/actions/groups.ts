@@ -33,6 +33,7 @@ import {
   microsoftMessageTeamsChatDefinition,
   microsoftMessageTeamsChannelDefinition,
   asanaCreateTaskDefinition,
+  asanaUpdateTaskDefinition,
 } from "../actions/autogen/templates";
 import { ActionTemplate } from "../actions/parse";
 
@@ -41,7 +42,7 @@ export type ActionGroups = Record<string, { description: string; actions: Action
 export const ACTION_GROUPS: ActionGroups = {
   ASANA: {
     description: "Actions for interacting with Asana",
-    actions: [asanaCreateTaskDefinition],
+    actions: [asanaCreateTaskDefinition, asanaUpdateTaskDefinition],
   },
   SLACK_LIST_CONVERSATIONS: {
     description: "Actions for interacting with Slack",

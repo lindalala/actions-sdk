@@ -55,6 +55,32 @@ export type asanaCreateTaskFunction = ActionFunction<
   asanaCreateTaskOutputType
 >;
 
+export const asanaUpdateTaskParamsSchema = z.object({
+  taskId: z.string().describe("Task gid of the task to update"),
+  name: z.string().describe("The name of the task").optional(),
+  approvalStatus: z.string().describe("Status of task (pending, approved, ...)").optional(),
+  description: z.string().describe("The updated description").optional(),
+  dueAt: z.string().describe("ISO 8601 date string in UTC for due date of task").optional(),
+  assignee: z.string().describe("The assignee gid or email for the task").optional(),
+  completed: z.boolean().describe("Whether the task should be marked as completed").optional(),
+  customFields: z.object({}).catchall(z.any()).describe("Custom fields to be updated").optional(),
+});
+
+export type asanaUpdateTaskParamsType = z.infer<typeof asanaUpdateTaskParamsSchema>;
+
+export const asanaUpdateTaskOutputSchema = z.object({
+  error: z.string().describe("Error if task update was unsuccessful").optional(),
+  success: z.boolean().describe("Whether task update was successful"),
+  taskUrl: z.string().describe("The url to the created Asana task").optional(),
+});
+
+export type asanaUpdateTaskOutputType = z.infer<typeof asanaUpdateTaskOutputSchema>;
+export type asanaUpdateTaskFunction = ActionFunction<
+  asanaUpdateTaskParamsType,
+  AuthParamsType,
+  asanaUpdateTaskOutputType
+>;
+
 export const slackSendMessageParamsSchema = z.object({
   channelName: z.string().describe("The name of the Slack channel to send the message to (e.g. general, alerts)"),
   message: z.string().describe("The message content to send to Slack. Can include markdown formatting."),
