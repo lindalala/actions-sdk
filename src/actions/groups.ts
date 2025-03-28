@@ -26,6 +26,7 @@ import {
   snowflakeRunSnowflakeQueryDefinition,
   lookerEnableUserByEmailDefinition,
   googleOauthScheduleCalendarMeetingDefinition,
+  asanaCommentTaskDefinition,
   asanaCreateTaskDefinition,
   asanaUpdateTaskDefinition,
 } from "../actions/autogen/templates";
@@ -36,7 +37,7 @@ export type ActionGroups = Record<string, { description: string; actions: Action
 export const ACTION_GROUPS: ActionGroups = {
   ASANA: {
     description: "Actions for interacting with Asana",
-    actions: [asanaCreateTaskDefinition, asanaUpdateTaskDefinition],
+    actions: [asanaCommentTaskDefinition, asanaCreateTaskDefinition, asanaUpdateTaskDefinition],
   },
   SLACK_LIST_CONVERSATIONS: {
     description: "Actions for interacting with Slack",

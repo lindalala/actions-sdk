@@ -69,6 +69,8 @@ import {
   ashbyCreateNoteOutputSchema,
   ashbyGetCandidateInfoParamsSchema,
   ashbyGetCandidateInfoOutputSchema,
+  asanaCommentTaskParamsSchema,
+  asanaCommentTaskOutputSchema,
   asanaCreateTaskParamsSchema,
   asanaCreateTaskOutputSchema,
   asanaUpdateTaskParamsSchema,
@@ -95,6 +97,7 @@ import getForecastForLocation from "./providers/nws/getForecastForLocation";
 import nearbysearch from "./providers/googlemaps/nearbysearchRestaurants";
 import scrapeUrl from "./providers/firecrawl/scrapeUrl";
 import sendEmail from "./providers/resend/sendEmail";
+import commentAsanaTask from "./providers/asana/commentAsanaTask";
 import createAsanaTask from "./providers/asana/createAsanaTask";
 import updateAsanaTask from "./providers/asana/updateAsanaTask";
 import createShareLinkedinPostUrl from "./providers/linkedin/createSharePostLinkedinUrl";
@@ -120,6 +123,11 @@ interface ActionFunctionComponents {
 
 export const ActionMapper: Record<string, Record<string, ActionFunctionComponents>> = {
   asana: {
+    commentTask: {
+      fn: commentAsanaTask,
+      paramsSchema: asanaCommentTaskParamsSchema,
+      outputSchema: asanaCommentTaskOutputSchema,
+    },
     createTask: {
       fn: createAsanaTask,
       paramsSchema: asanaCreateTaskParamsSchema,
