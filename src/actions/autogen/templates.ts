@@ -1,7 +1,49 @@
 import { ActionTemplate } from "../../actions/parse";
 
+export const asanaCommentTaskDefinition: ActionTemplate = {
+  description: "Comments on an Asana task with specified content",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: ["taskId", "commentText"],
+    properties: {
+      taskId: {
+        type: "string",
+        description: "Task gid the comment should be added to",
+      },
+      commentText: {
+        type: "string",
+        description: "The comment text to be added",
+      },
+      isPinned: {
+        type: "boolean",
+        description: "Whether the comment should be pinned",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      error: {
+        type: "string",
+        description: "Error if comment was unsuccessful",
+      },
+      success: {
+        type: "boolean",
+        description: "Whether comment was successfully made",
+      },
+      commentUrl: {
+        type: "string",
+        description: "The url to the created comment",
+      },
+    },
+  },
+  name: "commentTask",
+  provider: "asana",
+};
 export const asanaCreateTaskDefinition: ActionTemplate = {
-  description: "Create a Asana task with specified content using optional template",
+  description: "Create an Asana task with specified content using optional template",
   scopes: [],
   parameters: {
     type: "object",
@@ -119,7 +161,7 @@ export const asanaUpdateTaskDefinition: ActionTemplate = {
       },
       taskUrl: {
         type: "string",
-        description: "The url to the created Asana task",
+        description: "The url to the updated Asana task",
       },
     },
   },
