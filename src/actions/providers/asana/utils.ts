@@ -43,14 +43,22 @@ export async function getWorkspaceIdAndPermalinkFromTask(
 }
 
 export async function getUserIdByEmail(authToken: string, workspaceId: string, email: string) {
-  const url = `https://app.asana.com/api/1.0/workspaces/${workspaceId}/users?email=${encodeURIComponent(email)}`;
+  // Get all users in the workspace
+  const url = `https://app.asana.com/api/1.0/workspaces/${workspaceId}/users?opt_fields=email,name,gid`;
+  
   try {
     const response = await axiosClient.get(url, {
       headers: { Authorization: `Bearer ${authToken}` },
     });
-    return response.data.data.length > 0 ? response.data.data[0].gid : null;
+
+    // Filter the users by email on the client side
+    const matchingUser = response.data.data.find((user: { gid: string, name: string,email: string }) => 
+      user.email && user.email.toLowerCase() === email.toLowerCase()
+    );
+    
+    return matchingUser ? matchingUser.gid : null;
   } catch (error) {
-    console.error("Error fetching user by email:", error);
+    console.error("Error fetching users:", error);
     return null;
   }
 }
