@@ -278,12 +278,16 @@ actions:
               properties:
                 id:
                   type: string
+                  description: id of the matched task
                 name:
                   type: string
-                resource_type:
+                  description: name of the matched task
+                resourceType:
                   type: string
-                workspace_id:
+                  description: resource type of the matched task
+                workspaceId:
                   type: string
+                  description: workspace id of the matched task
                     
   slack:
     sendMessage:

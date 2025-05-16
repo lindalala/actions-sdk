@@ -32,7 +32,7 @@ const searchAsanaTasks: asanaSearchTasksFunction = async ({
       throw new Error("No workspaces found");
     }
 
-    const matches: { name: string; id: string; resource_type: string, workspaceId: string }[] = [];
+    const matches: { name: string; id: string; resourceType: string, workspaceId: string }[] = [];
 
     for (const workspace of workspaces) {
       const workspaceId = workspace.gid;
@@ -53,7 +53,7 @@ const searchAsanaTasks: asanaSearchTasksFunction = async ({
             ...tasks.map(({ gid, name, resource_type }) => ({
               id: gid,
               name,
-              resource_type,
+              resourceType: resource_type,
               workspaceId,
             }))
           );
