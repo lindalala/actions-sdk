@@ -247,6 +247,8 @@ import {
   asanaUpdateTaskOutputSchema,
   asanaSearchTasksParamsSchema,
   asanaSearchTasksOutputSchema,
+  asanaSearchTasksParamsSchema,
+  asanaSearchTasksOutputSchema,
   githubCreateOrUpdateFileParamsSchema,
   githubCreateOrUpdateFileOutputSchema,
   githubCreateBranchParamsSchema,
@@ -326,6 +328,7 @@ import getJiraTicketHistory from "./providers/jira/getJiraTicketHistory";
 import updateJiraTicketDetails from "./providers/jira/updateJiraTicketDetails";
 import updateJiraTicketStatus from "./providers/jira/updateJiraTicketStatus";
 import getFVRecoveryKeyForDevice from "./providers/kandji/getFVRecoveryKeyForDevice";
+import searchAsanaTasks from "./providers/asana/searchAsanaTasks";
 import searchAsanaTasks from "./providers/asana/searchAsanaTasks";
 import createShareLinkedinPostUrl from "./providers/linkedin/createSharePostLinkedinUrl";
 import enableUserByEmail from "./providers/looker/enableUserByEmail";
