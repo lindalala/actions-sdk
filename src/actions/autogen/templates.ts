@@ -361,6 +361,59 @@ export const asanaUpdateTaskDefinition: ActionTemplate = {
   name: "updateTask",
   provider: "asana",
 };
+export const asanaSearchTasksDefinition: ActionTemplate = {
+  description: "List all tasks associated with search query",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: ["query"],
+    properties: {
+      query: {
+        type: "string",
+        description: "Search query",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      error: {
+        type: "string",
+        description: "Error if search was unsuccessful",
+      },
+      success: {
+        type: "boolean",
+        description: "Whether search was successfull",
+      },
+      results: {
+        type: "array",
+        description: "The list of tasks that match search query",
+        items: {
+          type: "object",
+          description: "List of tasks that match search query",
+          required: ["task"],
+          properties: {
+            id: {
+              type: "string",
+            },
+            name: {
+              type: "string",
+            },
+            resource_type: {
+              type: "string",
+            },
+            workspace_id: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+  },
+  name: "searchTasks",
+  provider: "asana",
+};
 export const slackSendMessageDefinition: ActionTemplate = {
   description: "Sends a message to a Slack channel",
   scopes: ["chat:write"],
