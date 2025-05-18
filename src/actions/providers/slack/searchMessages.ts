@@ -46,11 +46,10 @@ const searchMessages: slackSearchMessagesFunction = async ({
       error: "",
       results: matches,
     };
-  } catch (err: any) {
+  } catch (err) {
     return {
       success: false,
-      error: err.message || "Unknown error searching Slack messages",
-      results: [],
+      error: err instanceof Error ? err.message : "Unknown error",
     };
   }
 };

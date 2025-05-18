@@ -211,7 +211,7 @@ export const slackSearchMessagesParamsSchema = z.object({ query: z.string().desc
 export type slackSearchMessagesParamsType = z.infer<typeof slackSearchMessagesParamsSchema>;
 
 export const slackSearchMessagesOutputSchema = z.object({
-  success: z.boolean().describe("Whether the search was was succesful"),
+  success: z.boolean().describe("Whether the search was was successful"),
   error: z.string().describe("The error that occurred if the search failed").optional(),
   results: z
     .array(

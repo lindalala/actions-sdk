@@ -380,7 +380,7 @@ export const slackSearchMessagesDefinition: ActionTemplate = {
     properties: {
       success: {
         type: "boolean",
-        description: "Whether the search was was succesful",
+        description: "Whether the search was was successful",
       },
       error: {
         type: "string",
