@@ -27,7 +27,7 @@ async function runTest() {
     assert(firstFile.id, "First file should have an id");
     assert(firstFile.name, "First file should have a name");
     assert(firstFile.mimeType, "First file should have a mimeType");
-    assert(firstFile.url, "First file should have a webViewLink");
+    assert(firstFile.url, "First file should have a url");
   }
 
   console.log("Found files:", result.files);
