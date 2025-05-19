@@ -41,6 +41,7 @@ import {
   googleOauthUpdateSpreadsheetDefinition,
   googleOauthCreatePresentationDefinition,
   googleOauthUpdatePresentationDefinition,
+  googleOauthSearchDriveByKeywordsDefinition,
   salesforceUpdateRecordDefinition,
   salesforceCreateCaseDefinition,
   salesforceGenerateSalesReportDefinition,
@@ -119,6 +120,7 @@ export const ACTION_GROUPS: ActionGroups = {
       googleOauthUpdateSpreadsheetDefinition,
       googleOauthCreatePresentationDefinition,
       googleOauthUpdatePresentationDefinition,
+      googleOauthSearchDriveByKeywordsDefinition,
     ],
   },
   GOOGLE_CALENDAR: {
