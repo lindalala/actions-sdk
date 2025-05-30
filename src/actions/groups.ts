@@ -135,7 +135,7 @@ export const ACTION_GROUPS: ActionGroups = {
     actions: [googleOauthScheduleCalendarMeetingDefinition],
   },
   GMAIL: {
-    description: "Action for interacting with Gmail",
+    description: "Actions for interacting with Gmail",
     actions: [googleOauthSearchGmailMessagesDefinition, googleOauthListGmailThreadsDefinition],
   },
   CREDAL_CALL_COPILOT: {

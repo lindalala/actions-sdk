@@ -5450,7 +5450,7 @@ export const googleOauthListGmailThreadsDefinition: ActionTemplate = {
         description: "List of matching Gmail threads",
         items: {
           type: "object",
-          required: ["id", "snippet", "historyId", "messages"],
+          required: ["id", "historyId", "messages"],
           properties: {
             id: {
               type: "string",
