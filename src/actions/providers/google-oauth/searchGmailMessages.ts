@@ -84,10 +84,10 @@ const searchGmailMessages: googleOauthSearchGmailMessagesFunction = async ({
       resultSizeEstimate,
       error: messageErrors,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false,
-      error: error.message || "Unknown error searching Gmail messages",
+      error: error instanceof Error ? error.message : "Unknown error searching Gmail",
       messages: [],
     };
   }

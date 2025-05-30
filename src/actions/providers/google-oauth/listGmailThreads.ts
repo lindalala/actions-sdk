@@ -90,10 +90,10 @@ const listGmailThreads: googleOauthListGmailThreadsFunction = async ({
       resultSizeEstimate,
       error: threadErrors,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false,
-      error: error.message || "Unknown error listing Gmail threads",
+      error: error instanceof Error ? error.message : "Unknown error listing Gmail threads",
       threads: [],
     };
   }
