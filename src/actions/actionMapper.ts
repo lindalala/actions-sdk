@@ -81,6 +81,8 @@ import {
   googleOauthUpdateSpreadsheetOutputSchema,
   googleOauthScheduleCalendarMeetingParamsSchema,
   googleOauthScheduleCalendarMeetingOutputSchema,
+  googleOauthListCalendarsParamsSchema,
+  googleOauthListCalendarsOutputSchema,
   googleOauthCreatePresentationParamsSchema,
   googleOauthCreatePresentationOutputSchema,
   googleOauthUpdatePresentationParamsSchema,
@@ -247,6 +249,10 @@ import getTasksDetails from "./providers/asana/getTasksDetails";
 import searchByTitle from "./providers/notion/searchByTitle";
 import searchGmailMessages from "./providers/google-oauth/searchGmailMessages";
 import listGmailThreads from "./providers/google-oauth/listGmailThreads";
+import listCalendars from "./providers/google-oauth/listCalendars";
+// import listCalendarEvents from "./providers/google-oauth/listCalendarEvents";
+// import updateCalendarEvent from "./providers/google-oauth/updateCalendarEvent";
+// import deleteCalendarEvent from "./providers/google-oauth/deleteCalendarEvent";
 
 interface ActionFunctionComponents {
   // eslint-disable-next-line
@@ -548,6 +554,26 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       paramsSchema: googleOauthListGmailThreadsParamsSchema,
       outputSchema: googleOauthListGmailThreadsOutputSchema,
     },
+    listCalendars: {
+      fn: listCalendars,
+      paramsSchema: googleOauthListCalendarsParamsSchema,
+      outputSchema: googleOauthListCalendarsOutputSchema,
+    },
+    // listCalendarEvents: {
+    //   fn: listCalendarEvents,
+    //   paramsSchema: googleOauthListCalendarEventsParamsSchema,
+    //   outputSchema: googleOauthListCalendarEventsOutputSchema,
+    // },
+    // updateCalendarEvent: {
+    //   fn: updateCalendarEvent,
+    //   paramsSchema: googleOauthUpdateCalendarEventParamsSchema,
+    //   outputSchema: googleOauthUpdateCalendarEventOutputSchema,
+    // },
+    // deleteCalendarEvent: {
+    //   fn: deleteCalendarEvent,
+    //   paramsSchema: googleOauthDeleteCalendarEventParamsSchema,
+    //   outputSchema: googleOauthDeleteCalendarEventOutputSchema,
+    // },
   },
   x: {
     createShareXPostUrl: {

@@ -37,6 +37,7 @@ import {
   lookerEnableUserByEmailDefinition,
   googleOauthUpdateDocDefinition,
   googleOauthScheduleCalendarMeetingDefinition,
+  googleOauthListCalendarsDefinition,
   googleOauthCreateSpreadsheetDefinition,
   googleOauthUpdateSpreadsheetDefinition,
   googleOauthCreatePresentationDefinition,
@@ -81,6 +82,9 @@ import {
   asanaListAsanaTasksByProjectDefinition,
   notionSearchByTitleDefinition,
   asanaGetTasksDetailsDefinition,
+  // googleOauthListCalendarEventsDefinition,
+  // googleOauthUpdateCalendarEventDefinition,
+  // googleOauthDeleteCalendarEventDefinition,
 } from "../actions/autogen/templates";
 import type { ActionTemplate } from "../actions/parse";
 
@@ -132,7 +136,13 @@ export const ACTION_GROUPS: ActionGroups = {
   },
   GOOGLE_CALENDAR: {
     description: "Actions for interacting with Google Calendar",
-    actions: [googleOauthScheduleCalendarMeetingDefinition],
+    actions: [
+      googleOauthScheduleCalendarMeetingDefinition,
+      googleOauthListCalendarsDefinition,
+      // googleOauthListCalendarEventsDefinition,
+      // googleOauthUpdateCalendarEventDefinition,
+      // googleOauthDeleteCalendarEventDefinition,
+    ],
   },
   GMAIL: {
     description: "Actions for interacting with Gmail",

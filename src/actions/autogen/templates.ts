@@ -3410,6 +3410,54 @@ export const googleOauthScheduleCalendarMeetingDefinition: ActionTemplate = {
   name: "scheduleCalendarMeeting",
   provider: "googleOauth",
 };
+export const googleOauthListCalendarsDefinition: ActionTemplate = {
+  description: "List all Google Calendars for the authenticated user",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: [],
+    properties: {
+      maxResults: {
+        type: "integer",
+        description: "Maximum number of calendars to return",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success", "calendars"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the calendars were listed successfully",
+      },
+      calendars: {
+        type: "array",
+        description: "List of calendars",
+        items: {
+          type: "object",
+          required: ["id", "summary"],
+          properties: {
+            id: {
+              type: "string",
+              description: "The calendar ID",
+            },
+            summary: {
+              type: "string",
+              description: "The calendar name",
+            },
+          },
+        },
+      },
+      error: {
+        type: "string",
+        description: "Error message if listing failed",
+      },
+    },
+  },
+  name: "listCalendars",
+  provider: "googleOauth",
+};
 export const googleOauthCreateSpreadsheetDefinition: ActionTemplate = {
   description: "Create a new Google Spreadsheet using OAuth authentication",
   scopes: [],

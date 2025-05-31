@@ -1780,6 +1780,27 @@ export type googleOauthScheduleCalendarMeetingFunction = ActionFunction<
   googleOauthScheduleCalendarMeetingOutputType
 >;
 
+export const googleOauthListCalendarsParamsSchema = z.object({
+  maxResults: z.number().int().describe("Maximum number of calendars to return").optional(),
+});
+
+export type googleOauthListCalendarsParamsType = z.infer<typeof googleOauthListCalendarsParamsSchema>;
+
+export const googleOauthListCalendarsOutputSchema = z.object({
+  success: z.boolean().describe("Whether the calendars were listed successfully"),
+  calendars: z
+    .array(z.object({ id: z.string().describe("The calendar ID"), summary: z.string().describe("The calendar name") }))
+    .describe("List of calendars"),
+  error: z.string().describe("Error message if listing failed").optional(),
+});
+
+export type googleOauthListCalendarsOutputType = z.infer<typeof googleOauthListCalendarsOutputSchema>;
+export type googleOauthListCalendarsFunction = ActionFunction<
+  googleOauthListCalendarsParamsType,
+  AuthParamsType,
+  googleOauthListCalendarsOutputType
+>;
+
 export const googleOauthCreateSpreadsheetParamsSchema = z.object({
   title: z.string().describe("The title of the new spreadsheet"),
   sheets: z
