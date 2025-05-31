@@ -3524,7 +3524,7 @@ export const googleOauthListCalendarEventsDefinition: ActionTemplate = {
             },
             end: {
               type: "string",
-              description: "Start date/time (for timed events, RFC3339 timestamp)",
+              description: "End date/time (for timed events, RFC3339 timestamp)",
             },
             attendees: {
               type: "array",

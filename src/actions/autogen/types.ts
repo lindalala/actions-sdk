@@ -1822,7 +1822,7 @@ export const googleOauthListCalendarEventsOutputSchema = z.object({
           description: z.string().describe("Description of the event").optional(),
           location: z.string().describe("Geographic location of the event as free-form text").optional(),
           start: z.string().describe("Start date/time (for timed events, RFC3339 timestamp)").optional(),
-          end: z.string().describe("Start date/time (for timed events, RFC3339 timestamp)").optional(),
+          end: z.string().describe("End date/time (for timed events, RFC3339 timestamp)").optional(),
           attendees: z
             .array(
               z.object({
