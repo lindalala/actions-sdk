@@ -3419,7 +3419,7 @@ export const googleOauthListCalendarsDefinition: ActionTemplate = {
     properties: {
       maxResults: {
         type: "integer",
-        description: "Maximum number of calendars to return",
+        description: "Maximum number of calendars to return, defaults to 250",
       },
     },
   },
@@ -3475,7 +3475,7 @@ export const googleOauthListCalendarEventsDefinition: ActionTemplate = {
       },
       maxResults: {
         type: "integer",
-        description: "Maximum number of events to return",
+        description: "Maximum number of events to return, defaults to 250",
       },
     },
   },
@@ -3583,6 +3583,134 @@ export const googleOauthListCalendarEventsDefinition: ActionTemplate = {
     },
   },
   name: "listCalendarEvents",
+  provider: "googleOauth",
+};
+export const googleOauthUpdateCalendarEventDefinition: ActionTemplate = {
+  description: "Update an event on a Google Calendar using OAuth authentication",
+  scopes: ["https://www.googleapis.com/auth/calendar"],
+  parameters: {
+    type: "object",
+    required: ["calendarId", "eventId"],
+    properties: {
+      calendarId: {
+        type: "string",
+        description: "The ID of the calendar containing the event",
+      },
+      eventId: {
+        type: "string",
+        description: "The ID of the event to update",
+      },
+      updates: {
+        type: "object",
+        description: "The fields to update on the event",
+        properties: {
+          title: {
+            type: "string",
+            description: "The new title of the event",
+          },
+          description: {
+            type: "string",
+            description: "The new description of the event",
+          },
+          start: {
+            type: "string",
+            description: "The new start date/time (RFC3339 timestamp)",
+          },
+          end: {
+            type: "string",
+            description: "The new end date/time (RFC3339 timestamp)",
+          },
+          location: {
+            type: "string",
+            description: "The new location of the event",
+          },
+          attendees: {
+            type: "array",
+            description: "The new list of attendees",
+            items: {
+              type: "string",
+              description: "The email of the attendee",
+            },
+          },
+          status: {
+            type: "string",
+            description: "The new status of the event (e.g., confirmed, cancelled)",
+          },
+          organizer: {
+            type: "object",
+            description: "The new organizer of the event",
+            properties: {
+              email: {
+                type: "string",
+                description: "The organizer's email address",
+              },
+              displayName: {
+                type: "string",
+                description: "The organizer's name",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the event was updated successfully",
+      },
+      eventId: {
+        type: "string",
+        description: "The ID of the updated event",
+      },
+      eventUrl: {
+        type: "string",
+        description: "The URL to access the updated event",
+      },
+      error: {
+        type: "string",
+        description: "The error that occurred if the event was not updated successfully",
+      },
+    },
+  },
+  name: "updateCalendarEvent",
+  provider: "googleOauth",
+};
+export const googleOauthDeleteCalendarEventDefinition: ActionTemplate = {
+  description: "Delete an event from a Google Calendar using OAuth authentication",
+  scopes: ["https://www.googleapis.com/auth/calendar"],
+  parameters: {
+    type: "object",
+    required: ["calendarId", "eventId"],
+    properties: {
+      calendarId: {
+        type: "string",
+        description: "The ID of the calendar containing the event",
+      },
+      eventId: {
+        type: "string",
+        description: "The ID of the event to delete",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the event was deleted successfully",
+      },
+      error: {
+        type: "string",
+        description: "The error that occurred if the event was not deleted successfully",
+      },
+    },
+  },
+  name: "deleteCalendarEvent",
   provider: "googleOauth",
 };
 export const googleOauthCreateSpreadsheetDefinition: ActionTemplate = {

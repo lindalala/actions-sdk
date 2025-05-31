@@ -38,6 +38,9 @@ import {
   googleOauthUpdateDocDefinition,
   googleOauthScheduleCalendarMeetingDefinition,
   googleOauthListCalendarsDefinition,
+  googleOauthListCalendarEventsDefinition,
+  googleOauthUpdateCalendarEventDefinition,
+  googleOauthDeleteCalendarEventDefinition,
   googleOauthCreateSpreadsheetDefinition,
   googleOauthUpdateSpreadsheetDefinition,
   googleOauthCreatePresentationDefinition,
@@ -82,9 +85,6 @@ import {
   asanaListAsanaTasksByProjectDefinition,
   notionSearchByTitleDefinition,
   asanaGetTasksDetailsDefinition,
-  googleOauthListCalendarEventsDefinition,
-  // googleOauthUpdateCalendarEventDefinition,
-  // googleOauthDeleteCalendarEventDefinition,
 } from "../actions/autogen/templates";
 import type { ActionTemplate } from "../actions/parse";
 
@@ -140,8 +140,8 @@ export const ACTION_GROUPS: ActionGroups = {
       googleOauthScheduleCalendarMeetingDefinition,
       googleOauthListCalendarsDefinition,
       googleOauthListCalendarEventsDefinition,
-      // googleOauthUpdateCalendarEventDefinition,
-      // googleOauthDeleteCalendarEventDefinition,
+      googleOauthUpdateCalendarEventDefinition,
+      googleOauthDeleteCalendarEventDefinition,
     ],
   },
   GMAIL: {

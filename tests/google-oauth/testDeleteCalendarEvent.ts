@@ -1,23 +1,21 @@
 import assert from "node:assert";
 import { runAction } from "../../src/app";
-import { maxHeaderSize } from "node:http";
 
 async function runTest() {
   const result = await runAction(
-    "listCalendars",
+    "deleteCalendarEvent",
     "googleOauth",
-    { authToken: "auth-token-here" },
-    { maxResults: 1 }, // optional
+    { authToken: "auth-token-with-calendar-scope-here" },
+    {
+      calendarId: "primary",
+      eventId: "event-id-here",
+    },
   );
 
   assert(result, "Response should not be null");
   assert(result.success, "Success should be true");
-  assert(Array.isArray(result.calendars), "Calendars should be an array");
-  if (result.calendars.length > 0) {
-    assert(result.calendars[0].id, "Calendar should have an id");
-    assert(result.calendars[0].summary, "Calendar should have a summary");
-  }
-  console.log(`Successfully listed ${result.calendars.length} calendars`);
+  console.log("Successfully deleted event");
+  console.log("Response: ", result);
 }
 
 runTest().catch((error) => {

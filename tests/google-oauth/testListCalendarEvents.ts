@@ -6,7 +6,7 @@ async function runTest() {
     "listCalendarEvents",
     "googleOauth",
     { authToken: "auth-token-with-calendar-scope-here" },
-    { calendarId: "primary", query: "test", maxResults: 2 },
+    { calendarId: "primary", query: "optional-query-here", maxResults: 2 },
   );
 
   assert(result, "Response should not be null");
