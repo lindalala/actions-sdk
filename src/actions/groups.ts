@@ -82,7 +82,7 @@ import {
   asanaListAsanaTasksByProjectDefinition,
   notionSearchByTitleDefinition,
   asanaGetTasksDetailsDefinition,
-  // googleOauthListCalendarEventsDefinition,
+  googleOauthListCalendarEventsDefinition,
   // googleOauthUpdateCalendarEventDefinition,
   // googleOauthDeleteCalendarEventDefinition,
 } from "../actions/autogen/templates";
@@ -139,7 +139,7 @@ export const ACTION_GROUPS: ActionGroups = {
     actions: [
       googleOauthScheduleCalendarMeetingDefinition,
       googleOauthListCalendarsDefinition,
-      // googleOauthListCalendarEventsDefinition,
+      googleOauthListCalendarEventsDefinition,
       // googleOauthUpdateCalendarEventDefinition,
       // googleOauthDeleteCalendarEventDefinition,
     ],

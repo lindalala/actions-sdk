@@ -2440,6 +2440,97 @@ actions:
           error:
             type: string
             description: Error message if listing failed
+    listCalendarEvents:
+      description: List events on a Google Calendar, optionally searching by query.
+      scopes: [https://www.googleapis.com/auth/calendar.readonly]
+      parameters:
+        type: object
+        required: [calendarId]
+        properties:
+          calendarId:
+            type: string
+            description: The ID of the calendar to list events from
+          query:
+            type: string
+            description: Optional free-text search query to filter events
+          maxResults:
+            type: integer
+            description: Maximum number of events to return
+      output:
+        type: object
+        required: [success, events]
+        properties:
+          success:
+            type: boolean
+            description: Whether the events were listed successfully
+          events:
+            type: array
+            description: List of events
+            items:
+              type: object
+              description: A calendar event
+              properties:
+                id:
+                  type: string
+                  description: Event unique identifier
+                status:
+                  type: string
+                  description: Status of the event (e.g., confirmed, cancelled)
+                url:
+                  type: string
+                  description: Link to the event in the Google Calendar web UI
+                title:
+                  type: string
+                  description: Title of the event
+                description:
+                  type: string
+                  description: Description of the event
+                location:
+                  type: string
+                  description: Geographic location of the event as free-form text
+                start:
+                  type: string
+                  description: Start date/time (for timed events, RFC3339 timestamp)
+                end:
+                  type: string
+                  description: Start date/time (for timed events, RFC3339 timestamp)
+                attendees:
+                  type: array
+                  description: List of attendees
+                  items:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        description: The attendee's email address
+                      displayName:
+                        type: string
+                        description: The attendee's name
+                      responseStatus:
+                        type: string
+                        description: The attendee's response status (accepted, declined, etc.)
+                organizer:
+                  type: object
+                  description: The organizer of the event
+                  properties:
+                    email:
+                      type: string
+                      description: The organizer's email address
+                    displayName:
+                      type: string
+                      description: The organizer's name
+                hangoutLink:
+                  type: string
+                  description: Google Meet link for the event, if available
+                created:
+                  type: string
+                  description: Creation time of the event (RFC3339 timestamp)
+                updated:
+                  type: string
+                  description: Last modification time of the event (RFC3339 timestamp)
+          error:
+            type: string
+            description: Error message if listing failed
     createSpreadsheet:
       description: Create a new Google Spreadsheet using OAuth authentication
       scopes: []

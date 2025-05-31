@@ -23,7 +23,7 @@ const listCalendars: googleOauthListCalendarsFunction = async ({
   const allCalendars = [];
   let pageToken: string | undefined = undefined;
   let fetchedCount = 0;
-  const max = params.maxResults ?? 100;
+  const max = params.maxResults ?? 250; // Default to 250 if not specified, Google API max is 250
 
   try {
     while (fetchedCount < max) {

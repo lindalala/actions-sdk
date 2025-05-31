@@ -1801,6 +1801,65 @@ export type googleOauthListCalendarsFunction = ActionFunction<
   googleOauthListCalendarsOutputType
 >;
 
+export const googleOauthListCalendarEventsParamsSchema = z.object({
+  calendarId: z.string().describe("The ID of the calendar to list events from"),
+  query: z.string().describe("Optional free-text search query to filter events").optional(),
+  maxResults: z.number().int().describe("Maximum number of events to return").optional(),
+});
+
+export type googleOauthListCalendarEventsParamsType = z.infer<typeof googleOauthListCalendarEventsParamsSchema>;
+
+export const googleOauthListCalendarEventsOutputSchema = z.object({
+  success: z.boolean().describe("Whether the events were listed successfully"),
+  events: z
+    .array(
+      z
+        .object({
+          id: z.string().describe("Event unique identifier").optional(),
+          status: z.string().describe("Status of the event (e.g., confirmed, cancelled)").optional(),
+          url: z.string().describe("Link to the event in the Google Calendar web UI").optional(),
+          title: z.string().describe("Title of the event").optional(),
+          description: z.string().describe("Description of the event").optional(),
+          location: z.string().describe("Geographic location of the event as free-form text").optional(),
+          start: z.string().describe("Start date/time (for timed events, RFC3339 timestamp)").optional(),
+          end: z.string().describe("Start date/time (for timed events, RFC3339 timestamp)").optional(),
+          attendees: z
+            .array(
+              z.object({
+                email: z.string().describe("The attendee's email address").optional(),
+                displayName: z.string().describe("The attendee's name").optional(),
+                responseStatus: z
+                  .string()
+                  .describe("The attendee's response status (accepted, declined, etc.)")
+                  .optional(),
+              }),
+            )
+            .describe("List of attendees")
+            .optional(),
+          organizer: z
+            .object({
+              email: z.string().describe("The organizer's email address").optional(),
+              displayName: z.string().describe("The organizer's name").optional(),
+            })
+            .describe("The organizer of the event")
+            .optional(),
+          hangoutLink: z.string().describe("Google Meet link for the event, if available").optional(),
+          created: z.string().describe("Creation time of the event (RFC3339 timestamp)").optional(),
+          updated: z.string().describe("Last modification time of the event (RFC3339 timestamp)").optional(),
+        })
+        .describe("A calendar event"),
+    )
+    .describe("List of events"),
+  error: z.string().describe("Error message if listing failed").optional(),
+});
+
+export type googleOauthListCalendarEventsOutputType = z.infer<typeof googleOauthListCalendarEventsOutputSchema>;
+export type googleOauthListCalendarEventsFunction = ActionFunction<
+  googleOauthListCalendarEventsParamsType,
+  AuthParamsType,
+  googleOauthListCalendarEventsOutputType
+>;
+
 export const googleOauthCreateSpreadsheetParamsSchema = z.object({
   title: z.string().describe("The title of the new spreadsheet"),
   sheets: z

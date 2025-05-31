@@ -83,6 +83,8 @@ import {
   googleOauthScheduleCalendarMeetingOutputSchema,
   googleOauthListCalendarsParamsSchema,
   googleOauthListCalendarsOutputSchema,
+  googleOauthListCalendarEventsParamsSchema,
+  googleOauthListCalendarEventsOutputSchema,
   googleOauthCreatePresentationParamsSchema,
   googleOauthCreatePresentationOutputSchema,
   googleOauthUpdatePresentationParamsSchema,
@@ -209,6 +211,8 @@ import runSnowflakeQuery from "./providers/snowflake/runSnowflakeQuery";
 import enableUserByEmail from "./providers/looker/enableUserByEmail";
 import updateDoc from "./providers/google-oauth/updateDoc";
 import scheduleCalendarMeeting from "./providers/google-oauth/scheduleCalendarMeeting";
+import listCalendars from "./providers/google-oauth/listCalendars";
+import listCalendarEvents from "./providers/google-oauth/listCalendarEvents";
 import createSpreadsheet from "./providers/google-oauth/createSpreadsheet";
 import updateSpreadsheet from "./providers/google-oauth/updateSpreadsheet";
 import createPresentation from "./providers/google-oauth/createPresentation";
@@ -249,7 +253,6 @@ import getTasksDetails from "./providers/asana/getTasksDetails";
 import searchByTitle from "./providers/notion/searchByTitle";
 import searchGmailMessages from "./providers/google-oauth/searchGmailMessages";
 import listGmailThreads from "./providers/google-oauth/listGmailThreads";
-import listCalendars from "./providers/google-oauth/listCalendars";
 // import listCalendarEvents from "./providers/google-oauth/listCalendarEvents";
 // import updateCalendarEvent from "./providers/google-oauth/updateCalendarEvent";
 // import deleteCalendarEvent from "./providers/google-oauth/deleteCalendarEvent";
@@ -559,11 +562,11 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       paramsSchema: googleOauthListCalendarsParamsSchema,
       outputSchema: googleOauthListCalendarsOutputSchema,
     },
-    // listCalendarEvents: {
-    //   fn: listCalendarEvents,
-    //   paramsSchema: googleOauthListCalendarEventsParamsSchema,
-    //   outputSchema: googleOauthListCalendarEventsOutputSchema,
-    // },
+    listCalendarEvents: {
+      fn: listCalendarEvents,
+      paramsSchema: googleOauthListCalendarEventsParamsSchema,
+      outputSchema: googleOauthListCalendarEventsOutputSchema,
+    },
     // updateCalendarEvent: {
     //   fn: updateCalendarEvent,
     //   paramsSchema: googleOauthUpdateCalendarEventParamsSchema,
