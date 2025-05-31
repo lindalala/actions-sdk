@@ -18,77 +18,85 @@ const listGmailThreads: googleOauthListGmailThreadsFunction = async ({
     return { success: false, error: MISSING_AUTH_TOKEN, threads: [] };
   }
 
-  const { query, pageToken, maxResults } = params;
+  const { query, maxResults } = params;
 
-  const url =
-    `https://gmail.googleapis.com/gmail/v1/users/me/threads?q=${encodeURIComponent(query)}` +
-    (pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : "") +
-    (maxResults ? `&maxResults=${maxResults}` : "");
+  const allThreads = [];
+  const errorMessages: string[] = [];
+  const max = maxResults ?? 100;
+  let fetched = 0;
+  let pageToken = undefined;
 
   try {
-    const listRes = await axiosClient.get(url, {
-      headers: {
-        Authorization: `Bearer ${authParams.authToken}`,
-      },
-    });
+    while (fetched < max) {
+      const url: string =
+        `https://gmail.googleapis.com/gmail/v1/users/me/threads?q=${encodeURIComponent(query)}` +
+        (pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : "") +
+        `&maxResults=${Math.min(100, max - fetched)}`;
 
-    const { threads: threadList = [], nextPageToken = "", resultSizeEstimate = 0 } = listRes.data;
+      const listRes = await axiosClient.get(url, {
+        headers: {
+          Authorization: `Bearer ${authParams.authToken}`,
+        },
+      });
 
-    const threads = !Array.isArray(threadList)
-      ? []
-      : await Promise.all(
-          threadList.map(async thread => {
-            try {
-              const threadRes = await axiosClient.get(
-                `https://gmail.googleapis.com/gmail/v1/users/me/threads/${thread.id}?format=full`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${authParams.authToken}`,
-                  },
+      const { threads: threadList = [], nextPageToken } = listRes.data;
+      if (!Array.isArray(threadList) || threadList.length === 0) break;
+
+      const remaining = max - allThreads.length;
+      const batch = threadList.slice(0, remaining);
+      const results = await Promise.all(
+        batch.map(async thread => {
+          try {
+            const threadRes = await axiosClient.get(
+              `https://gmail.googleapis.com/gmail/v1/users/me/threads/${thread.id}?format=full`,
+              {
+                headers: {
+                  Authorization: `Bearer ${authParams.authToken}`,
                 },
-              );
-              const { id, historyId, messages } = threadRes.data;
-              return {
-                id,
-                historyId,
-                messages: Array.isArray(messages)
-                  ? messages.map(msg => {
-                      const { id, threadId, snippet, labelIds, internalDate, payload } = msg;
-                      return {
-                        id,
-                        threadId,
-                        snippet,
-                        labelIds,
-                        internalDate,
-                        payload,
-                      };
-                    })
-                  : [],
-              };
-            } catch (err) {
-              return {
-                id: thread.id,
-                snippet: "",
-                historyId: "",
-                messages: [],
-                error: err instanceof Error ? err.message : "Failed to fetch thread details",
-              };
-            }
-          }),
-        );
+              },
+            );
+            const { id, historyId, messages } = threadRes.data;
+            return {
+              id,
+              historyId,
+              messages: Array.isArray(messages)
+                ? messages.map(msg => {
+                    const { id, threadId, snippet, labelIds, internalDate, payload } = msg;
+                    return {
+                      id,
+                      threadId,
+                      snippet,
+                      labelIds,
+                      internalDate,
+                      payload,
+                    };
+                  })
+                : [],
+            };
+          } catch (err) {
+            errorMessages.push(err instanceof Error ? err.message : "Failed to fetch thread details");
+            return {
+              id: thread.id,
+              snippet: "",
+              historyId: "",
+              messages: [],
+              error: err instanceof Error ? err.message : "Failed to fetch thread details",
+            };
+          }
+        }),
+      );
 
-    // Collect any per-thread errors
-    const threadErrors = threads
-      .filter(t => "error" in t && typeof t.error === "string")
-      .map(t => t.error)
-      .join("; ");
+      allThreads.push(...results);
+
+      fetched = allThreads.length;
+      if (!nextPageToken || allThreads.length >= max) break;
+      pageToken = nextPageToken;
+    }
 
     return {
-      success: threadErrors.length === 0,
-      threads,
-      nextPageToken,
-      resultSizeEstimate,
-      error: threadErrors,
+      success: errorMessages.length === 0,
+      threads: allThreads,
+      error: errorMessages.join("; "),
     };
   } catch (error) {
     return {

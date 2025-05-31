@@ -5346,10 +5346,6 @@ export const googleOauthSearchGmailMessagesDefinition: ActionTemplate = {
         type: "string",
         description: 'Gmail search query (e.g. "from:alice subject:urgent")',
       },
-      pageToken: {
-        type: "string",
-        description: "Token for pagination (optional)",
-      },
       maxResults: {
         type: "integer",
         description: "Maximum number of messages to return (optional)",
@@ -5400,14 +5396,6 @@ export const googleOauthSearchGmailMessagesDefinition: ActionTemplate = {
           },
         },
       },
-      nextPageToken: {
-        type: "string",
-        description: "Token for next page of results",
-      },
-      resultSizeEstimate: {
-        type: "integer",
-        description: "Estimated number of results",
-      },
       error: {
         type: "string",
         description: "Error message if search failed",
@@ -5427,10 +5415,6 @@ export const googleOauthListGmailThreadsDefinition: ActionTemplate = {
       query: {
         type: "string",
         description: 'Gmail search query (e.g. "from:alice subject:project")',
-      },
-      pageToken: {
-        type: "string",
-        description: "Token for pagination",
       },
       maxResults: {
         type: "integer",
@@ -5493,14 +5477,6 @@ export const googleOauthListGmailThreadsDefinition: ActionTemplate = {
             },
           },
         },
-      },
-      nextPageToken: {
-        type: "string",
-        description: "Token for next page of results",
-      },
-      resultSizeEstimate: {
-        type: "integer",
-        description: "Estimated number of results",
       },
       error: {
         type: "string",

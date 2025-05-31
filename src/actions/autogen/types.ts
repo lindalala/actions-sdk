@@ -2786,7 +2786,6 @@ export type googleOauthSearchDriveByKeywordsFunction = ActionFunction<
 
 export const googleOauthSearchGmailMessagesParamsSchema = z.object({
   query: z.string().describe('Gmail search query (e.g. "from:alice subject:urgent")'),
-  pageToken: z.string().describe("Token for pagination (optional)").optional(),
   maxResults: z.number().int().describe("Maximum number of messages to return (optional)").optional(),
 });
 
@@ -2806,8 +2805,6 @@ export const googleOauthSearchGmailMessagesOutputSchema = z.object({
       }),
     )
     .describe("List of matching Gmail messages"),
-  nextPageToken: z.string().describe("Token for next page of results").optional(),
-  resultSizeEstimate: z.number().int().describe("Estimated number of results").optional(),
   error: z.string().describe("Error message if search failed").optional(),
 });
 
@@ -2820,7 +2817,6 @@ export type googleOauthSearchGmailMessagesFunction = ActionFunction<
 
 export const googleOauthListGmailThreadsParamsSchema = z.object({
   query: z.string().describe('Gmail search query (e.g. "from:alice subject:project")'),
-  pageToken: z.string().describe("Token for pagination").optional(),
   maxResults: z.number().int().describe("Maximum number of threads to return").optional(),
 });
 
@@ -2848,8 +2844,6 @@ export const googleOauthListGmailThreadsOutputSchema = z.object({
       }),
     )
     .describe("List of matching Gmail threads"),
-  nextPageToken: z.string().describe("Token for next page of results").optional(),
-  resultSizeEstimate: z.number().int().describe("Estimated number of results").optional(),
   error: z.string().describe("Error message if search failed").optional(),
 });
 

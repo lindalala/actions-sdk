@@ -8,11 +8,9 @@ async function runTest() {
   const result = await runAction(
     "searchGmailMessages",
     "googleOauth",
+    { authToken: "insert-access-token-with-gmail-ready-only-scope" }, 
     {
-      authToken: "insert-access-token" // Use a valid OAuth token with Gmail readonly scope
-    },
-    {
-      query: "test body",
+      query: "insert-query-here",
       maxResults: 1, // optional field
     } as googleOauthSearchGmailMessagesParamsType,
   );

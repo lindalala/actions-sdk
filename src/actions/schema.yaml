@@ -3731,9 +3731,6 @@ actions:
           query:
             type: string
             description: Gmail search query (e.g. "from:alice subject:urgent")
-          pageToken:
-            type: string
-            description: Token for pagination (optional)
           maxResults:
             type: integer
             description: Maximum number of messages to return (optional)
@@ -3770,12 +3767,6 @@ actions:
                 payload:
                   type: object
                   description: The message payload (headers, body, etc)
-          nextPageToken:
-            type: string
-            description: Token for next page of results
-          resultSizeEstimate:
-            type: integer
-            description: Estimated number of results
           error:
             type: string
             description: Error message if search failed
@@ -3790,9 +3781,6 @@ actions:
           query:
             type: string
             description: Gmail search query (e.g. "from:alice subject:project")
-          pageToken:
-            type: string
-            description: Token for pagination
           maxResults:
             type: integer
             description: Maximum number of threads to return
@@ -3836,12 +3824,6 @@ actions:
                         type: string
                       payload:
                         type: object
-          nextPageToken:
-            type: string
-            description: Token for next page of results
-          resultSizeEstimate:
-            type: integer
-            description: Estimated number of results
           error:
             type: string
             description: Error message if search failed
@@ -4880,4 +4862,4 @@ actions:
                   description: The URL to the Notion page
           error:
             type: string
-            description: Error message if search failed    
+            description: Error message if search failed
