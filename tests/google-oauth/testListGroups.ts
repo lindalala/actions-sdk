@@ -1,11 +1,14 @@
 import assert from "node:assert";
 import { runAction } from "../../src/app";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 async function runTests() {
   const result = await runAction(
     "listGroups",
     "googleOauth",
-    { authToken: "dummy-token" }, // Replace with valid token for real test
+    { authToken: process.env.GOOGLE_OAUTH_TOKEN! }, // Set GOOGLE_OAUTH_TOKEN in your .env
     {}
   );
 
@@ -21,7 +24,7 @@ async function runTests() {
       assert(typeof description === "string", "Group description should be a string if present");
     }
   }
-  console.log(result);
+  console.log("List Groups Test Response: ", result);
 }
 
 runTests().catch((err) => {
