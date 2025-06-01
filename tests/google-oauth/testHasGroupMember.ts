@@ -15,7 +15,7 @@ async function runTests() {
     }
   );
   assert(result, "Should return a result");
-  assert(result.success, "Should be sucessful");
+  assert(result.success, "Should be successful");
   assert(typeof result.isMember === "boolean", "Should have isMember boolean");
   console.log("Has Group Members Test Result:", result);
 }
