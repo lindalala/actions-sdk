@@ -6030,7 +6030,7 @@ export const googleOauthAddGroupMemberDefinition: ActionTemplate = {
   name: "addGroupMember",
   provider: "googleOauth",
 };
-export const googleOauthRemoveGroupMemberDefinition: ActionTemplate = {
+export const googleOauthDeleteGroupMemberDefinition: ActionTemplate = {
   description: "Remove a member from a Google Group.",
   scopes: ["https://www.googleapis.com/auth/admin.directory.group.member"],
   parameters: {
@@ -6061,7 +6061,7 @@ export const googleOauthRemoveGroupMemberDefinition: ActionTemplate = {
       },
     },
   },
-  name: "removeGroupMember",
+  name: "deleteGroupMember",
   provider: "googleOauth",
 };
 export const gongGetGongTranscriptsDefinition: ActionTemplate = {

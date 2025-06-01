@@ -3118,23 +3118,23 @@ export type googleOauthAddGroupMemberFunction = ActionFunction<
   googleOauthAddGroupMemberOutputType
 >;
 
-export const googleOauthRemoveGroupMemberParamsSchema = z.object({
+export const googleOauthDeleteGroupMemberParamsSchema = z.object({
   groupKey: z.string().describe("The group's email address or unique group ID"),
   memberKey: z.string().describe("The member's email address or unique member ID"),
 });
 
-export type googleOauthRemoveGroupMemberParamsType = z.infer<typeof googleOauthRemoveGroupMemberParamsSchema>;
+export type googleOauthDeleteGroupMemberParamsType = z.infer<typeof googleOauthDeleteGroupMemberParamsSchema>;
 
-export const googleOauthRemoveGroupMemberOutputSchema = z.object({
+export const googleOauthDeleteGroupMemberOutputSchema = z.object({
   success: z.boolean().describe("Whether the member was removed successfully"),
   error: z.string().describe("The error that occurred if the member could not be removed").optional(),
 });
 
-export type googleOauthRemoveGroupMemberOutputType = z.infer<typeof googleOauthRemoveGroupMemberOutputSchema>;
-export type googleOauthRemoveGroupMemberFunction = ActionFunction<
-  googleOauthRemoveGroupMemberParamsType,
+export type googleOauthDeleteGroupMemberOutputType = z.infer<typeof googleOauthDeleteGroupMemberOutputSchema>;
+export type googleOauthDeleteGroupMemberFunction = ActionFunction<
+  googleOauthDeleteGroupMemberParamsType,
   AuthParamsType,
-  googleOauthRemoveGroupMemberOutputType
+  googleOauthDeleteGroupMemberOutputType
 >;
 
 export const gongGetGongTranscriptsParamsSchema = z.object({

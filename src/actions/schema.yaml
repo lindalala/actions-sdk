@@ -4213,7 +4213,7 @@ actions:
           error:
             type: string
             description: The error that occurred if the member could not be added
-    removeGroupMember:
+    deleteGroupMember:
       description: Remove a member from a Google Group.
       scopes:
         - https://www.googleapis.com/auth/admin.directory.group.member
