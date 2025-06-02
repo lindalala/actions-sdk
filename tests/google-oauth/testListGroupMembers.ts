@@ -9,7 +9,7 @@ async function runTests() {
     "listGroupMembers",
     "googleOauth",
     { authToken: process.env.GOOGLE_OAUTH_TOKEN! },
-    { groupKey: process.env.GOOGLE_GROUP_KEY! } // Set GOOGLE_GROUP_KEY in your .env
+    { groupKey: process.env.GOOGLE_GROUP_KEY! } 
   );
   assert(result, "Should return a result");
   assert(result.success, "Should be successful");

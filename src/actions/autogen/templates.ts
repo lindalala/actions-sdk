@@ -5796,7 +5796,12 @@ export const googleOauthListGroupsDefinition: ActionTemplate = {
   parameters: {
     type: "object",
     required: [],
-    properties: {},
+    properties: {
+      maxResults: {
+        type: "integer",
+        description: "The maximum number of groups to return (max allowed is 200)",
+      },
+    },
   },
   output: {
     type: "object",
@@ -5904,6 +5909,10 @@ export const googleOauthListGroupMembersDefinition: ActionTemplate = {
         type: "string",
         description: "The group's email address or unique group ID",
       },
+      maxResults: {
+        type: "integer",
+        description: "The maximum number of members to return (max allowed is 200)",
+      },
     },
   },
   output: {
@@ -6001,11 +6010,6 @@ export const googleOauthAddGroupMemberDefinition: ActionTemplate = {
       email: {
         type: "string",
         description: "The email address of the user to add",
-      },
-      role: {
-        type: "string",
-        description: "The role to assign to the member (OWNER, MANAGER, MEMBER)",
-        enum: ["OWNER", "MANAGER", "MEMBER"],
       },
     },
   },

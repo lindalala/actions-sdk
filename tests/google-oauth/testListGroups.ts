@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import { runAction } from "../../src/app";
 import dotenv from "dotenv";
+import { max } from "date-fns";
 
 dotenv.config();
 
@@ -8,8 +9,8 @@ async function runTests() {
   const result = await runAction(
     "listGroups",
     "googleOauth",
-    { authToken: process.env.GOOGLE_OAUTH_TOKEN! }, // Set GOOGLE_OAUTH_TOKEN in your .env
-    {}
+    { authToken: process.env.GOOGLE_OAUTH_TOKEN! }, 
+    { maxResults: 1 } // Optional: limit the number of results
   );
 
   assert(result, "Should return a result");

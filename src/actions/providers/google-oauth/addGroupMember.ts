@@ -15,17 +15,14 @@ const addGroupMember: googleOauthAddGroupMemberFunction = async ({
   authParams: AuthParamsType;
 }): Promise<googleOauthAddGroupMemberOutputType> => {
   const { authToken } = authParams;
-  const { groupKey, email, role } = params;
+  const { groupKey, email } = params;
   if (!authToken) {
     return { success: false, memberID: "", error: MISSING_AUTH_TOKEN };
   }
   try {
     const response = await axiosClient.post(
       `https://admin.googleapis.com/admin/directory/v1/groups/${encodeURIComponent(groupKey)}/members`,
-      {
-        email,
-        role: role || "MEMBER",
-      },
+      { email },
       {
         headers: { Authorization: `Bearer ${authToken}` },
       },

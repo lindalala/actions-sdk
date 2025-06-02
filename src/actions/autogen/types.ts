@@ -2996,7 +2996,9 @@ export type googleOauthListGmailThreadsFunction = ActionFunction<
   googleOauthListGmailThreadsOutputType
 >;
 
-export const googleOauthListGroupsParamsSchema = z.object({});
+export const googleOauthListGroupsParamsSchema = z.object({
+  maxResults: z.number().int().describe("The maximum number of groups to return (max allowed is 200)").optional(),
+});
 
 export type googleOauthListGroupsParamsType = z.infer<typeof googleOauthListGroupsParamsSchema>;
 
@@ -3048,6 +3050,7 @@ export type googleOauthGetGroupFunction = ActionFunction<
 
 export const googleOauthListGroupMembersParamsSchema = z.object({
   groupKey: z.string().describe("The group's email address or unique group ID"),
+  maxResults: z.number().int().describe("The maximum number of members to return (max allowed is 200)").optional(),
 });
 
 export type googleOauthListGroupMembersParamsType = z.infer<typeof googleOauthListGroupMembersParamsSchema>;
@@ -3097,10 +3100,6 @@ export type googleOauthHasGroupMemberFunction = ActionFunction<
 export const googleOauthAddGroupMemberParamsSchema = z.object({
   groupKey: z.string().describe("The group's email address or unique group ID"),
   email: z.string().describe("The email address of the user to add"),
-  role: z
-    .enum(["OWNER", "MANAGER", "MEMBER"])
-    .describe("The role to assign to the member (OWNER, MANAGER, MEMBER)")
-    .optional(),
 });
 
 export type googleOauthAddGroupMemberParamsType = z.infer<typeof googleOauthAddGroupMemberParamsSchema>;
