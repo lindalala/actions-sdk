@@ -23,23 +23,21 @@ const createChannel: slackCreateChannelFunction = async ({
     const { channelName, isPrivate } = params;
     const result = await client.conversations.create({
       name: channelName,
-      is_private: isPrivate ?? false,
+      is_private: !!isPrivate,
     });
+    const { ok, channel, error } = result;
 
-    if (!result.ok || !result.channel || !result.channel.id) {
+    if (!ok || !channel?.id) {
       return {
         success: false,
-        error: result.error || "Unknown error creating channel",
+        error: error || "Unknown error creating channel",
       };
     }
 
-    const channelId = result.channel.id;
-    const channelUrl = `https://slack.com/app_redirect?channel=${channelId}`;
-
     return {
       success: true,
-      channelId,
-      channelUrl,
+      channelId: channel.id,
+      channelUrl: `https://slack.com/app_redirect?channel=${channel.id}`,
     };
   } catch (error) {
     return {

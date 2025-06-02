@@ -20,7 +20,7 @@ async function runTest() {
   assert(result.channelId, "Response should contain channelId");
   assert(result.channelUrl, "Response should contain channelUrl");
   console.log(
-    "Created channel with response: " + JSON.stringify(result, null, 2),
+    "Create channel test response: " + JSON.stringify(result, null, 2),
   );
 }
 

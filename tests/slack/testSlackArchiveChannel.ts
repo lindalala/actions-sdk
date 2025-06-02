@@ -11,13 +11,11 @@ async function runTest() {
     { authToken: process.env.SLACK_BOT_TOKEN },
     { channelId: process.env.SLACK_CHANNEL_ID },
   );
-
-  console.log(
-    "Response: " + JSON.stringify(result, null, 2),
-  );
-
   assert(result, "Response should not be null");
   assert(result.success, "Channel archiving should be successful");
+  console.log(
+    "Archive Channel Test Response: " + JSON.stringify(result, null, 2),
+  );
 }
 
 runTest().catch((error) => {
