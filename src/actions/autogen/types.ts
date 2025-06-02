@@ -2801,7 +2801,7 @@ export const googleOauthSearchGmailMessagesOutputSchema = z.object({
         snippet: z.string().describe("A short part of the message text").optional(),
         labelIds: z.array(z.string()).describe("Labels on the message").optional(),
         internalDate: z.string().describe("Internal timestamp of the message").optional(),
-        payload: z.object({}).catchall(z.any()).describe("The message payload (headers, body, etc)").optional(),
+        emailBody: z.string().describe("The body of the message").optional(),
       }),
     )
     .describe("List of matching Gmail messages"),
@@ -2837,7 +2837,7 @@ export const googleOauthListGmailThreadsOutputSchema = z.object({
               snippet: z.string(),
               labelIds: z.array(z.string()),
               internalDate: z.string(),
-              payload: z.object({}).catchall(z.any()),
+              emailBody: z.string(),
             }),
           )
           .describe("The messages in the thread"),

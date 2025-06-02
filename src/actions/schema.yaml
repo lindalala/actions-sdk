@@ -3764,9 +3764,9 @@ actions:
                 internalDate:
                   type: string
                   description: Internal timestamp of the message
-                payload:
-                  type: object
-                  description: The message payload (headers, body, etc)
+                emailBody:
+                  type: string
+                  description: The body of the message
           error:
             type: string
             description: Error message if search failed
@@ -3808,7 +3808,7 @@ actions:
                   description: The messages in the thread
                   items:
                     type: object
-                    required: [id, threadId, snippet, labelIds, internalDate, payload]
+                    required: [id, threadId, snippet, labelIds, internalDate, emailBody]
                     properties:
                       id:
                         type: string
@@ -3822,8 +3822,8 @@ actions:
                           type: string
                       internalDate:
                         type: string
-                      payload:
-                        type: object
+                      emailBody:
+                        type: string
           error:
             type: string
             description: Error message if search failed

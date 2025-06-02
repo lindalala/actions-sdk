@@ -6,6 +6,7 @@ import type {
   googleOauthListGmailThreadsParamsType,
 } from "../../autogen/types";
 import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
+import { getEmailContent } from "./utils/decodeMessage";
 
 const listGmailThreads: googleOauthListGmailThreadsFunction = async ({
   params,
@@ -61,14 +62,15 @@ const listGmailThreads: googleOauthListGmailThreadsFunction = async ({
               historyId,
               messages: Array.isArray(messages)
                 ? messages.map(msg => {
-                    const { id, threadId, snippet, labelIds, internalDate, payload } = msg;
+                    const { id, threadId, snippet, labelIds, internalDate } = msg;
+                    const emailBody = getEmailContent(msg) || "";
                     return {
                       id,
                       threadId,
                       snippet,
                       labelIds,
                       internalDate,
-                      payload,
+                      emailBody,
                     };
                   })
                 : [],

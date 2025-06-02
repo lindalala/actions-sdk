@@ -5389,9 +5389,9 @@ export const googleOauthSearchGmailMessagesDefinition: ActionTemplate = {
               type: "string",
               description: "Internal timestamp of the message",
             },
-            payload: {
-              type: "object",
-              description: "The message payload (headers, body, etc)",
+            emailBody: {
+              type: "string",
+              description: "The body of the message",
             },
           },
         },
@@ -5449,7 +5449,7 @@ export const googleOauthListGmailThreadsDefinition: ActionTemplate = {
               description: "The messages in the thread",
               items: {
                 type: "object",
-                required: ["id", "threadId", "snippet", "labelIds", "internalDate", "payload"],
+                required: ["id", "threadId", "snippet", "labelIds", "internalDate", "emailBody"],
                 properties: {
                   id: {
                     type: "string",
@@ -5469,8 +5469,8 @@ export const googleOauthListGmailThreadsDefinition: ActionTemplate = {
                   internalDate: {
                     type: "string",
                   },
-                  payload: {
-                    type: "object",
+                  emailBody: {
+                    type: "string",
                   },
                 },
               },

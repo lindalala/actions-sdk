@@ -6,6 +6,7 @@ import type {
   googleOauthSearchGmailMessagesParamsType,
 } from "../../autogen/types";
 import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
+import { getEmailContent } from "./utils/decodeMessage";
 
 const searchGmailMessages: googleOauthSearchGmailMessagesFunction = async ({
   params,
@@ -55,14 +56,15 @@ const searchGmailMessages: googleOauthSearchGmailMessagesFunction = async ({
                 },
               },
             );
-            const { id, threadId, snippet, labelIds, internalDate, payload } = msgRes.data;
+            const { id, threadId, snippet, labelIds, internalDate } = msgRes.data;
+            const emailBody = getEmailContent(msgRes.data) || "";
             return {
               id,
               threadId,
               snippet,
               labelIds,
               internalDate,
-              payload,
+              emailBody,
             };
           } catch (err) {
             errorMessages.push(err instanceof Error ? err.message : "Failed to fetch message details");
