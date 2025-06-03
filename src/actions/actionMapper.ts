@@ -185,6 +185,10 @@ import {
   asanaGetTasksDetailsOutputSchema,
   notionSearchByTitleParamsSchema,
   notionSearchByTitleOutputSchema,
+  jamfGetJamfComputerInventoryParamsSchema,
+  jamfGetJamfComputerInventoryOutputSchema,
+  jamfGetJamfFileVaultRecoveryKeyParamsSchema,
+  jamfGetJamfFileVaultRecoveryKeyOutputSchema,
   googlemailSearchGmailMessagesOutputSchema,
   googlemailSearchGmailMessagesParamsSchema,
   googlemailListGmailThreadsOutputSchema,
@@ -284,6 +288,8 @@ import addGroupMember from "./providers/google-oauth/addGroupMember";
 import deleteGroupMember from "./providers/google-oauth/deleteGroupMember";
 import createGroup from "./providers/google-oauth/createGroup";
 import updateGroupMember from "./providers/google-oauth/updateGroupMember";
+import getJamfComputerInventory from "./providers/jamf/getJamfComputerInventory";
+import getJamfFileVaultRecoveryKey from "./providers/jamf/getJamfFileVaultRecoveryKey";
 
 interface ActionFunctionComponents {
   // eslint-disable-next-line
@@ -330,6 +336,18 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       fn: getTasksDetails,
       paramsSchema: asanaGetTasksDetailsParamsSchema,
       outputSchema: asanaGetTasksDetailsOutputSchema,
+    },
+  },
+  jamf: {
+    getJamfComputerInventory: {
+      fn: getJamfComputerInventory,
+      paramsSchema: jamfGetJamfComputerInventoryParamsSchema,
+      outputSchema: jamfGetJamfComputerInventoryOutputSchema,
+    },
+    getJamfFileVaultRecoveryKey: {
+      fn: getJamfFileVaultRecoveryKey,
+      paramsSchema: jamfGetJamfFileVaultRecoveryKeyParamsSchema,
+      outputSchema: jamfGetJamfFileVaultRecoveryKeyOutputSchema,
     },
   },
   math: {
