@@ -10,8 +10,7 @@ async function runTest() {
     "googleOauth",
     { authToken: process.env.GOOGLE_OAUTH_TOKEN },
     { 
-      //calendarId: "3a58a7f80c9adaec6a702c633074028819a1afb276a4a71a426d19f839bb1806@group.calendar.google.com", 
-      calendarId: "c_9a07134ac35093f256190066da3f65a075c321a7a1cb2e6848168d815d5f3602@group.calendar.google.com",
+      calendarId: process.env.GOOGLE_CALENDAR_ID || "primary",
       query: "move", 
       maxResults: 3
     },
