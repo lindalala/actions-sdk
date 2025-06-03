@@ -12,7 +12,7 @@ async function runTest() {
     {
       calendarId: process.env.GOOGLE_CALENDAR_ID || "primary",
       eventId: process.env.GOOGLE_EVENT_ID,
-      destination: process.env.GOOGLE_CALENDAR_DESINATION_ID,
+      destination: process.env.GOOGLE_CALENDAR_DESTINATION_ID,
     },
   );
 
