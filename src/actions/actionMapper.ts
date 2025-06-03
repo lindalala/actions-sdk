@@ -107,6 +107,10 @@ import {
   googleOauthAddGroupMemberParamsSchema,
   googleOauthDeleteGroupMemberOutputSchema,
   googleOauthDeleteGroupMemberParamsSchema,
+  googleOauthCreateGroupParamsSchema,
+  googleOauthCreateGroupOutputSchema,
+  googleOauthUpdateGroupMemberParamsSchema,
+  googleOauthUpdateGroupMemberOutputSchema,
   gongGetGongTranscriptsParamsSchema,
   gongGetGongTranscriptsOutputSchema,
   ashbyCreateNoteParamsSchema,
@@ -272,15 +276,14 @@ import getTasksDetails from "./providers/asana/getTasksDetails";
 import searchByTitle from "./providers/notion/searchByTitle";
 import searchGmailMessages from "./providers/googlemail/searchGmailMessages";
 import listGmailThreads from "./providers/googlemail/listGmailThreads";
-// import listCalendarEvents from "./providers/google-oauth/listCalendarEvents";
-// import updateCalendarEvent from "./providers/google-oauth/updateCalendarEvent";
-// import deleteCalendarEvent from "./providers/google-oauth/deleteCalendarEvent";
 import listGroups from "./providers/google-oauth/listGroups";
 import getGroup from "./providers/google-oauth/getGroup";
 import listGroupMembers from "./providers/google-oauth/listGroupMembers";
 import hasGroupMember from "./providers/google-oauth/hasGroupMember";
 import addGroupMember from "./providers/google-oauth/addGroupMember";
 import deleteGroupMember from "./providers/google-oauth/deleteGroupMember";
+import createGroup from "./providers/google-oauth/createGroup";
+import updateGroupMember from "./providers/google-oauth/updateGroupMember";
 
 interface ActionFunctionComponents {
   // eslint-disable-next-line
@@ -631,6 +634,16 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       fn: deleteGroupMember,
       paramsSchema: googleOauthDeleteGroupMemberParamsSchema,
       outputSchema: googleOauthDeleteGroupMemberOutputSchema,
+    },
+    createGroup: {
+      fn: createGroup,
+      paramsSchema: googleOauthCreateGroupParamsSchema,
+      outputSchema: googleOauthCreateGroupOutputSchema,
+    },
+    updateGroupMember: {
+      fn: updateGroupMember,
+      paramsSchema: googleOauthUpdateGroupMemberParamsSchema,
+      outputSchema: googleOauthUpdateGroupMemberOutputSchema,
     },
   },
   x: {
