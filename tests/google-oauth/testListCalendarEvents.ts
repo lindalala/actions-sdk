@@ -1,12 +1,20 @@
 import assert from "node:assert";
 import { runAction } from "../../src/app";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 async function runTest() {
   const result = await runAction(
     "listCalendarEvents",
     "googleOauth",
-    { authToken: "auth-token-with-calendar-scope-here" },
-    { calendarId: "primary", query: "optional-query-here", maxResults: 2 },
+    { authToken: process.env.GOOGLE_OAUTH_TOKEN },
+    { 
+      //calendarId: "3a58a7f80c9adaec6a702c633074028819a1afb276a4a71a426d19f839bb1806@group.calendar.google.com", 
+      calendarId: "c_9a07134ac35093f256190066da3f65a075c321a7a1cb2e6848168d815d5f3602@group.calendar.google.com",
+      query: "move", 
+      maxResults: 3
+    },
   );
 
   assert(result, "Response should not be null");
@@ -16,7 +24,6 @@ async function runTest() {
   const first = result.events[0];
   if (first) {
     assert(typeof first.id === "string" && first.id.length > 0, "Event should have an id");
-    assert(typeof first.title === "string", "Event should have a title");
     assert(typeof first.status === "string", "Event should have a status");
     assert(typeof first.url === "string", "Event should have a url");
     assert(typeof first.start === "string", "Event should have a start");

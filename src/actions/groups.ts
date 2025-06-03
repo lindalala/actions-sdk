@@ -54,6 +54,7 @@ import {
   googleOauthHasGroupMemberDefinition,
   googleOauthAddGroupMemberDefinition,
   googleOauthDeleteGroupMemberDefinition,
+  googleOauthMoveCalendarEventDefinition,
   salesforceUpdateRecordDefinition,
   salesforceCreateCaseDefinition,
   salesforceGenerateSalesReportDefinition,
@@ -148,6 +149,7 @@ export const ACTION_GROUPS: ActionGroups = {
       googleOauthListCalendarEventsDefinition,
       googleOauthUpdateCalendarEventDefinition,
       googleOauthDeleteCalendarEventDefinition,
+      googleOauthMoveCalendarEventDefinition,
     ],
   },
   GMAIL: {
