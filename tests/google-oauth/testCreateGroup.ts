@@ -19,7 +19,7 @@ async function runTest() {
 
   assert(result, "Should return a result");
   assert(result.success, "Should have success boolean");
-  assert(typeof result.groupId === "string" || result.groupId.length > 0, "Should have valid groupID string");
+  assert(typeof result.groupId === "string" && result.groupId.length > 0, "Should have valid groupID string");
 }
 
 runTest().catch((err) => {
