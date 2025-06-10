@@ -3,8 +3,8 @@ import type {
   jamfGetJamfComputerInventoryFunction,
   jamfGetJamfComputerInventoryOutputType,
   jamfGetJamfComputerInventoryParamsType,
-} from "../../autogen/types";
-import { axiosClient } from "../../util/axiosClient";
+} from "../../autogen/types.js";
+import { axiosClient } from "../../util/axiosClient.js";
 
 const getJamfComputerInventory: jamfGetJamfComputerInventoryFunction = async ({
   authParams,

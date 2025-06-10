@@ -1,11 +1,11 @@
-import { axiosClient } from "../../util/axiosClient";
+import { axiosClient } from "../../util/axiosClient.js";
 import type {
   AuthParamsType,
   googleOauthSearchDriveByKeywordsFunction,
   googleOauthSearchDriveByKeywordsOutputType,
   googleOauthSearchDriveByKeywordsParamsType,
-} from "../../autogen/types";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
+} from "../../autogen/types.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
 
 const searchDriveByKeywords: googleOauthSearchDriveByKeywordsFunction = async ({
   params,

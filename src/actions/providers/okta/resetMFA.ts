@@ -5,8 +5,8 @@ import type {
   oktaResetMFAFunction,
   oktaResetMFAOutputType,
   oktaResetMFAParamsType,
-} from "../../autogen/types";
-import { axiosClient } from "../../util/axiosClient";
+} from "../../autogen/types.js";
+import { axiosClient } from "../../util/axiosClient.js";
 
 const resetMFA: oktaResetMFAFunction = async ({
   authParams,

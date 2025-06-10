@@ -5,8 +5,8 @@ import type {
   oktaListOktaGroupsFunction,
   oktaListOktaGroupsOutputType,
   oktaListOktaGroupsParamsType,
-} from "../../autogen/types";
-import { axiosClient } from "../../util/axiosClient";
+} from "../../autogen/types.js";
+import { axiosClient } from "../../util/axiosClient.js";
 
 // page limit 200 recomended by Okta documentation
 // https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Group/#tag/Group/operation/listGroups

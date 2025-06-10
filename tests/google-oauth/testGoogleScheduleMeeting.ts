@@ -1,8 +1,8 @@
 import {
   googleOauthScheduleCalendarMeetingOutputType,
   googleOauthScheduleCalendarMeetingParamsType,
-} from "../src/actions/autogen/types";
-import { runAction } from "../../src/app";
+} from "../src/actions/autogen/types.js";
+import { runAction } from "../../src/app.js";
 import assert from "node:assert";
 
 /**

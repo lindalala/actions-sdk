@@ -3,9 +3,9 @@ import type {
   googleOauthUpdateSpreadsheetFunction,
   googleOauthUpdateSpreadsheetOutputType,
   googleOauthUpdateSpreadsheetParamsType,
-} from "../../autogen/types";
-import { axiosClient } from "../../util/axiosClient";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
+} from "../../autogen/types.js";
+import { axiosClient } from "../../util/axiosClient.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
 
 /**
  *  Update a Google Spreadsheet using OAuth authentication

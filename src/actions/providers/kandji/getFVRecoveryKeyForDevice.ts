@@ -3,8 +3,8 @@ import {
   type kandjiGetFVRecoveryKeyForDeviceOutputType,
   type AuthParamsType,
   type kandjiGetFVRecoveryKeyForDeviceFunction,
-} from "../../autogen/types";
-import { axiosClient } from "../../util/axiosClient";
+} from "../../autogen/types.js";
+import { axiosClient } from "../../util/axiosClient.js";
 
 type User = {
   email: string;

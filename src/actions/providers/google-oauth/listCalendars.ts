@@ -1,12 +1,12 @@
-import { axiosClient } from "../../util/axiosClient";
+import { axiosClient } from "../../util/axiosClient.js";
 import type { AxiosResponse } from "axios";
 import type {
   AuthParamsType,
   googleOauthListCalendarsFunction,
   googleOauthListCalendarsOutputType,
   googleOauthListCalendarsParamsType,
-} from "../../autogen/types";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
+} from "../../autogen/types.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
 
 const listCalendars: googleOauthListCalendarsFunction = async ({
   params,

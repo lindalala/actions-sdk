@@ -3,10 +3,10 @@ import type {
   ashbyCreateNoteOutputType,
   ashbyCreateNoteParamsType,
   AuthParamsType,
-} from "../../autogen/types";
+} from "../../autogen/types.js";
 
-import { axiosClient } from "../../util/axiosClient";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
+import { axiosClient } from "../../util/axiosClient.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
 const createNote: ashbyCreateNoteFunction = async ({
   params,
   authParams,
