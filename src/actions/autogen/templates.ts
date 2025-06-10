@@ -1,4 +1,4 @@
-import { ActionTemplate } from "../parse.js";
+import { ActionTemplate } from "../../actions/parse";
 
 export const genericFillTemplateDefinition: ActionTemplate = {
   description: "Simple utility that takes a template and returns it filled in",
