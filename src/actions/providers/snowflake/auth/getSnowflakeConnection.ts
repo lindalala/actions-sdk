@@ -21,11 +21,12 @@ export function getSnowflakeConnection(
     username: string;
     warehouse: string;
     database: string;
+    role?: string;
   },
   authParams: AuthParamsType,
 ): Connection {
   const { authToken, apiKey } = authParams;
-  const { account, username, warehouse, database } = snowflakeData;
+  const { account, username, warehouse, database, role } = snowflakeData;
 
   if (authToken) {
     // Always try to use Nango-Snowflake OAuth (unused for now)
@@ -34,7 +35,6 @@ export function getSnowflakeConnection(
       username: username,
       authenticator: "OAUTH",
       token: authToken,
-      role: "CREDAL_READ",
       warehouse: warehouse,
       database: database,
     });
@@ -46,7 +46,7 @@ export function getSnowflakeConnection(
       username: username,
       privateKey: privateKeyCorrectFormatString,
       authenticator: "SNOWFLAKE_JWT",
-      role: "CREDAL_READ",
+      role: role,
       warehouse: warehouse,
       database: database,
     });
