@@ -5,7 +5,7 @@ import convert from "json-schema-to-zod";
 import type { SourceFile } from "ts-morph";
 import { Project, VariableDeclarationKind } from "ts-morph";
 import { z } from "zod";
-import { snakeToPascal } from "../utils/string";
+import { snakeToPascal } from "../utils/string.js";
 
 const jsonObjectSchema = z.object({
   type: z.string(),
@@ -159,6 +159,17 @@ async function generateTypes({
   const project = new Project();
   const templatesFile = project.createSourceFile(outputPath, "", { overwrite: true });
   const typesFile = project.createSourceFile(templatesOutputPath, "", { overwrite: true });
+
+  // Set the ProviderName enum based on the schema providers
+  typesFile
+    .addEnum({
+      name: "ProviderName",
+      members: Object.keys(parsedConfig.actions).map(providerName => ({
+        name: providerName.toUpperCase().replace(/-/g, "_"),
+        value: providerName,
+      })),
+    })
+    .setIsExported(true);
 
   // Add imports
   templatesFile.addImportDeclaration({

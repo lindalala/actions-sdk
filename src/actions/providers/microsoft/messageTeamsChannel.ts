@@ -1,12 +1,12 @@
-import { microsoftMessageTeamsChannelDefinition } from "../../autogen/templates";
+import { microsoftMessageTeamsChannelDefinition } from "../../autogen/templates.js";
 import type {
   AuthParamsType,
   microsoftMessageTeamsChannelFunction,
   microsoftMessageTeamsChannelOutputType,
   microsoftMessageTeamsChannelParamsType,
-} from "../../autogen/types";
+} from "../../autogen/types.js";
 
-import { getGraphClient } from "./utils";
+import { getGraphClient } from "./utils.js";
 
 const sendMessageToTeamsChannel: microsoftMessageTeamsChannelFunction = async ({
   params,

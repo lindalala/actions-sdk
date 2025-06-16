@@ -1,7 +1,6 @@
 import {
   genericFillTemplateDefinition,
   confluenceOverwritePageDefinition,
-  credalCallCopilotDefinition,
   googlemapsValidateAddressDefinition,
   mathAddDefinition,
   mongoInsertMongoDocDefinition,
@@ -93,8 +92,21 @@ import {
   asanaListAsanaTasksByProjectDefinition,
   notionSearchByTitleDefinition,
   asanaGetTasksDetailsDefinition,
-} from "../actions/autogen/templates";
-import type { ActionTemplate } from "../actions/parse";
+  jamfGetJamfComputerInventoryDefinition,
+  jamfGetJamfFileVaultRecoveryKeyDefinition,
+  oktaListOktaUsersDefinition,
+  oktaGetOktaUserDefinition,
+  oktaListOktaUserGroupsDefinition,
+  oktaListOktaGroupsDefinition,
+  oktaGetOktaGroupDefinition,
+  oktaListOktaGroupMembersDefinition,
+  oktaRemoveUserFromGroupDefinition,
+  oktaAddUserToGroupDefinition,
+  oktaResetPasswordDefinition,
+  oktaResetMFADefinition,
+  oktaListMFADefinition,
+} from "./autogen/templates.js";
+import type { ActionTemplate } from "./parse.js";
 
 export type ActionGroups = Record<string, { description: string; actions: ActionTemplate[] }>;
 
@@ -160,10 +172,6 @@ export const ACTION_GROUPS: ActionGroups = {
   GMAIL: {
     description: "Actions for interacting with Gmail",
     actions: [googlemailSearchGmailMessagesDefinition, googlemailListGmailThreadsDefinition],
-  },
-  CREDAL_CALL_COPILOT: {
-    description: "Action for calling a Credal Copilot",
-    actions: [credalCallCopilotDefinition],
   },
   LINKEDIN_SHARE_POST: {
     description: "Action for creating a share post url on linkedin",
@@ -237,6 +245,10 @@ export const ACTION_GROUPS: ActionGroups = {
     description: "Action for interacting with Finnhub for stock market data",
     actions: [finnhubSymbolLookupDefinition, finnhubGetBasicFinancialsDefinition],
   },
+  JAMF: {
+    description: "Actions for interacting with Jamf",
+    actions: [jamfGetJamfComputerInventoryDefinition, jamfGetJamfFileVaultRecoveryKeyDefinition],
+  },
   LOOKER: {
     description: "Actions for interacting with Looker",
     actions: [lookerEnableUserByEmailDefinition],
@@ -303,6 +315,22 @@ export const ACTION_GROUPS: ActionGroups = {
       googleOauthHasGroupMemberDefinition,
       googleOauthAddGroupMemberDefinition,
       googleOauthDeleteGroupMemberDefinition,
+    ],
+  },
+  OKTA: {
+    description: "Actions for interacting with Okta",
+    actions: [
+      oktaListOktaUsersDefinition,
+      oktaGetOktaUserDefinition,
+      oktaListOktaUserGroupsDefinition,
+      oktaListOktaGroupsDefinition,
+      oktaGetOktaGroupDefinition,
+      oktaListOktaGroupMembersDefinition,
+      oktaRemoveUserFromGroupDefinition,
+      oktaAddUserToGroupDefinition,
+      oktaResetPasswordDefinition,
+      oktaResetMFADefinition,
+      oktaListMFADefinition,
     ],
   },
 };

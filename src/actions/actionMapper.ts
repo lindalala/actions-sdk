@@ -5,8 +5,6 @@ import {
   genericFillTemplateOutputSchema,
   confluenceOverwritePageParamsSchema,
   confluenceOverwritePageOutputSchema,
-  credalCallCopilotOutputSchema,
-  credalCallCopilotParamsSchema,
   googlemapsValidateAddressOutputSchema,
   googlemapsValidateAddressParamsSchema,
   googleOauthCreateNewGoogleDocParamsSchema,
@@ -185,10 +183,37 @@ import {
   asanaGetTasksDetailsOutputSchema,
   notionSearchByTitleParamsSchema,
   notionSearchByTitleOutputSchema,
+  jamfGetJamfComputerInventoryParamsSchema,
+  jamfGetJamfComputerInventoryOutputSchema,
+  jamfGetJamfFileVaultRecoveryKeyParamsSchema,
+  jamfGetJamfFileVaultRecoveryKeyOutputSchema,
   googlemailSearchGmailMessagesOutputSchema,
   googlemailSearchGmailMessagesParamsSchema,
   googlemailListGmailThreadsOutputSchema,
   googlemailListGmailThreadsParamsSchema,
+  oktaListOktaUsersParamsSchema,
+  oktaListOktaUsersOutputSchema,
+  oktaGetOktaUserParamsSchema,
+  oktaGetOktaUserOutputSchema,
+  oktaListOktaUserGroupsParamsSchema,
+  oktaListOktaUserGroupsOutputSchema,
+  oktaListOktaGroupsParamsSchema,
+  oktaListOktaGroupsOutputSchema,
+  oktaGetOktaGroupParamsSchema,
+  oktaGetOktaGroupOutputSchema,
+  oktaListOktaGroupMembersParamsSchema,
+  oktaListOktaGroupMembersOutputSchema,
+  oktaRemoveUserFromGroupParamsSchema,
+  oktaRemoveUserFromGroupOutputSchema,
+  oktaAddUserToGroupParamsSchema,
+  oktaAddUserToGroupOutputSchema,
+  oktaResetPasswordParamsSchema,
+  oktaResetPasswordOutputSchema,
+  oktaResetMFAParamsSchema,
+  oktaResetMFAOutputSchema,
+  oktaListMFAParamsSchema,
+  oktaListMFAOutputSchema,
+  type ProviderName,
 } from "./autogen/types";
 import callCopilot from "./providers/credal/callCopilot";
 import validateAddress from "./providers/googlemaps/validateAddress";
@@ -284,6 +309,19 @@ import addGroupMember from "./providers/google-oauth/addGroupMember";
 import deleteGroupMember from "./providers/google-oauth/deleteGroupMember";
 import createChannel from "./providers/slack/createChannel";
 import archiveChannel from "./providers/slack/archiveChannel";
+import getJamfComputerInventory from "./providers/jamf/getJamfComputerInventory.js";
+import getJamfFileVaultRecoveryKey from "./providers/jamf/getJamfFileVaultRecoveryKey.js";
+import listOktaUsers from "./providers/okta/listOktaUsers.js";
+import getOktaUser from "./providers/okta/getOktaUser.js";
+import listOktaUserGroups from "./providers/okta/listOktaUserGroups.js";
+import listOktaGroups from "./providers/okta/listOktaGroups.js";
+import getOktaGroup from "./providers/okta/getOktaGroup.js";
+import listOktaGroupMembers from "./providers/okta/listOktaGroupMembers.js";
+import removeUserFromGroup from "./providers/okta/removeUserFromGroup.js";
+import addUserToGroup from "./providers/okta/addUserToGroup.js";
+import resetPassword from "./providers/okta/resetPassword.js";
+import resetMFA from "./providers/okta/resetMFA.js";
+import listMFA from "./providers/okta/listMFA.js";
 
 interface ActionFunctionComponents {
   // eslint-disable-next-line
@@ -292,7 +330,7 @@ interface ActionFunctionComponents {
   outputSchema: z.ZodSchema;
 }
 
-export const ActionMapper: Record<string, Record<string, ActionFunctionComponents>> = {
+export const ActionMapper: Record<ProviderName, Record<string, ActionFunctionComponents>> = {
   generic: {
     fillTemplate: {
       fn: fillTemplate,
@@ -330,6 +368,18 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       fn: getTasksDetails,
       paramsSchema: asanaGetTasksDetailsParamsSchema,
       outputSchema: asanaGetTasksDetailsOutputSchema,
+    },
+  },
+  jamf: {
+    getJamfComputerInventory: {
+      fn: getJamfComputerInventory,
+      paramsSchema: jamfGetJamfComputerInventoryParamsSchema,
+      outputSchema: jamfGetJamfComputerInventoryOutputSchema,
+    },
+    getJamfFileVaultRecoveryKey: {
+      fn: getJamfFileVaultRecoveryKey,
+      paramsSchema: jamfGetJamfFileVaultRecoveryKeyParamsSchema,
+      outputSchema: jamfGetJamfFileVaultRecoveryKeyOutputSchema,
     },
   },
   math: {
@@ -383,13 +433,6 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       fn: nearbysearch,
       paramsSchema: googlemapsNearbysearchRestaurantsParamsSchema,
       outputSchema: googlemapsNearbysearchRestaurantsOutputSchema,
-    },
-  },
-  credal: {
-    callCopilot: {
-      fn: callCopilot,
-      paramsSchema: credalCallCopilotParamsSchema,
-      outputSchema: credalCallCopilotOutputSchema,
     },
   },
   kandji: {
@@ -585,16 +628,6 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       paramsSchema: googleOauthSearchDriveByKeywordsParamsSchema,
       outputSchema: googleOauthSearchDriveByKeywordsOutputSchema,
     },
-    searchGmailMessages: {
-      fn: searchGmailMessages,
-      paramsSchema: googlemailSearchGmailMessagesParamsSchema,
-      outputSchema: googlemailSearchGmailMessagesOutputSchema,
-    },
-    listGmailThreads: {
-      fn: listGmailThreads,
-      paramsSchema: googlemailListGmailThreadsParamsSchema,
-      outputSchema: googlemailListGmailThreadsOutputSchema,
-    },
     listCalendars: {
       fn: listCalendars,
       paramsSchema: googleOauthListCalendarsParamsSchema,
@@ -644,6 +677,18 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       fn: deleteGroupMember,
       paramsSchema: googleOauthDeleteGroupMemberParamsSchema,
       outputSchema: googleOauthDeleteGroupMemberOutputSchema,
+    },
+  },
+  googlemail: {
+    searchGmailMessages: {
+      fn: searchGmailMessages,
+      paramsSchema: googlemailSearchGmailMessagesParamsSchema,
+      outputSchema: googlemailSearchGmailMessagesOutputSchema,
+    },
+    listGmailThreads: {
+      fn: listGmailThreads,
+      paramsSchema: googlemailListGmailThreadsParamsSchema,
+      outputSchema: googlemailListGmailThreadsOutputSchema,
     },
   },
   x: {
@@ -817,6 +862,63 @@ export const ActionMapper: Record<string, Record<string, ActionFunctionComponent
       fn: searchByTitle,
       paramsSchema: notionSearchByTitleParamsSchema,
       outputSchema: notionSearchByTitleOutputSchema,
+    },
+  },
+  okta: {
+    listOktaUsers: {
+      fn: listOktaUsers,
+      paramsSchema: oktaListOktaUsersParamsSchema,
+      outputSchema: oktaListOktaUsersOutputSchema,
+    },
+    getOktaUser: {
+      fn: getOktaUser,
+      paramsSchema: oktaGetOktaUserParamsSchema,
+      outputSchema: oktaGetOktaUserOutputSchema,
+    },
+    listOktaUserGroups: {
+      fn: listOktaUserGroups,
+      paramsSchema: oktaListOktaUserGroupsParamsSchema,
+      outputSchema: oktaListOktaUserGroupsOutputSchema,
+    },
+    listOktaGroups: {
+      fn: listOktaGroups,
+      paramsSchema: oktaListOktaGroupsParamsSchema,
+      outputSchema: oktaListOktaGroupsOutputSchema,
+    },
+    getOktaGroup: {
+      fn: getOktaGroup,
+      paramsSchema: oktaGetOktaGroupParamsSchema,
+      outputSchema: oktaGetOktaGroupOutputSchema,
+    },
+    listOktaGroupMembers: {
+      fn: listOktaGroupMembers,
+      paramsSchema: oktaListOktaGroupMembersParamsSchema,
+      outputSchema: oktaListOktaGroupMembersOutputSchema,
+    },
+    removeUserFromGroup: {
+      fn: removeUserFromGroup,
+      paramsSchema: oktaRemoveUserFromGroupParamsSchema,
+      outputSchema: oktaRemoveUserFromGroupOutputSchema,
+    },
+    addUserToGroup: {
+      fn: addUserToGroup,
+      paramsSchema: oktaAddUserToGroupParamsSchema,
+      outputSchema: oktaAddUserToGroupOutputSchema,
+    },
+    resetPassword: {
+      fn: resetPassword,
+      paramsSchema: oktaResetPasswordParamsSchema,
+      outputSchema: oktaResetPasswordOutputSchema,
+    },
+    resetMFA: {
+      fn: resetMFA,
+      paramsSchema: oktaResetMFAParamsSchema,
+      outputSchema: oktaResetMFAOutputSchema,
+    },
+    listMFA: {
+      fn: listMFA,
+      paramsSchema: oktaListMFAParamsSchema,
+      outputSchema: oktaListMFAOutputSchema,
     },
   },
 };

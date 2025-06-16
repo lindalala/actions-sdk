@@ -3,8 +3,8 @@ import type {
   salesforceGetSalesforceRecordsByQueryFunction,
   salesforceGetSalesforceRecordsByQueryOutputType,
   salesforceGetSalesforceRecordsByQueryParamsType,
-} from "../../autogen/types";
-import { ApiError, axiosClient } from "../../util/axiosClient";
+} from "../../autogen/types.js";
+import { ApiError, axiosClient } from "../../util/axiosClient.js";
 
 const getSalesforceRecordsByQuery: salesforceGetSalesforceRecordsByQueryFunction = async ({
   params,

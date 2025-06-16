@@ -4,9 +4,9 @@ import type {
   googleOauthScheduleCalendarMeetingFunction,
   googleOauthScheduleCalendarMeetingOutputType,
   googleOauthScheduleCalendarMeetingParamsType,
-} from "../../autogen/types";
-import { axiosClient } from "../../util/axiosClient";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
+} from "../../autogen/types.js";
+import { axiosClient } from "../../util/axiosClient.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
 
 /**
  * Creates a new Google calendar event using OAuth authentication

@@ -3,10 +3,10 @@ import type {
   asanaUpdateTaskFunction,
   asanaUpdateTaskOutputType,
   asanaUpdateTaskParamsType,
-} from "../../autogen/types";
-import { axiosClient } from "../../util/axiosClient";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
-import { getUserIdByEmail, getWorkspaceIdAndPermalinkFromTask } from "./utils";
+} from "../../autogen/types.js";
+import { axiosClient } from "../../util/axiosClient.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
+import { getUserIdByEmail, getWorkspaceIdAndPermalinkFromTask } from "./utils.js";
 
 const updateAsanaTask: asanaUpdateTaskFunction = async ({
   params,

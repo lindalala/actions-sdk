@@ -3,10 +3,10 @@ import type {
   ashbyUpdateCandidateOutputType,
   ashbyUpdateCandidateParamsType,
   AuthParamsType,
-} from "../../autogen/types";
+} from "../../autogen/types.js";
 
-import { axiosClient } from "../../util/axiosClient";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
+import { axiosClient } from "../../util/axiosClient.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
 const updateCandidate: ashbyUpdateCandidateFunction = async ({
   params,
   authParams,

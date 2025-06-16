@@ -4,9 +4,9 @@ import type {
   slackGetChannelMessagesFunction,
   slackGetChannelMessagesOutputType,
   slackGetChannelMessagesParamsType,
-} from "../../autogen/types";
-import { getSlackChannels } from "./helpers";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
+} from "../../autogen/types.js";
+import { getSlackChannels } from "./helpers.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
 
 type SlackMessage = {
   type: string;

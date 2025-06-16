@@ -3,9 +3,9 @@ import type {
   zendeskAddCommentToTicketFunction,
   zendeskAddCommentToTicketOutputType,
   zendeskAddCommentToTicketParamsType,
-} from "../../autogen/types";
-import { axiosClient } from "../../util/axiosClient";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
+} from "../../autogen/types.js";
+import { axiosClient } from "../../util/axiosClient.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
 
 const addCommentToTicket: zendeskAddCommentToTicketFunction = async ({
   params,

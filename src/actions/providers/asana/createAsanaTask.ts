@@ -3,10 +3,10 @@ import type {
   asanaCreateTaskFunction,
   asanaCreateTaskOutputType,
   asanaCreateTaskParamsType,
-} from "../../autogen/types";
-import { axiosClient } from "../../util/axiosClient";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants";
-import { getWorkspaceIdFromProject, getUserIdByEmail } from "./utils";
+} from "../../autogen/types.js";
+import { axiosClient } from "../../util/axiosClient.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
+import { getWorkspaceIdFromProject, getUserIdByEmail } from "./utils.js";
 
 const getTaskTemplates = async (authToken: string, projectId: string) => {
   const url = `https://app.asana.com/api/1.0/task_templates/?project=${projectId}`;

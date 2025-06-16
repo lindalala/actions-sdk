@@ -1,12 +1,12 @@
-import { microsoftMessageTeamsChatDefinition } from "../../autogen/templates";
+import { microsoftMessageTeamsChatDefinition } from "../../autogen/templates.js";
 import type {
   AuthParamsType,
   microsoftMessageTeamsChatFunction,
   microsoftMessageTeamsChatOutputType,
   microsoftMessageTeamsChatParamsType,
-} from "../../autogen/types";
+} from "../../autogen/types.js";
 
-import { getGraphClient } from "./utils";
+import { getGraphClient } from "./utils.js";
 
 const sendMessageToTeamsChat: microsoftMessageTeamsChatFunction = async ({
   params,

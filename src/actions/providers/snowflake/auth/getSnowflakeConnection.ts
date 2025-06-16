@@ -1,7 +1,7 @@
-import type { AuthParamsType } from "../../../autogen/types";
+import type { AuthParamsType } from "../../../autogen/types.js";
 import type { Connection } from "snowflake-sdk";
-import * as snowflake from "snowflake-sdk";
-import * as forge from "node-forge";
+import snowflake from "snowflake-sdk";
+import forge from "node-forge";
 
 const getPrivateKeyCorrectFormat = (privateKey: string): string => {
   try {
