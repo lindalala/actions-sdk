@@ -17,6 +17,10 @@ import {
   slackSendMessageParamsSchema,
   slackGetChannelMessagesOutputSchema,
   slackGetChannelMessagesParamsSchema,
+  slackArchiveChannelParamsSchema,
+  slackArchiveChannelOutputSchema,
+  slackCreateChannelParamsSchema,
+  slackCreateChannelOutputSchema,
   snowflakeGetRowByFieldValueOutputSchema,
   snowflakeGetRowByFieldValueParamsSchema,
   zendeskCreateZendeskTicketOutputSchema,
@@ -315,6 +319,8 @@ import addUserToGroup from "./providers/okta/addUserToGroup.js";
 import resetPassword from "./providers/okta/resetPassword.js";
 import resetMFA from "./providers/okta/resetMFA.js";
 import listMFA from "./providers/okta/listMFA.js";
+import createChannel from "./providers/slack/createChannel.js";
+import archiveChannel from "./providers/slack/archiveChannel.js";
 
 interface ActionFunctionComponents {
   // eslint-disable-next-line
@@ -392,6 +398,16 @@ export const ActionMapper: Record<ProviderName, Record<string, ActionFunctionCom
       fn: getChannelMessages,
       paramsSchema: slackGetChannelMessagesParamsSchema,
       outputSchema: slackGetChannelMessagesOutputSchema,
+    },
+    createChannel: {
+      fn: createChannel,
+      paramsSchema: slackCreateChannelParamsSchema,
+      outputSchema: slackCreateChannelOutputSchema,
+    },
+    archiveChannel: {
+      fn: archiveChannel,
+      paramsSchema: slackArchiveChannelParamsSchema,
+      outputSchema: slackArchiveChannelOutputSchema,
     },
   },
   confluence: {
