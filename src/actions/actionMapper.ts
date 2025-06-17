@@ -214,6 +214,10 @@ import {
   oktaListMFAParamsSchema,
   oktaListMFAOutputSchema,
   type ProviderName,
+  jamfGetJamfUserComputerIdParamsSchema,
+  jamfGetJamfUserComputerIdOutputSchema,
+  jamfLockJamfComputerByIdParamsSchema,
+  jamfLockJamfComputerByIdOutputSchema,
 } from "./autogen/types.js";
 import validateAddress from "./providers/googlemaps/validateAddress.js";
 import add from "./providers/math/add.js";
@@ -321,6 +325,8 @@ import resetMFA from "./providers/okta/resetMFA.js";
 import listMFA from "./providers/okta/listMFA.js";
 import createChannel from "./providers/slack/createChannel.js";
 import archiveChannel from "./providers/slack/archiveChannel.js";
+import getJamfUserComputerId from "./providers/jamf/getJamfUserComputerId.js";
+import lockJamfComputerById from "./providers/jamf/lockJamfComputerById.js";
 
 interface ActionFunctionComponents {
   // eslint-disable-next-line
@@ -379,6 +385,16 @@ export const ActionMapper: Record<ProviderName, Record<string, ActionFunctionCom
       fn: getJamfFileVaultRecoveryKey,
       paramsSchema: jamfGetJamfFileVaultRecoveryKeyParamsSchema,
       outputSchema: jamfGetJamfFileVaultRecoveryKeyOutputSchema,
+    },
+    getJamfUserComputerId: {
+      fn: getJamfUserComputerId,
+      paramsSchema: jamfGetJamfUserComputerIdParamsSchema,
+      outputSchema: jamfGetJamfUserComputerIdOutputSchema,
+    },
+    lockJamfComputerById: {
+      fn: lockJamfComputerById,
+      paramsSchema: jamfLockJamfComputerByIdParamsSchema,
+      outputSchema: jamfLockJamfComputerByIdOutputSchema,
     },
   },
   math: {

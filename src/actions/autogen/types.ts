@@ -4385,3 +4385,41 @@ export type jamfGetJamfComputerInventoryFunction = ActionFunction<
   AuthParamsType,
   jamfGetJamfComputerInventoryOutputType
 >;
+
+export const jamfGetJamfUserComputerIdParamsSchema = z.object({
+  userEmail: z.string().describe("The email of the Jamf user to retrieve the computer ID for"),
+});
+
+export type jamfGetJamfUserComputerIdParamsType = z.infer<typeof jamfGetJamfUserComputerIdParamsSchema>;
+
+export const jamfGetJamfUserComputerIdOutputSchema = z.object({
+  success: z.boolean().describe("Whether the request was successful"),
+  computerId: z.string().describe("The computer ID associated with the user").optional(),
+  error: z.string().describe("Error message if the request failed").optional(),
+});
+
+export type jamfGetJamfUserComputerIdOutputType = z.infer<typeof jamfGetJamfUserComputerIdOutputSchema>;
+export type jamfGetJamfUserComputerIdFunction = ActionFunction<
+  jamfGetJamfUserComputerIdParamsType,
+  AuthParamsType,
+  jamfGetJamfUserComputerIdOutputType
+>;
+
+export const jamfLockJamfComputerByIdParamsSchema = z.object({
+  computerId: z.string().describe("The computer ID of the device to lock"),
+  passcode: z.string().describe("Six digit passcode to unlock the computer afterwards"),
+});
+
+export type jamfLockJamfComputerByIdParamsType = z.infer<typeof jamfLockJamfComputerByIdParamsSchema>;
+
+export const jamfLockJamfComputerByIdOutputSchema = z.object({
+  success: z.boolean().describe("Whether the lock command was successful"),
+  error: z.string().describe("Error message if the lock command failed").optional(),
+});
+
+export type jamfLockJamfComputerByIdOutputType = z.infer<typeof jamfLockJamfComputerByIdOutputSchema>;
+export type jamfLockJamfComputerByIdFunction = ActionFunction<
+  jamfLockJamfComputerByIdParamsType,
+  AuthParamsType,
+  jamfLockJamfComputerByIdOutputType
+>;
