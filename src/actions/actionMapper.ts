@@ -220,6 +220,8 @@ import {
   jamfLockJamfComputerByIdOutputSchema,
   oktaTriggerOktaWorkflowParamsSchema,
   oktaTriggerOktaWorkflowOutputSchema,
+  gitlabSearchGroupOutputSchema,
+  gitlabSearchGroupParamsSchema,
 } from "./autogen/types.js";
 import validateAddress from "./providers/googlemaps/validateAddress.js";
 import add from "./providers/math/add.js";
@@ -330,6 +332,7 @@ import archiveChannel from "./providers/slack/archiveChannel.js";
 import getJamfUserComputerId from "./providers/jamf/getJamfUserComputerId.js";
 import lockJamfComputerById from "./providers/jamf/lockJamfComputerById.js";
 import triggerOktaWorkflow from "./providers/okta/triggerOktaWorkflow.js";
+import searchGroup from "./providers/gitlab/searchGroup.js";
 
 interface ActionFunctionComponents {
   // eslint-disable-next-line
@@ -942,6 +945,13 @@ export const ActionMapper: Record<ProviderName, Record<string, ActionFunctionCom
       fn: triggerOktaWorkflow,
       paramsSchema: oktaTriggerOktaWorkflowParamsSchema,
       outputSchema: oktaTriggerOktaWorkflowOutputSchema,
+    },
+  },
+  gitlab: {
+    searchGroup: {
+      fn: searchGroup,
+      paramsSchema: gitlabSearchGroupParamsSchema,
+      outputSchema: gitlabSearchGroupOutputSchema,
     },
   },
 };
