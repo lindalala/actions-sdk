@@ -59,7 +59,7 @@ interface GitLabBlobWithCorrelation {
 }
 
 async function gitlabFetch<T = unknown>(endpoint: string, authToken: string): Promise<T> {
-  const res = await fetch(`${GITLAB_API_URL}${endpoint}`, {
+  const res = await fetch(endpoint, {
     headers: { Authorization: `Bearer ${authToken}` },
   });
   if (!res.ok) throw new Error(`GitLab API error: ${res.status} ${res.statusText}`);
