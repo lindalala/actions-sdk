@@ -852,7 +852,7 @@ export const jiraCreateJiraTicketDefinition: ActionTemplate = {
       },
       issueType: {
         type: "string",
-        description: "The issue type of the new ticket",
+        description: "The issue type of the new ticket. Should be Epic, Story, Task, Bug, Sub-task, etc.",
       },
       reporter: {
         type: "string",
