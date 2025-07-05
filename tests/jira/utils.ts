@@ -7,3 +7,6 @@ export const jiraConfig = {
   issueId: "your-issueId-here",
   assignee: "your-assignee-here",
 };
+
+// export const provider = "jira";
+export const provider = "jiraOrg";
