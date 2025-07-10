@@ -236,6 +236,10 @@ import {
   googleOauthSearchDriveByQueryParamsSchema,
   googleOauthSearchDriveByQueryAndGetFileContentParamsSchema,
   googleOauthSearchDriveByQueryAndGetFileContentOutputSchema,
+  githubGetFileContentParamsSchema,
+  githubGetFileContentOutputSchema,
+  githubListDirectoryOutputSchema,
+  githubListDirectoryParamsSchema,
 } from "./autogen/types.js";
 import validateAddress from "./providers/googlemaps/validateAddress.js";
 import add from "./providers/math/add.js";
@@ -354,6 +358,8 @@ import searchSalesforceRecords from "./providers/salesforce/searchSalesforceReco
 import getDriveFileContentById from "./providers/google-oauth/getDriveFileContentById.js";
 import searchDriveByQuery from "./providers/google-oauth/searchDriveByQuery.js";
 import searchDriveByQueryAndGetFileContent from "./providers/google-oauth/searchDriveByQueryAndGetFileContent.js";
+import getFileContent from "./providers/github/getFileContent.js";
+import listDirectory from "./providers/github/listDirectory.js";
 
 interface ActionFunctionComponents {
   // eslint-disable-next-line
@@ -935,6 +941,16 @@ export const ActionMapper: Record<ProviderName, Record<string, ActionFunctionCom
       fn: listPullRequests,
       paramsSchema: githubListPullRequestsParamsSchema,
       outputSchema: githubListPullRequestsOutputSchema,
+    },
+    getFileContent: {
+      fn: getFileContent,
+      paramsSchema: githubGetFileContentParamsSchema,
+      outputSchema: githubGetFileContentOutputSchema,
+    },
+    listDirectory: {
+      fn: listDirectory,
+      paramsSchema: githubListDirectoryParamsSchema,
+      outputSchema: githubListDirectoryOutputSchema,
     },
   },
   notion: {

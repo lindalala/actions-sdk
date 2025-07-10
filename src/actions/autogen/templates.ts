@@ -9271,6 +9271,128 @@ export const githubListPullRequestsDefinition: ActionTemplate = {
   name: "listPullRequests",
   provider: "github",
 };
+export const githubGetFileContentDefinition: ActionTemplate = {
+  description: "Get specified file content from a GitHub repository",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: ["organization", "repository", "path"],
+    properties: {
+      organization: {
+        type: "string",
+        description: "The organization that owns the repository",
+      },
+      repository: {
+        type: "string",
+        description: "The repository name",
+      },
+      path: {
+        type: "string",
+        description: "The file path to get content from",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the operation was successful",
+      },
+      error: {
+        type: "string",
+        description: "The error that occurred if the operation was not successful",
+      },
+      content: {
+        type: "string",
+        description: "The decoded file content as a string",
+      },
+      size: {
+        type: "number",
+        description: "The size of the file in bytes",
+      },
+      name: {
+        type: "string",
+        description: "The name of the file",
+      },
+      htmlUrl: {
+        type: "string",
+        description: "The URL of the file in the Github UI",
+      },
+    },
+  },
+  name: "getFileContent",
+  provider: "github",
+};
+export const githubListDirectoryDefinition: ActionTemplate = {
+  description: "List directory contents of a path in a GitHub repository",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: ["organization", "repository", "path"],
+    properties: {
+      organization: {
+        type: "string",
+        description: "The organization that owns the repository",
+      },
+      repository: {
+        type: "string",
+        description: "The repository name",
+      },
+      path: {
+        type: "string",
+        description: "The path to list directory contents from",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the operation was successful",
+      },
+      error: {
+        type: "string",
+        description: "Error message if the operation failed",
+      },
+      content: {
+        type: "array",
+        description: "Array of directory contents",
+        items: {
+          type: "object",
+          required: ["name", "path", "type", "size", "htmlUrl"],
+          properties: {
+            name: {
+              type: "string",
+              description: "The name of the file",
+            },
+            path: {
+              type: "string",
+              description: "The path of the file",
+            },
+            type: {
+              type: "string",
+              description: "The type of the file",
+            },
+            size: {
+              type: "number",
+              description: "The size of the file in bytes",
+            },
+            htmlUrl: {
+              type: "string",
+              description: "The URL of the file in the Github UI",
+            },
+          },
+        },
+      },
+    },
+  },
+  name: "listDirectory",
+  provider: "github",
+};
 export const githubSearchRepositoryDefinition: ActionTemplate = {
   description: "Search for code, issues and pull requests within a repository in a GitHub organization",
   scopes: [],

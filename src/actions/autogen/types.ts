@@ -4795,6 +4795,62 @@ export type githubListPullRequestsFunction = ActionFunction<
   githubListPullRequestsOutputType
 >;
 
+export const githubGetFileContentParamsSchema = z.object({
+  organization: z.string().describe("The organization that owns the repository"),
+  repository: z.string().describe("The repository name"),
+  path: z.string().describe("The file path to get content from"),
+});
+
+export type githubGetFileContentParamsType = z.infer<typeof githubGetFileContentParamsSchema>;
+
+export const githubGetFileContentOutputSchema = z.object({
+  success: z.boolean().describe("Whether the operation was successful"),
+  error: z.string().describe("The error that occurred if the operation was not successful").optional(),
+  content: z.string().describe("The decoded file content as a string").optional(),
+  size: z.number().describe("The size of the file in bytes").optional(),
+  name: z.string().describe("The name of the file").optional(),
+  htmlUrl: z.string().describe("The URL of the file in the Github UI").optional(),
+});
+
+export type githubGetFileContentOutputType = z.infer<typeof githubGetFileContentOutputSchema>;
+export type githubGetFileContentFunction = ActionFunction<
+  githubGetFileContentParamsType,
+  AuthParamsType,
+  githubGetFileContentOutputType
+>;
+
+export const githubListDirectoryParamsSchema = z.object({
+  organization: z.string().describe("The organization that owns the repository"),
+  repository: z.string().describe("The repository name"),
+  path: z.string().describe("The path to list directory contents from"),
+});
+
+export type githubListDirectoryParamsType = z.infer<typeof githubListDirectoryParamsSchema>;
+
+export const githubListDirectoryOutputSchema = z.object({
+  success: z.boolean().describe("Whether the operation was successful"),
+  error: z.string().describe("Error message if the operation failed").optional(),
+  content: z
+    .array(
+      z.object({
+        name: z.string().describe("The name of the file"),
+        path: z.string().describe("The path of the file"),
+        type: z.string().describe("The type of the file"),
+        size: z.number().describe("The size of the file in bytes"),
+        htmlUrl: z.string().describe("The URL of the file in the Github UI"),
+      }),
+    )
+    .describe("Array of directory contents")
+    .optional(),
+});
+
+export type githubListDirectoryOutputType = z.infer<typeof githubListDirectoryOutputSchema>;
+export type githubListDirectoryFunction = ActionFunction<
+  githubListDirectoryParamsType,
+  AuthParamsType,
+  githubListDirectoryOutputType
+>;
+
 export const githubSearchRepositoryParamsSchema = z.object({
   organization: z.string().describe("The organization to search for data in"),
   repository: z.string().describe("The repository to search for data in"),
