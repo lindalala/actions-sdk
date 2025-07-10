@@ -94,6 +94,11 @@ import {
   asanaListAsanaTasksByProjectDefinition,
   notionSearchByTitleDefinition,
   asanaGetTasksDetailsDefinition,
+  linearGetIssueDetailsDefinition,
+  linearGetProjectsDefinition,
+  linearGetProjectDetailsDefinition,
+  linearGetTeamDetailsDefinition,
+  linearGetTeamsDefinition,
   jamfGetJamfComputerInventoryDefinition,
   jamfGetJamfFileVaultRecoveryKeyDefinition,
   oktaListOktaUsersDefinition,
@@ -375,6 +380,16 @@ export const ACTION_GROUPS: ActionGroups = {
       oktaResetMFADefinition,
       oktaListMFADefinition,
       oktaTriggerOktaWorkflowDefinition,
+    ],
+  },
+  LINEAR: {
+    description: "Actions for interacting with Linear",
+    actions: [
+      linearGetIssueDetailsDefinition,
+      linearGetProjectsDefinition,
+      linearGetProjectDetailsDefinition,
+      linearGetTeamDetailsDefinition,
+      linearGetTeamsDefinition,
     ],
   },
 };

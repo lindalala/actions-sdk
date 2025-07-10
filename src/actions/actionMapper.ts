@@ -240,6 +240,18 @@ import {
   githubGetFileContentOutputSchema,
   githubListDirectoryOutputSchema,
   githubListDirectoryParamsSchema,
+  linearGetIssuesParamsSchema,
+  linearGetIssuesOutputSchema,
+  linearGetIssueDetailsParamsSchema,
+  linearGetIssueDetailsOutputSchema,
+  linearGetProjectDetailsParamsSchema,
+  linearGetProjectDetailsOutputSchema,
+  linearGetTeamDetailsParamsSchema,
+  linearGetTeamDetailsOutputSchema,
+  linearGetProjectsParamsSchema,
+  linearGetProjectsOutputSchema,
+  linearGetTeamsParamsSchema,
+  linearGetTeamsOutputSchema,
 } from "./autogen/types.js";
 import validateAddress from "./providers/googlemaps/validateAddress.js";
 import add from "./providers/math/add.js";
@@ -360,6 +372,12 @@ import searchDriveByQuery from "./providers/google-oauth/searchDriveByQuery.js";
 import searchDriveByQueryAndGetFileContent from "./providers/google-oauth/searchDriveByQueryAndGetFileContent.js";
 import getFileContent from "./providers/github/getFileContent.js";
 import listDirectory from "./providers/github/listDirectory.js";
+import getIssueDetails from "./providers/linear/getIssueDetails.js";
+import getIssues from "./providers/linear/getIssues.js";
+import getProjectDetails from "./providers/linear/getProjectDetails.js";
+import getTeamDetails from "./providers/linear/getTeamDetails.js";
+import getProjects from "./providers/linear/getProjects.js";
+import getTeams from "./providers/linear/getTeams.js";
 
 interface ActionFunctionComponents {
   // eslint-disable-next-line
@@ -1027,6 +1045,38 @@ export const ActionMapper: Record<ProviderName, Record<string, ActionFunctionCom
       fn: searchGroup,
       paramsSchema: gitlabSearchGroupParamsSchema,
       outputSchema: gitlabSearchGroupOutputSchema,
+    },
+  },
+  linear: {
+    getIssues: {
+      fn: getIssues,
+      paramsSchema: linearGetIssuesParamsSchema,
+      outputSchema: linearGetIssuesOutputSchema,
+    },
+    getIssueDetails: {
+      fn: getIssueDetails,
+      paramsSchema: linearGetIssueDetailsParamsSchema,
+      outputSchema: linearGetIssueDetailsOutputSchema,
+    },
+    getProjects: {
+      fn: getProjects,
+      paramsSchema: linearGetProjectsParamsSchema,
+      outputSchema: linearGetProjectsOutputSchema,
+    },
+    getProjectDetails: {
+      fn: getProjectDetails,
+      paramsSchema: linearGetProjectDetailsParamsSchema,
+      outputSchema: linearGetProjectDetailsOutputSchema,
+    },
+    getTeamDetails: {
+      fn: getTeamDetails,
+      paramsSchema: linearGetTeamDetailsParamsSchema,
+      outputSchema: linearGetTeamDetailsOutputSchema,
+    },
+    getTeams: {
+      fn: getTeams,
+      paramsSchema: linearGetTeamsParamsSchema,
+      outputSchema: linearGetTeamsOutputSchema,
     },
   },
 };
