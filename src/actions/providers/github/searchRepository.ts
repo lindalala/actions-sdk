@@ -149,9 +149,10 @@ const searchRepository: githubSearchRepositoryFunction = async ({
     };
   });
 
-  // Search ISSUES & PRs
+  // Search Issues and PRs
   const issueResults = await octokit.rest.search.issuesAndPullRequests({
-    q: `${query} repo:${organization}/${repository}`,
+    q: `${query} repo:${organization}/${repository} (is:issue OR is:pull-request)`,
+    advanced_search: "true",
   });
 
   const prItems = issueResults.data.items.filter(item => item.pull_request).slice(0, MAX_ISSUES_OR_PRS);
