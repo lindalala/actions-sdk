@@ -10007,3 +10007,643 @@ export const gitlabSearchGroupDefinition: ActionTemplate = {
   name: "searchGroup",
   provider: "gitlab",
 };
+export const linearGetIssuesDefinition: ActionTemplate = {
+  description: "Get Linear issues with optional query filter",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: [],
+    properties: {
+      query: {
+        type: "string",
+        description: "Optional query string to filter issues",
+      },
+      maxResults: {
+        type: "number",
+        description: "Optional limit to number of results",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the operation was successful",
+      },
+      error: {
+        type: "string",
+        description: "Error message if the operation failed",
+      },
+      issues: {
+        type: "array",
+        description: "List of issues matching the query",
+        items: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "The issue ID",
+            },
+            title: {
+              type: "string",
+              description: "The issue title",
+            },
+            labels: {
+              type: "array",
+              description: "The issue labels",
+              items: {
+                type: "string",
+              },
+            },
+            state: {
+              type: "string",
+              description: "The issue state",
+            },
+            assignee: {
+              type: "object",
+              description: "The issue assignee",
+              properties: {
+                id: {
+                  type: "string",
+                  description: "The assignee ID",
+                },
+                name: {
+                  type: "string",
+                  description: "The assignee name",
+                },
+              },
+            },
+            due_date: {
+              type: "string",
+              description: "The issue due date",
+            },
+            project: {
+              type: "object",
+              description: "The project the issue belongs to",
+              properties: {
+                id: {
+                  type: "string",
+                  description: "The project ID",
+                },
+                name: {
+                  type: "string",
+                  description: "The project name",
+                },
+              },
+            },
+            team: {
+              type: "object",
+              description: "The team the issue belongs to",
+              properties: {
+                id: {
+                  type: "string",
+                  description: "The team ID",
+                },
+                name: {
+                  type: "string",
+                  description: "The team name",
+                },
+              },
+            },
+            url: {
+              type: "string",
+              description: "The issue URL",
+            },
+            comments: {
+              type: "array",
+              description: "The issue comments",
+              items: {
+                type: "object",
+                properties: {
+                  author_name: {
+                    type: "string",
+                    description: "The comment author name",
+                  },
+                  comment: {
+                    type: "string",
+                    description: "The comment content",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  name: "getIssues",
+  provider: "linear",
+};
+export const linearGetIssueDetailsDefinition: ActionTemplate = {
+  description: "Get detailed information about a Linear issue",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: ["issueId"],
+    properties: {
+      issueId: {
+        type: "string",
+        description: "The ID of the Linear issue to retrieve",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the operation was successful",
+      },
+      error: {
+        type: "string",
+        description: "Error message if the operation failed",
+      },
+      issue: {
+        type: "object",
+        description: "The issue details",
+        properties: {
+          id: {
+            type: "string",
+            description: "The issue ID",
+          },
+          title: {
+            type: "string",
+            description: "The issue title",
+          },
+          description: {
+            type: "string",
+            description: "The issue description",
+          },
+          state: {
+            type: "string",
+            description: "The issue state",
+          },
+          assignee: {
+            type: "object",
+            description: "The issue assignee",
+            properties: {
+              id: {
+                type: "string",
+                description: "The assignee ID",
+              },
+              name: {
+                type: "string",
+                description: "The assignee name",
+              },
+            },
+          },
+          creator: {
+            type: "object",
+            description: "The issue creator",
+            properties: {
+              id: {
+                type: "string",
+                description: "The creator ID",
+              },
+              name: {
+                type: "string",
+                description: "The creator name",
+              },
+            },
+          },
+          team: {
+            type: "object",
+            description: "The team the issue belongs to",
+            properties: {
+              id: {
+                type: "string",
+                description: "The team ID",
+              },
+              name: {
+                type: "string",
+                description: "The team name",
+              },
+            },
+          },
+          project: {
+            type: "object",
+            description: "The project the issue belongs to",
+            properties: {
+              id: {
+                type: "string",
+                description: "The project ID",
+              },
+              name: {
+                type: "string",
+                description: "The project name",
+              },
+            },
+          },
+          priority: {
+            type: "number",
+            description: "The issue priority (0-4)",
+          },
+          estimate: {
+            type: "number",
+            description: "The issue estimate in story points",
+          },
+          dueDate: {
+            type: "string",
+            description: "The issue due date",
+          },
+          createdAt: {
+            type: "string",
+            description: "When the issue was created",
+          },
+          updatedAt: {
+            type: "string",
+            description: "When the issue was last updated",
+          },
+          labels: {
+            type: "array",
+            description: "The issue labels",
+            items: {
+              type: "string",
+            },
+          },
+          url: {
+            type: "string",
+            description: "The issue URL",
+          },
+          comments: {
+            type: "array",
+            description: "The issue comments",
+            items: {
+              type: "object",
+              properties: {
+                author_name: {
+                  type: "string",
+                  description: "The comment author name",
+                },
+                comment: {
+                  type: "string",
+                  description: "The comment content",
+                },
+              },
+            },
+          },
+          content: {
+            type: "string",
+            description: "The issue content",
+          },
+        },
+      },
+    },
+  },
+  name: "getIssueDetails",
+  provider: "linear",
+};
+export const linearGetProjectsDefinition: ActionTemplate = {
+  description: "Get all Linear projects",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: [],
+    properties: {},
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the operation was successful",
+      },
+      error: {
+        type: "string",
+        description: "Error message if the operation failed",
+      },
+      projects: {
+        type: "array",
+        description: "List of all projects",
+        items: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "The project ID",
+            },
+            name: {
+              type: "string",
+              description: "The project name",
+            },
+            status: {
+              type: "string",
+              description: "The project status",
+            },
+            labels: {
+              type: "array",
+              description: "The project labels",
+              items: {
+                type: "string",
+              },
+            },
+            content: {
+              type: "string",
+              description: "The project content",
+            },
+            description: {
+              type: "string",
+              description: "The project description",
+            },
+            creator: {
+              type: "object",
+              description: "The project creator",
+              properties: {
+                id: {
+                  type: "string",
+                  description: "The creator ID",
+                },
+                name: {
+                  type: "string",
+                  description: "The creator name",
+                },
+              },
+            },
+            lead: {
+              type: "object",
+              description: "The project lead",
+              properties: {
+                id: {
+                  type: "string",
+                  description: "The lead ID",
+                },
+                name: {
+                  type: "string",
+                  description: "The lead name",
+                },
+              },
+            },
+            progress: {
+              type: "number",
+              description: "The project progress percentage",
+            },
+            url: {
+              type: "string",
+              description: "The project URL",
+            },
+          },
+        },
+      },
+    },
+  },
+  name: "getProjects",
+  provider: "linear",
+};
+export const linearGetProjectDetailsDefinition: ActionTemplate = {
+  description: "Get detailed information about a Linear project",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: ["projectId"],
+    properties: {
+      projectId: {
+        type: "string",
+        description: "The ID of the Linear project to retrieve",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the operation was successful",
+      },
+      error: {
+        type: "string",
+        description: "Error message if the operation failed",
+      },
+      project: {
+        type: "object",
+        description: "The project details",
+        properties: {
+          id: {
+            type: "string",
+            description: "The project ID",
+          },
+          name: {
+            type: "string",
+            description: "The project name",
+          },
+          description: {
+            type: "string",
+            description: "The project description",
+          },
+          state: {
+            type: "string",
+            description: "The project state",
+          },
+          progress: {
+            type: "number",
+            description: "The project progress percentage",
+          },
+          targetDate: {
+            type: "string",
+            description: "The project target date",
+          },
+          createdAt: {
+            type: "string",
+            description: "When the project was created",
+          },
+          updatedAt: {
+            type: "string",
+            description: "When the project was last updated",
+          },
+          lead: {
+            type: "object",
+            description: "The project lead",
+            properties: {
+              id: {
+                type: "string",
+                description: "The lead ID",
+              },
+              name: {
+                type: "string",
+                description: "The lead name",
+              },
+            },
+          },
+          team: {
+            type: "object",
+            description: "The team the project belongs to",
+            properties: {
+              id: {
+                type: "string",
+                description: "The team ID",
+              },
+              name: {
+                type: "string",
+                description: "The team name",
+              },
+            },
+          },
+          issues: {
+            type: "array",
+            description: "The issues in the project",
+            items: {
+              type: "object",
+              properties: {
+                id: {
+                  type: "string",
+                  description: "The issue ID",
+                },
+                name: {
+                  type: "string",
+                  description: "The issue name",
+                },
+              },
+            },
+          },
+          url: {
+            type: "string",
+            description: "The project URL",
+          },
+          updates: {
+            type: "array",
+            description: "The project updates",
+            items: {
+              type: "object",
+              properties: {
+                id: {
+                  type: "string",
+                  description: "The update ID",
+                },
+                content: {
+                  type: "string",
+                  description: "The update content",
+                },
+                author_name: {
+                  type: "string",
+                  description: "The update author name",
+                },
+                created_at: {
+                  type: "string",
+                  description: "When the update was created",
+                },
+              },
+            },
+          },
+          content: {
+            type: "string",
+            description: "The project content",
+          },
+        },
+      },
+    },
+  },
+  name: "getProjectDetails",
+  provider: "linear",
+};
+export const linearGetTeamDetailsDefinition: ActionTemplate = {
+  description: "Get detailed information about a Linear team",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: ["teamId"],
+    properties: {
+      teamId: {
+        type: "string",
+        description: "The ID of the Linear team to retrieve",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the operation was successful",
+      },
+      error: {
+        type: "string",
+        description: "Error message if the operation failed",
+      },
+      team: {
+        type: "object",
+        description: "The team details",
+        properties: {
+          id: {
+            type: "string",
+            description: "The team ID",
+          },
+          name: {
+            type: "string",
+            description: "The team name",
+          },
+          identifier: {
+            type: "string",
+            description: "Used to identify issues from this team",
+          },
+          members: {
+            description: "The team members",
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                id: {
+                  type: "string",
+                },
+                name: {
+                  type: "string",
+                },
+                email: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  name: "getTeamDetails",
+  provider: "linear",
+};
+export const linearGetTeamsDefinition: ActionTemplate = {
+  description: "Get all teams in Linear",
+  scopes: [],
+  parameters: {
+    type: "object",
+    required: [],
+    properties: {},
+  },
+  output: {
+    type: "object",
+    required: ["success"],
+    properties: {
+      success: {
+        type: "boolean",
+        description: "Whether the operation was successful",
+      },
+      error: {
+        type: "string",
+        description: "Error message if the operation failed",
+      },
+      teams: {
+        type: "array",
+        description: "List of all teams",
+        items: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "The team ID",
+            },
+            name: {
+              type: "string",
+              description: "The team name",
+            },
+          },
+        },
+      },
+    },
+  },
+  name: "getTeams",
+  provider: "linear",
+};

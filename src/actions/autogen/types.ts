@@ -33,6 +33,7 @@ export enum ProviderName {
   NOTION = "notion",
   JAMF = "jamf",
   GITLAB = "gitlab",
+  LINEAR = "linear",
 }
 
 export type ActionFunction<P, A, O> = (input: { params: P; authParams: A }) => Promise<O>;
@@ -5118,3 +5119,300 @@ export type gitlabSearchGroupFunction = ActionFunction<
   AuthParamsType,
   gitlabSearchGroupOutputType
 >;
+
+export const linearGetIssuesParamsSchema = z.object({
+  query: z.string().describe("Optional query string to filter issues").optional(),
+  maxResults: z.number().describe("Optional limit to number of results").optional(),
+});
+
+export type linearGetIssuesParamsType = z.infer<typeof linearGetIssuesParamsSchema>;
+
+export const linearGetIssuesOutputSchema = z.object({
+  success: z.boolean().describe("Whether the operation was successful"),
+  error: z.string().describe("Error message if the operation failed").optional(),
+  issues: z
+    .array(
+      z.object({
+        id: z.string().describe("The issue ID").optional(),
+        title: z.string().describe("The issue title").optional(),
+        labels: z.array(z.string()).describe("The issue labels").optional(),
+        state: z.string().describe("The issue state").optional(),
+        assignee: z
+          .object({
+            id: z.string().describe("The assignee ID").optional(),
+            name: z.string().describe("The assignee name").optional(),
+          })
+          .describe("The issue assignee")
+          .optional(),
+        due_date: z.string().describe("The issue due date").optional(),
+        project: z
+          .object({
+            id: z.string().describe("The project ID").optional(),
+            name: z.string().describe("The project name").optional(),
+          })
+          .describe("The project the issue belongs to")
+          .optional(),
+        team: z
+          .object({
+            id: z.string().describe("The team ID").optional(),
+            name: z.string().describe("The team name").optional(),
+          })
+          .describe("The team the issue belongs to")
+          .optional(),
+        url: z.string().describe("The issue URL").optional(),
+        comments: z
+          .array(
+            z.object({
+              author_name: z.string().describe("The comment author name").optional(),
+              comment: z.string().describe("The comment content").optional(),
+            }),
+          )
+          .describe("The issue comments")
+          .optional(),
+      }),
+    )
+    .describe("List of issues matching the query")
+    .optional(),
+});
+
+export type linearGetIssuesOutputType = z.infer<typeof linearGetIssuesOutputSchema>;
+export type linearGetIssuesFunction = ActionFunction<
+  linearGetIssuesParamsType,
+  AuthParamsType,
+  linearGetIssuesOutputType
+>;
+
+export const linearGetIssueDetailsParamsSchema = z.object({
+  issueId: z.string().describe("The ID of the Linear issue to retrieve"),
+});
+
+export type linearGetIssueDetailsParamsType = z.infer<typeof linearGetIssueDetailsParamsSchema>;
+
+export const linearGetIssueDetailsOutputSchema = z.object({
+  success: z.boolean().describe("Whether the operation was successful"),
+  error: z.string().describe("Error message if the operation failed").optional(),
+  issue: z
+    .object({
+      id: z.string().describe("The issue ID").optional(),
+      title: z.string().describe("The issue title").optional(),
+      description: z.string().describe("The issue description").optional(),
+      state: z.string().describe("The issue state").optional(),
+      assignee: z
+        .object({
+          id: z.string().describe("The assignee ID").optional(),
+          name: z.string().describe("The assignee name").optional(),
+        })
+        .describe("The issue assignee")
+        .optional(),
+      creator: z
+        .object({
+          id: z.string().describe("The creator ID").optional(),
+          name: z.string().describe("The creator name").optional(),
+        })
+        .describe("The issue creator")
+        .optional(),
+      team: z
+        .object({
+          id: z.string().describe("The team ID").optional(),
+          name: z.string().describe("The team name").optional(),
+        })
+        .describe("The team the issue belongs to")
+        .optional(),
+      project: z
+        .object({
+          id: z.string().describe("The project ID").optional(),
+          name: z.string().describe("The project name").optional(),
+        })
+        .describe("The project the issue belongs to")
+        .optional(),
+      priority: z.number().describe("The issue priority (0-4)").optional(),
+      estimate: z.number().describe("The issue estimate in story points").optional(),
+      dueDate: z.string().describe("The issue due date").optional(),
+      createdAt: z.string().describe("When the issue was created").optional(),
+      updatedAt: z.string().describe("When the issue was last updated").optional(),
+      labels: z.array(z.string()).describe("The issue labels").optional(),
+      url: z.string().describe("The issue URL").optional(),
+      comments: z
+        .array(
+          z.object({
+            author_name: z.string().describe("The comment author name").optional(),
+            comment: z.string().describe("The comment content").optional(),
+          }),
+        )
+        .describe("The issue comments")
+        .optional(),
+      content: z.string().describe("The issue content").optional(),
+    })
+    .describe("The issue details")
+    .optional(),
+});
+
+export type linearGetIssueDetailsOutputType = z.infer<typeof linearGetIssueDetailsOutputSchema>;
+export type linearGetIssueDetailsFunction = ActionFunction<
+  linearGetIssueDetailsParamsType,
+  AuthParamsType,
+  linearGetIssueDetailsOutputType
+>;
+
+export const linearGetProjectsParamsSchema = z.object({});
+
+export type linearGetProjectsParamsType = z.infer<typeof linearGetProjectsParamsSchema>;
+
+export const linearGetProjectsOutputSchema = z.object({
+  success: z.boolean().describe("Whether the operation was successful"),
+  error: z.string().describe("Error message if the operation failed").optional(),
+  projects: z
+    .array(
+      z.object({
+        id: z.string().describe("The project ID").optional(),
+        name: z.string().describe("The project name").optional(),
+        status: z.string().describe("The project status").optional(),
+        labels: z.array(z.string()).describe("The project labels").optional(),
+        content: z.string().describe("The project content").optional(),
+        description: z.string().describe("The project description").optional(),
+        creator: z
+          .object({
+            id: z.string().describe("The creator ID").optional(),
+            name: z.string().describe("The creator name").optional(),
+          })
+          .describe("The project creator")
+          .optional(),
+        lead: z
+          .object({
+            id: z.string().describe("The lead ID").optional(),
+            name: z.string().describe("The lead name").optional(),
+          })
+          .describe("The project lead")
+          .optional(),
+        progress: z.number().describe("The project progress percentage").optional(),
+        url: z.string().describe("The project URL").optional(),
+      }),
+    )
+    .describe("List of all projects")
+    .optional(),
+});
+
+export type linearGetProjectsOutputType = z.infer<typeof linearGetProjectsOutputSchema>;
+export type linearGetProjectsFunction = ActionFunction<
+  linearGetProjectsParamsType,
+  AuthParamsType,
+  linearGetProjectsOutputType
+>;
+
+export const linearGetProjectDetailsParamsSchema = z.object({
+  projectId: z.string().describe("The ID of the Linear project to retrieve"),
+});
+
+export type linearGetProjectDetailsParamsType = z.infer<typeof linearGetProjectDetailsParamsSchema>;
+
+export const linearGetProjectDetailsOutputSchema = z.object({
+  success: z.boolean().describe("Whether the operation was successful"),
+  error: z.string().describe("Error message if the operation failed").optional(),
+  project: z
+    .object({
+      id: z.string().describe("The project ID").optional(),
+      name: z.string().describe("The project name").optional(),
+      description: z.string().describe("The project description").optional(),
+      state: z.string().describe("The project state").optional(),
+      progress: z.number().describe("The project progress percentage").optional(),
+      targetDate: z.string().describe("The project target date").optional(),
+      createdAt: z.string().describe("When the project was created").optional(),
+      updatedAt: z.string().describe("When the project was last updated").optional(),
+      lead: z
+        .object({
+          id: z.string().describe("The lead ID").optional(),
+          name: z.string().describe("The lead name").optional(),
+        })
+        .describe("The project lead")
+        .optional(),
+      team: z
+        .object({
+          id: z.string().describe("The team ID").optional(),
+          name: z.string().describe("The team name").optional(),
+        })
+        .describe("The team the project belongs to")
+        .optional(),
+      issues: z
+        .array(
+          z.object({
+            id: z.string().describe("The issue ID").optional(),
+            name: z.string().describe("The issue name").optional(),
+          }),
+        )
+        .describe("The issues in the project")
+        .optional(),
+      url: z.string().describe("The project URL").optional(),
+      updates: z
+        .array(
+          z.object({
+            id: z.string().describe("The update ID").optional(),
+            content: z.string().describe("The update content").optional(),
+            author_name: z.string().describe("The update author name").optional(),
+            created_at: z.string().describe("When the update was created").optional(),
+          }),
+        )
+        .describe("The project updates")
+        .optional(),
+      content: z.string().describe("The project content").optional(),
+    })
+    .describe("The project details")
+    .optional(),
+});
+
+export type linearGetProjectDetailsOutputType = z.infer<typeof linearGetProjectDetailsOutputSchema>;
+export type linearGetProjectDetailsFunction = ActionFunction<
+  linearGetProjectDetailsParamsType,
+  AuthParamsType,
+  linearGetProjectDetailsOutputType
+>;
+
+export const linearGetTeamDetailsParamsSchema = z.object({
+  teamId: z.string().describe("The ID of the Linear team to retrieve"),
+});
+
+export type linearGetTeamDetailsParamsType = z.infer<typeof linearGetTeamDetailsParamsSchema>;
+
+export const linearGetTeamDetailsOutputSchema = z.object({
+  success: z.boolean().describe("Whether the operation was successful"),
+  error: z.string().describe("Error message if the operation failed").optional(),
+  team: z
+    .object({
+      id: z.string().describe("The team ID").optional(),
+      name: z.string().describe("The team name").optional(),
+      identifier: z.string().describe("Used to identify issues from this team").optional(),
+      members: z
+        .array(z.object({ id: z.string().optional(), name: z.string().optional(), email: z.string().optional() }))
+        .describe("The team members")
+        .optional(),
+    })
+    .describe("The team details")
+    .optional(),
+});
+
+export type linearGetTeamDetailsOutputType = z.infer<typeof linearGetTeamDetailsOutputSchema>;
+export type linearGetTeamDetailsFunction = ActionFunction<
+  linearGetTeamDetailsParamsType,
+  AuthParamsType,
+  linearGetTeamDetailsOutputType
+>;
+
+export const linearGetTeamsParamsSchema = z.object({});
+
+export type linearGetTeamsParamsType = z.infer<typeof linearGetTeamsParamsSchema>;
+
+export const linearGetTeamsOutputSchema = z.object({
+  success: z.boolean().describe("Whether the operation was successful"),
+  error: z.string().describe("Error message if the operation failed").optional(),
+  teams: z
+    .array(
+      z.object({
+        id: z.string().describe("The team ID").optional(),
+        name: z.string().describe("The team name").optional(),
+      }),
+    )
+    .describe("List of all teams")
+    .optional(),
+});
+
+export type linearGetTeamsOutputType = z.infer<typeof linearGetTeamsOutputSchema>;
+export type linearGetTeamsFunction = ActionFunction<linearGetTeamsParamsType, AuthParamsType, linearGetTeamsOutputType>;
