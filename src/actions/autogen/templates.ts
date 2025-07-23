@@ -547,15 +547,15 @@ export const slackCreateChannelDefinition: ActionTemplate = {
   provider: "slack",
 };
 export const slackArchiveChannelDefinition: ActionTemplate = {
-  description: "Archives a Slack channel using a bot token",
+  description: "Archives a Slack channel using a bot token, joins the channel to archive if not already a member",
   scopes: ["channels:manage"],
   parameters: {
     type: "object",
-    required: ["channelId"],
+    required: ["channelName"],
     properties: {
-      channelId: {
+      channelName: {
         type: "string",
-        description: "The ID of the channel to archive",
+        description: "The name of the channel to archive",
       },
     },
   },
