@@ -4,7 +4,7 @@ import type {
   zendeskGetTicketDetailsOutputType,
   zendeskGetTicketDetailsParamsType,
 } from "../../autogen/types.js";
-import { axiosClient } from "../../util/axiosClient.js";
+import { axiosClientWithRetries } from "../../util/axiosClient.js";
 import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
 
 const getZendeskTicketDetails: zendeskGetTicketDetailsFunction = async ({
@@ -22,7 +22,7 @@ const getZendeskTicketDetails: zendeskGetTicketDetailsFunction = async ({
     throw new Error(MISSING_AUTH_TOKEN);
   }
 
-  const response = await axiosClient.request({
+  const response = await axiosClientWithRetries.request({
     url: url,
     method: "GET",
     headers: {
