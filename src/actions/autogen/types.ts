@@ -1273,6 +1273,34 @@ export type zendeskAssignTicketFunction = ActionFunction<
   zendeskAssignTicketOutputType
 >;
 
+export const zendeskSearchZendeskByQueryParamsSchema = z.object({
+  subdomain: z.string().describe("The subdomain of the Zendesk account"),
+  query: z
+    .string()
+    .describe(
+      'Search query string that can include filters like status, priority, tags, assignee, etc. Examples - status:open, priority:high, tags:bug, assignee:user@example.com, or combination like "status:open priority:high"',
+    ),
+  objectType: z
+    .enum(["ticket", "user", "organization", "group"])
+    .describe("The type of Zendesk object to search (defaults to ticket)")
+    .optional(),
+  limit: z.number().describe("Maximum number of objects to return (optional, defaults to 100)").optional(),
+});
+
+export type zendeskSearchZendeskByQueryParamsType = z.infer<typeof zendeskSearchZendeskByQueryParamsSchema>;
+
+export const zendeskSearchZendeskByQueryOutputSchema = z.object({
+  results: z.array(z.object({}).catchall(z.any())).describe("List of objects matching the query"),
+  count: z.number().describe("Number of objects found"),
+});
+
+export type zendeskSearchZendeskByQueryOutputType = z.infer<typeof zendeskSearchZendeskByQueryOutputSchema>;
+export type zendeskSearchZendeskByQueryFunction = ActionFunction<
+  zendeskSearchZendeskByQueryParamsType,
+  AuthParamsType,
+  zendeskSearchZendeskByQueryOutputType
+>;
+
 export const linkedinCreateShareLinkedinPostUrlParamsSchema = z.object({
   text: z.string().describe("The text for the linkedin post").optional(),
   url: z.string().describe("The url for the linkedin post").optional(),
