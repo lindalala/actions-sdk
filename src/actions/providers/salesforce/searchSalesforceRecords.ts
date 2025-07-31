@@ -15,6 +15,7 @@ const searchSalesforceRecords: salesforceSearchSalesforceRecordsFunction = async
 }): Promise<salesforceSearchSalesforceRecordsOutputType> => {
   const { authToken, baseUrl } = authParams;
   const { keyword, recordType, fieldsToSearch } = params;
+  const searchFields = Array.from(new Set([...fieldsToSearch, "Id"]));
 
   if (!authToken || !baseUrl) {
     return {
@@ -23,9 +24,9 @@ const searchSalesforceRecords: salesforceSearchSalesforceRecordsFunction = async
     };
   }
   const maxLimit = 25;
-  const dateFieldExists = fieldsToSearch.includes("CreatedDate");
+  const dateFieldExists = searchFields.includes("CreatedDate");
   const url = `${baseUrl}/services/data/v64.0/search/?q=${encodeURIComponent(
-    `FIND {${keyword}} RETURNING ${recordType} (${fieldsToSearch.join(", ") + (dateFieldExists ? " ORDER BY CreatedDate DESC" : "")}) LIMIT ${params.limit && params.limit <= maxLimit ? params.limit : maxLimit}`,
+    `FIND {${keyword}} RETURNING ${recordType} (${searchFields.join(", ") + (dateFieldExists ? " ORDER BY CreatedDate DESC" : "")}) LIMIT ${params.limit && params.limit <= maxLimit ? params.limit : maxLimit}`,
   )}`;
 
   try {
@@ -52,9 +53,20 @@ const searchSalesforceRecords: salesforceSearchSalesforceRecordsFunction = async
       }
     }
 
+    // Salesforce record types are confusing and non standard
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const recordsWithUrl = response.data.searchRecords.map((record: any) => {
+      const recordId = record.Id;
+      const webUrl = recordId ? `${baseUrl}/lightning/${recordId}` : undefined;
+      return {
+        ...record,
+        webUrl,
+      };
+    });
+
     return {
       success: true,
-      searchRecords: response.data.searchRecords,
+      searchRecords: recordsWithUrl,
     };
   } catch (error) {
     console.error("Error retrieving Salesforce record:", error);
