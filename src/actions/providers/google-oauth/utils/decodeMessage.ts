@@ -1,66 +1,74 @@
-export interface GmailMessage {
+import { convert } from "html-to-text";
+
+interface GmailMessage {
   payload: {
     mimeType: string;
-    body?: {
-      data?: string;
-      size: number;
-    };
+    body?: { data?: string; size: number };
     parts?: Array<{
-      partId: string;
       mimeType: string;
-      body: {
-        data?: string;
-        size: number;
-      };
-      parts?: Array<{
-        partId: string;
-        mimeType: string;
-        body: {
-          data?: string;
-          size: number;
-        };
-      }>;
+      body?: { data?: string; size: number };
+      parts?: GmailMessagePart[];
     }>;
   };
 }
 
-export function decodeGmailBase64(base64String: string): string {
-  // Gmail API uses URL-safe base64 encoding
-  const standardBase64 = base64String.replace(/-/g, "+").replace(/_/g, "/");
-
-  // Add padding if needed
-  const padded = standardBase64.padEnd(standardBase64.length + ((4 - (standardBase64.length % 4)) % 4), "=");
-
-  // Only works for Node.js environment
-  return Buffer.from(padded, "base64").toString("utf-8");
+interface GmailMessagePart {
+  mimeType: string;
+  body?: {
+    data?: string;
+    size: number;
+  };
+  parts?: GmailMessagePart[]; // recursive type for nesting
 }
 
 export function getEmailContent(message: GmailMessage): string | null {
-  let textContent: string | null = null;
+  const { mimeType, body, parts } = message.payload;
 
-  // Function to recursively search for plain text content in parts
-  function searchParts(parts: GmailMessage["payload"]["parts"]): void {
-    if (!parts) return;
-    for (const part of parts) {
-      if (part.mimeType === "text/plain" && part.body?.data && !textContent) {
-        textContent = decodeGmailBase64(part.body.data);
-      } else if (part.parts) {
-        // Recursively search nested parts
-        searchParts(part.parts);
+  if (mimeType === "text/plain" && body?.data) {
+    return tryDecode(body.data);
+  }
+
+  if (mimeType === "text/html" && body?.data) {
+    const htmlRaw = tryDecode(body.data);
+    if (htmlRaw) return convert(htmlRaw, { wordwrap: false });
+  }
+
+  const { plainText, htmlText } = searchParts(parts);
+  return plainText ?? htmlText ?? null;
+}
+
+function tryDecode(data?: string): string | null {
+  if (!data) return null;
+  try {
+    const base64 = data.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "=");
+    return Buffer.from(padded, "base64").toString("utf-8");
+  } catch {
+    return null;
+  }
+}
+
+function searchParts(parts?: GmailMessage["payload"]["parts"]): { plainText: string | null; htmlText: string | null } {
+  let plainText: string | null = null;
+  let htmlText: string | null = null;
+  if (!parts) return { plainText, htmlText };
+  for (const part of parts) {
+    const { mimeType, body, parts: subParts } = part;
+
+    if (mimeType === "text/plain" && !plainText) {
+      plainText = tryDecode(body?.data);
+    } else if (mimeType === "text/html" && !htmlText) {
+      const htmlRaw = tryDecode(body?.data);
+      if (htmlRaw) {
+        htmlText = convert(htmlRaw, { wordwrap: false });
       }
     }
-  }
 
-  // 1. Check if content is directly in the payload body (simple emails)
-  if (message.payload.body?.data && message.payload.mimeType === "text/plain") {
-    return decodeGmailBase64(message.payload.body.data);
+    if (subParts?.length) {
+      const result = searchParts(subParts);
+      if (!plainText && result.plainText) plainText = result.plainText;
+      if (!htmlText && result.htmlText) htmlText = result.htmlText;
+    }
   }
-
-  // 2. Search through parts for plain text content
-  if (message.payload.parts) {
-    searchParts(message.payload.parts);
-  }
-
-  // 3. Return plain text content or null
-  return textContent;
+  return { plainText, htmlText };
 }

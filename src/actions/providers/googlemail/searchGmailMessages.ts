@@ -1,12 +1,45 @@
+import { RateLimiter } from "limiter";
 import { axiosClient } from "../../util/axiosClient.js";
+import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
+import { getEmailContent } from "../google-oauth/utils/decodeMessage.js";
 import type {
   AuthParamsType,
   googlemailSearchGmailMessagesFunction,
   googlemailSearchGmailMessagesOutputType,
   googlemailSearchGmailMessagesParamsType,
 } from "../../autogen/types.js";
-import { MISSING_AUTH_TOKEN } from "../../util/missingAuthConstants.js";
-import { getEmailContent } from "../google-oauth/utils/decodeMessage.js";
+
+const MAX_EMAIL_CONTENTS_FETCHED = 50;
+const DEFAULT_EMAIL_CONTENTS_FETCHED = 25;
+const MAX_RESULTS_PER_REQUEST = 100;
+const MAX_EMAILS_FETCHED_CONCURRENTLY = 5;
+
+const limiter = new RateLimiter({ tokensPerInterval: MAX_EMAILS_FETCHED_CONCURRENTLY, interval: "second" });
+
+function cleanAndTruncateEmail(text: string, maxLength = 2000): string {
+  if (!text) return "";
+
+  // Remove quoted replies (naive)
+  text = text.replace(/^>.*$/gm, "");
+
+  // Remove signatures
+  const signatureMarkers = ["\nBest", "\nRegards", "\nThanks", "\nSincerely"];
+  for (const marker of signatureMarkers) {
+    const index = text.indexOf(marker);
+    if (index !== -1) {
+      text = text.slice(0, index).trim();
+      break;
+    }
+  }
+
+  // Normalize whitespace
+  text = text
+    .replace(/\r\n|\r/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  return text.slice(0, maxLength).trim();
+}
 
 const searchGmailMessages: googlemailSearchGmailMessagesFunction = async ({
   params,
@@ -20,71 +53,65 @@ const searchGmailMessages: googlemailSearchGmailMessagesFunction = async ({
   }
 
   const { query, maxResults } = params;
+  const max = Math.min(maxResults ?? DEFAULT_EMAIL_CONTENTS_FETCHED, MAX_EMAIL_CONTENTS_FETCHED);
 
   const allMessages = [];
-  const max = maxResults ?? 100;
   const errorMessages: string[] = [];
-  let pageToken = undefined;
+  let pageToken: string | undefined;
   let fetched = 0;
 
   try {
     while (fetched < max) {
-      const url: string =
+      const url =
         `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(query)}` +
         (pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : "") +
-        `&maxResults=${Math.min(100, max - fetched)}`;
+        `&maxResults=${Math.min(MAX_RESULTS_PER_REQUEST, max - fetched)}`;
 
       const listRes = await axiosClient.get(url, {
-        headers: {
-          Authorization: `Bearer ${authParams.authToken}`,
-        },
+        headers: { Authorization: `Bearer ${authParams.authToken}` },
       });
 
       const { messages: messageList = [], nextPageToken } = listRes.data;
       if (!Array.isArray(messageList) || messageList.length === 0) break;
 
-      const remaining = max - allMessages.length;
-      const batch = messageList.slice(0, remaining);
+      const batch = messageList.slice(0, max - allMessages.length);
+
       const results = await Promise.all(
         batch.map(async msg => {
           try {
+            await limiter.removeTokens(1);
+
             const msgRes = await axiosClient.get(
               `https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}?format=full`,
               {
-                headers: {
-                  Authorization: `Bearer ${authParams.authToken}`,
-                },
+                headers: { Authorization: `Bearer ${authParams.authToken}` },
+                validateStatus: () => true,
               },
             );
             const { id, threadId, snippet, labelIds, internalDate } = msgRes.data;
-            const emailBody = getEmailContent(msgRes.data) || "";
-            return {
-              id,
-              threadId,
-              snippet,
-              labelIds,
-              internalDate,
-              emailBody,
-            };
+            const rawBody = getEmailContent(msgRes.data) || "";
+            const emailBody = cleanAndTruncateEmail(rawBody);
+
+            return { id, threadId, snippet, labelIds, internalDate, emailBody };
           } catch (err) {
-            errorMessages.push(err instanceof Error ? err.message : "Failed to fetch message details");
+            const errorMessage = err instanceof Error ? err.message : "Failed to fetch message details";
+            errorMessages.push(errorMessage);
             return {
               id: msg.id,
               threadId: "",
               snippet: "",
               labelIds: [],
               internalDate: "",
-              payload: {},
-              error: err instanceof Error ? err.message : "Failed to fetch message details",
+              emailBody: "",
+              error: errorMessage,
             };
           }
         }),
       );
 
       allMessages.push(...results);
-
       fetched = allMessages.length;
-      if (!nextPageToken || allMessages.length >= max) break;
+      if (!nextPageToken || fetched >= max) break;
       pageToken = nextPageToken;
     }
 
@@ -93,10 +120,10 @@ const searchGmailMessages: googlemailSearchGmailMessagesFunction = async ({
       messages: allMessages,
       error: errorMessages.join("; "),
     };
-  } catch (error) {
+  } catch (err) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Unknown error searching Gmail",
+      error: err instanceof Error ? err.message : "Unknown error searching Gmail",
       messages: [],
     };
   }
