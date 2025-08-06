@@ -3677,6 +3677,46 @@ export type googleOauthDeleteGroupMemberFunction = ActionFunction<
   googleOauthDeleteGroupMemberOutputType
 >;
 
+export const googleOauthQueryGoogleBigQueryParamsSchema = z.object({
+  query: z.string().describe("The SQL query to execute in BigQuery"),
+  projectId: z.string().describe("The Google Cloud Project ID. If not provided, will use the default project"),
+  maxResults: z.number().describe("Maximum number of results to return. Defaults to 1000").optional(),
+  timeoutMs: z.number().describe("Timeout for the query in milliseconds. Defaults to 30000").optional(),
+  maximumBytesProcessed: z
+    .string()
+    .describe("Maximum bytes to process for the query. Defaults to 500000000 (500MB). Use -1 for no limit")
+    .optional(),
+});
+
+export type googleOauthQueryGoogleBigQueryParamsType = z.infer<typeof googleOauthQueryGoogleBigQueryParamsSchema>;
+
+export const googleOauthQueryGoogleBigQueryOutputSchema = z.object({
+  success: z.boolean().describe("Whether the query was executed successfully"),
+  data: z
+    .array(z.object({}).catchall(z.any()).describe("A row of data from the query result"))
+    .describe("The query results as an array of objects")
+    .optional(),
+  totalRows: z.string().describe("Total number of rows in the result set").optional(),
+  schema: z
+    .array(
+      z.object({
+        name: z.string().describe("Column name").optional(),
+        type: z.string().describe("Column data type").optional(),
+        mode: z.string().describe("Column mode (NULLABLE, REQUIRED, REPEATED)").optional(),
+      }),
+    )
+    .describe("Schema information for the result columns")
+    .optional(),
+  error: z.string().describe("Error message if query failed").optional(),
+});
+
+export type googleOauthQueryGoogleBigQueryOutputType = z.infer<typeof googleOauthQueryGoogleBigQueryOutputSchema>;
+export type googleOauthQueryGoogleBigQueryFunction = ActionFunction<
+  googleOauthQueryGoogleBigQueryParamsType,
+  AuthParamsType,
+  googleOauthQueryGoogleBigQueryOutputType
+>;
+
 export const googlemailSearchGmailMessagesParamsSchema = z.object({
   query: z.string().describe('Gmail search query (e.g. "from:alice subject:urgent")'),
   maxResults: z.number().describe("Maximum number of messages to return (optional)").optional(),
