@@ -4437,6 +4437,10 @@ export const googleOauthScheduleCalendarMeetingDefinition: ActionTemplate = {
         type: "boolean",
         description: "Whether to use Google Meet for the meeting",
       },
+      timeZone: {
+        type: "string",
+        description: "The time zone for the meeting, IANA Time Zone identifier (e.g., 'America/New_York')",
+      },
     },
   },
   output: {
@@ -4640,6 +4644,11 @@ export const googleOauthListCalendarEventsDefinition: ActionTemplate = {
           },
         },
       },
+      timezone: {
+        type: "string",
+        description:
+          "Timezone the user is currently based out of, given by their calender, follows the IANA Time Zone Database format, defaults to UTC if not defined",
+      },
       error: {
         type: "string",
         description: "Error message if listing failed",
@@ -4713,6 +4722,10 @@ export const googleOauthUpdateCalendarEventDefinition: ActionTemplate = {
                 description: "The organizer's name",
               },
             },
+          },
+          timeZone: {
+            type: "string",
+            description: "The time zone for the event, IANA Time Zone identifier (e.g., 'America/New_York')",
           },
         },
       },
@@ -4803,6 +4816,10 @@ export const googleOauthEditAGoogleCalendarEventDefinition: ActionTemplate = {
             description: "The organizer's display name",
           },
         },
+      },
+      timeZone: {
+        type: "string",
+        description: "The time zone for the event, IANA Time Zone identifier (e.g., 'America/New_York')",
       },
     },
   },

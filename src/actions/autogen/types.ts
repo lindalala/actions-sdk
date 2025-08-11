@@ -2296,6 +2296,10 @@ export const googleOauthScheduleCalendarMeetingParamsSchema = z.object({
     .describe("The attendees of the meeting")
     .optional(),
   useGoogleMeet: z.boolean().describe("Whether to use Google Meet for the meeting").optional(),
+  timeZone: z
+    .string()
+    .describe("The time zone for the meeting, IANA Time Zone identifier (e.g., 'America/New_York')")
+    .optional(),
 });
 
 export type googleOauthScheduleCalendarMeetingParamsType = z.infer<
@@ -2400,6 +2404,12 @@ export const googleOauthListCalendarEventsOutputSchema = z.object({
         .describe("A calendar event"),
     )
     .describe("List of events"),
+  timezone: z
+    .string()
+    .describe(
+      "Timezone the user is currently based out of, given by their calender, follows the IANA Time Zone Database format, defaults to UTC if not defined",
+    )
+    .optional(),
   error: z.string().describe("Error message if listing failed").optional(),
 });
 
@@ -2431,6 +2441,10 @@ export const googleOauthUpdateCalendarEventParamsSchema = z.object({
           displayName: z.string().describe("The organizer's name").optional(),
         })
         .describe("The new organizer of the event")
+        .optional(),
+      timeZone: z
+        .string()
+        .describe("The time zone for the event, IANA Time Zone identifier (e.g., 'America/New_York')")
         .optional(),
     })
     .describe("The fields to update on the event")
@@ -2472,6 +2486,10 @@ export const googleOauthEditAGoogleCalendarEventParamsSchema = z.object({
       displayName: z.string().describe("The organizer's display name").optional(),
     })
     .describe("The new organizer of the event")
+    .optional(),
+  timeZone: z
+    .string()
+    .describe("The time zone for the event, IANA Time Zone identifier (e.g., 'America/New_York')")
     .optional(),
 });
 
