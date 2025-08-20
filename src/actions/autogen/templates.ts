@@ -546,43 +546,17 @@ export const slackCreateChannelDefinition: ActionTemplate = {
   name: "createChannel",
   provider: "slack",
 };
-export const slackArchiveChannelDefinition: ActionTemplate = {
-  description: "Archives a Slack channel using a bot token, joins the channel to archive if not already a member",
-  scopes: ["channels:manage"],
-  parameters: {
-    type: "object",
-    required: ["channelName"],
-    properties: {
-      channelName: {
-        type: "string",
-        description: "The name of the channel to archive",
-      },
-    },
-  },
-  output: {
-    type: "object",
-    required: ["success"],
-    properties: {
-      success: {
-        type: "boolean",
-        description: "Whether the channel was archived successfully",
-      },
-      error: {
-        type: "string",
-        description: "The error that occurred if the channel was not archived successfully",
-      },
-    },
-  },
-  name: "archiveChannel",
-  provider: "slack",
-};
 export const slackSendMessageDefinition: ActionTemplate = {
   description: "Sends a message to a Slack channel",
   scopes: ["chat:write"],
   parameters: {
     type: "object",
-    required: ["channelName", "message"],
+    required: ["message"],
     properties: {
+      channelId: {
+        type: "string",
+        description: "The ID of the channel to send the message to",
+      },
       channelName: {
         type: "string",
         description: "The name of the Slack channel to send the message to (e.g. general, alerts)",

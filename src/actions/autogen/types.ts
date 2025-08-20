@@ -58,6 +58,7 @@ export const AuthParamsSchema = z.object({
   tenantId: z.string().optional(),
   refreshToken: z.string().optional(),
   redirectUri: z.string().optional(),
+  userEmail: z.string().optional(),
 });
 
 export type AuthParamsType = z.infer<typeof AuthParamsSchema>;
@@ -324,26 +325,12 @@ export type slackCreateChannelFunction = ActionFunction<
   slackCreateChannelOutputType
 >;
 
-export const slackArchiveChannelParamsSchema = z.object({
-  channelName: z.string().describe("The name of the channel to archive"),
-});
-
-export type slackArchiveChannelParamsType = z.infer<typeof slackArchiveChannelParamsSchema>;
-
-export const slackArchiveChannelOutputSchema = z.object({
-  success: z.boolean().describe("Whether the channel was archived successfully"),
-  error: z.string().describe("The error that occurred if the channel was not archived successfully").optional(),
-});
-
-export type slackArchiveChannelOutputType = z.infer<typeof slackArchiveChannelOutputSchema>;
-export type slackArchiveChannelFunction = ActionFunction<
-  slackArchiveChannelParamsType,
-  AuthParamsType,
-  slackArchiveChannelOutputType
->;
-
 export const slackSendMessageParamsSchema = z.object({
-  channelName: z.string().describe("The name of the Slack channel to send the message to (e.g. general, alerts)"),
+  channelId: z.string().describe("The ID of the channel to send the message to").optional(),
+  channelName: z
+    .string()
+    .describe("The name of the Slack channel to send the message to (e.g. general, alerts)")
+    .optional(),
   message: z.string().describe("The message content to send to Slack. Can include markdown formatting."),
 });
 
