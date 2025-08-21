@@ -25,7 +25,7 @@ const getDriveFileContentById: googleOauthGetDriveFileContentByIdFunction = asyn
   const BASE_URL = "https://www.googleapis.com/drive/v3/files/";
   const headers = { Authorization: `Bearer ${authParams.authToken}` };
 
-  const { limit } = params;
+  const { limit: charLimit, fileId } = params;
   const timeoutLimit =
     params.timeoutLimit !== undefined && params.timeoutLimit > 0 ? params.timeoutLimit * 1000 : 15_000;
   const axiosClient = createAxiosClientWithTimeout(timeoutLimit);
@@ -43,7 +43,7 @@ const getDriveFileContentById: googleOauthGetDriveFileContentByIdFunction = asyn
 
   try {
     // 1) metadata (possibly a shortcut)
-    let meta = await fetchMeta(params.fileId);
+    let meta = await fetchMeta(fileId);
 
     // 2) resolve shortcut transparently (re-point to target id + mime)
     if (meta.mimeType === "application/vnd.google-apps.shortcut" && meta.shortcutDetails?.targetId) {
@@ -123,8 +123,9 @@ const getDriveFileContentById: googleOauthGetDriveFileContentByIdFunction = asyn
       .replace(/\r?\n+/g, " ")
       .replace(/ +/g, " ");
     const originalLength = content.length;
-    if (limit && content.length > limit) {
-      content = content.slice(0, limit);
+    if (charLimit && content.length > charLimit) {
+      // TODO in the future do this around the most valuable snippet of the doc?
+      content = content.slice(0, charLimit);
     }
 
     return { success: true, content, fileName, fileLength: originalLength };
