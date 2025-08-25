@@ -573,11 +573,11 @@ export const slackSendMessageDefinition: ActionTemplate = {
     properties: {
       success: {
         type: "boolean",
-        description: "Whether the email was sent successfully",
+        description: "Whether the message was sent successfully",
       },
       error: {
         type: "string",
-        description: "The error that occurred if the email was not sent successfully",
+        description: "The error that occurred if the message was not sent successfully",
       },
       messageId: {
         type: "string",
@@ -6769,6 +6769,7 @@ export const googleOauthGetPresentationDefinition: ActionTemplate = {
                   properties: {
                     objectId: "string",
                     text: "string",
+                    styling: "string",
                   },
                 },
               },
