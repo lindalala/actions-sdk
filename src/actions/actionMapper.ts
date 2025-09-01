@@ -292,6 +292,8 @@ import {
   firecrawlGetTopNSearchResultUrlsOutputSchema,
   googleOauthSearchDriveByKeywordsAndGetFileContentParamsSchema,
   googleOauthSearchDriveByKeywordsAndGetFileContentOutputSchema,
+  perplexityPerplexityDeepResearchParamsSchema,
+  perplexityPerplexityDeepResearchOutputSchema,
 } from "./autogen/types.js";
 import validateAddress from "./providers/googlemaps/validateAddress.js";
 import add from "./providers/math/add.js";
@@ -438,6 +440,7 @@ import sendGmail from "./providers/googlemail/sendGmail.js";
 import searchAndScrape from "./providers/firecrawl/searchAndScrape.js";
 import firecrawlGetTopNSearchResultUrls from "./providers/firecrawl/getTopNSearchResultUrls.js";
 import searchDriveByKeywordsAndGetFileContent from "./providers/google-oauth/searchDriveByKeywordsAndGetFileContent.js";
+import perplexityDeepResearch from "./providers/perplexity/perplexityDeepResearch.js";
 
 interface ActionFunctionComponents {
   // eslint-disable-next-line
@@ -510,6 +513,13 @@ export const ActionMapper: Record<ProviderName, Record<string, ActionFunctionCom
       fn: fillTemplate,
       paramsSchema: genericFillTemplateParamsSchema,
       outputSchema: genericFillTemplateOutputSchema,
+    },
+  },
+  perplexity: {
+    perplexityDeepResearch: {
+      fn: perplexityDeepResearch,
+      paramsSchema: perplexityPerplexityDeepResearchParamsSchema,
+      outputSchema: perplexityPerplexityDeepResearchOutputSchema,
     },
   },
   asana: {
