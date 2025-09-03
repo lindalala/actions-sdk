@@ -250,6 +250,8 @@ import {
   githubGetFileContentOutputSchema,
   githubListDirectoryOutputSchema,
   githubListDirectoryParamsSchema,
+  githubGetBranchParamsSchema,
+  githubGetBranchOutputSchema,
   githubListCommitsParamsSchema,
   githubListCommitsOutputSchema,
   githubGetPullRequestDetailsParamsSchema,
@@ -423,6 +425,7 @@ import searchDriveByQueryAndGetFileContent from "./providers/google-oauth/search
 import queryGoogleBigQuery from "./providers/google-oauth/queryGoogleBigQuery.js";
 import getFileContent from "./providers/github/getFileContent.js";
 import listDirectory from "./providers/github/listDirectory.js";
+import getBranch from "./providers/github/getBranch.js";
 import listCommits from "./providers/github/listCommits.js";
 import getPullRequestDetails from "./providers/github/getPullRequestDetails.js";
 import getIssueDetails from "./providers/linear/getIssueDetails.js";
@@ -1095,6 +1098,11 @@ export const ActionMapper: Record<ProviderName, Record<string, ActionFunctionCom
       fn: listDirectory,
       paramsSchema: githubListDirectoryParamsSchema,
       outputSchema: githubListDirectoryOutputSchema,
+    },
+    getBranch: {
+      fn: getBranch,
+      paramsSchema: githubGetBranchParamsSchema,
+      outputSchema: githubGetBranchOutputSchema,
     },
     listCommits: {
       fn: listCommits,
