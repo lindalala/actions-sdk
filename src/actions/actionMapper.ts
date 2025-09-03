@@ -250,6 +250,10 @@ import {
   githubGetFileContentOutputSchema,
   githubListDirectoryOutputSchema,
   githubListDirectoryParamsSchema,
+  githubListCommitsParamsSchema,
+  githubListCommitsOutputSchema,
+  githubGetPullRequestDetailsParamsSchema,
+  githubGetPullRequestDetailsOutputSchema,
   linearGetIssuesParamsSchema,
   linearGetIssuesOutputSchema,
   linearGetIssueDetailsParamsSchema,
@@ -419,6 +423,8 @@ import searchDriveByQueryAndGetFileContent from "./providers/google-oauth/search
 import queryGoogleBigQuery from "./providers/google-oauth/queryGoogleBigQuery.js";
 import getFileContent from "./providers/github/getFileContent.js";
 import listDirectory from "./providers/github/listDirectory.js";
+import listCommits from "./providers/github/listCommits.js";
+import getPullRequestDetails from "./providers/github/getPullRequestDetails.js";
 import getIssueDetails from "./providers/linear/getIssueDetails.js";
 import getIssues from "./providers/linear/getIssues.js";
 import getProjectDetails from "./providers/linear/getProjectDetails.js";
@@ -1089,6 +1095,16 @@ export const ActionMapper: Record<ProviderName, Record<string, ActionFunctionCom
       fn: listDirectory,
       paramsSchema: githubListDirectoryParamsSchema,
       outputSchema: githubListDirectoryOutputSchema,
+    },
+    listCommits: {
+      fn: listCommits,
+      paramsSchema: githubListCommitsParamsSchema,
+      outputSchema: githubListCommitsOutputSchema,
+    },
+    getPullRequestDetails: {
+      fn: getPullRequestDetails,
+      paramsSchema: githubGetPullRequestDetailsParamsSchema,
+      outputSchema: githubGetPullRequestDetailsOutputSchema,
     },
   },
   notion: {
