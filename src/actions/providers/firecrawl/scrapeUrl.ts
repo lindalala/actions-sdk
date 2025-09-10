@@ -18,7 +18,7 @@ const scrapeUrl: firecrawlScrapeUrlFunction = async ({
     apiKey: authParams.apiKey,
   });
 
-  const result = await firecrawl.scrapeUrl(params.url, {
+  const result = await firecrawl.scrape(params.url, {
     ...(params.waitMs !== undefined && {
       actions: [{ type: "wait", milliseconds: params.waitMs }],
     }),
@@ -29,15 +29,10 @@ const scrapeUrl: firecrawlScrapeUrlFunction = async ({
       params.formats.length > 0 && {
         formats: params.formats,
       }),
+    zeroDataRetention: true,
   });
 
   console.log("Result is: ", result);
-
-  if (!result.success) {
-    return firecrawlScrapeUrlOutputSchema.parse({
-      content: "",
-    });
-  }
 
   // Extract content based on requested formats
   let content = "";
@@ -66,17 +61,12 @@ const scrapeUrl: firecrawlScrapeUrlFunction = async ({
         case "json":
           formatContent = result.json ? JSON.stringify(result.json, null, 2) : undefined;
           break;
-        case "extract":
-          formatContent = result.extract ? JSON.stringify(result.extract, null, 2) : undefined;
-          break;
         case "screenshot":
           formatContent = result.screenshot;
           break;
         case "changeTracking":
           formatContent = result.changeTracking ? JSON.stringify(result.changeTracking, null, 2) : undefined;
           break;
-        default:
-          formatContent = result[format as keyof typeof result];
       }
 
       if (formatContent) {

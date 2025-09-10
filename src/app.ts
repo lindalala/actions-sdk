@@ -18,7 +18,6 @@ export async function runAction(
   if (!actionTemplate) {
     throw Error(`Action template with name ${name} does not exist`);
   }
-
   const result = await invokeAction({
     provider: actionTemplate.provider,
     name: actionTemplate.name,
