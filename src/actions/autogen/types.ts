@@ -613,6 +613,7 @@ export const jiraCreateJiraTicketParamsSchema = z.object({
   issueType: z.string().describe("The issue type of the new ticket. Should be Epic, Story, Task, Bug, Sub-task, etc."),
   reporter: z.string().describe("The reporter for the new ticket creation").optional(),
   assignee: z.string().describe("The assignee for the new ticket creation").optional(),
+  requestTypeId: z.string().describe("The request type ID for Jira Service Management tickets").optional(),
   customFields: z
     .object({})
     .catchall(z.any())
@@ -753,6 +754,7 @@ export const jiraUpdateJiraTicketDetailsParamsSchema = z.object({
   summary: z.string().describe("The updated summary").optional(),
   description: z.string().describe("The updated description").optional(),
   issueType: z.string().describe("The updated issue type").optional(),
+  requestTypeId: z.string().describe("The request type ID for Jira Service Management tickets").optional(),
   customFields: z
     .object({})
     .catchall(z.any())
@@ -920,6 +922,7 @@ export const jiraOrgCreateJiraTicketParamsSchema = z.object({
   issueType: z.string().describe("The issue type of the new ticket. Should be Epic, Story, Task, Bug, Sub-task, etc."),
   reporter: z.string().describe("The reporter for the new ticket creation").optional(),
   assignee: z.string().describe("The assignee for the new ticket creation").optional(),
+  requestTypeId: z.string().describe("The request type ID for Jira Service Management tickets").optional(),
   customFields: z
     .object({})
     .catchall(z.any())
@@ -1060,6 +1063,7 @@ export const jiraOrgUpdateJiraTicketDetailsParamsSchema = z.object({
   summary: z.string().describe("The updated summary").optional(),
   description: z.string().describe("The updated description").optional(),
   issueType: z.string().describe("The updated issue type").optional(),
+  requestTypeId: z.string().describe("The request type ID for Jira Service Management tickets").optional(),
   customFields: z
     .object({})
     .catchall(z.any())
