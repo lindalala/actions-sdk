@@ -7210,6 +7210,10 @@ export const googleOauthSearchDriveByKeywordsDefinition: ActionTemplate = {
         type: "number",
         description: "The maximum number of files to return",
       },
+      includeTrashed: {
+        type: "boolean",
+        description: "Whether to include trashed files in the search results",
+      },
     },
   },
   output: {
@@ -7278,6 +7282,10 @@ export const googleOauthSearchDriveByQueryDefinition: ActionTemplate = {
         type: "string",
         description:
           "The orderBy query for sorting results (e.g., 'modifiedTime desc', 'name', 'createdTime desc'). Defaults to 'modifiedTime desc'",
+      },
+      includeTrashed: {
+        type: "boolean",
+        description: "Whether to include trashed files in the search results",
       },
     },
   },
@@ -7351,6 +7359,10 @@ export const googleOauthSearchDriveByKeywordsAndGetFileContentDefinition: Action
         type: "string",
         description:
           "The orderBy query for sorting results (e.g., 'modifiedTime desc', 'name', 'createdTime desc'). Defaults to 'modifiedTime desc'",
+      },
+      includeTrashed: {
+        type: "boolean",
+        description: "Whether to include trashed files in the search results",
       },
     },
   },
@@ -7443,6 +7455,10 @@ export const googleOauthSearchDriveByQueryAndGetFileContentDefinition: ActionTem
         type: "string",
         description:
           "The orderBy query for sorting results (e.g., 'modifiedTime desc', 'name', 'createdTime desc'). Defaults to 'modifiedTime desc'",
+      },
+      includeTrashed: {
+        type: "boolean",
+        description: "Whether to include trashed files in the search results",
       },
     },
   },

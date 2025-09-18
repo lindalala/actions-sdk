@@ -3696,6 +3696,7 @@ export type googleOauthGetPresentationFunction = ActionFunction<
 export const googleOauthSearchDriveByKeywordsParamsSchema = z.object({
   keywords: z.array(z.string()).describe("List of keywords to search for in file contents."),
   limit: z.number().describe("The maximum number of files to return").optional(),
+  includeTrashed: z.boolean().describe("Whether to include trashed files in the search results").optional(),
 });
 
 export type googleOauthSearchDriveByKeywordsParamsType = z.infer<typeof googleOauthSearchDriveByKeywordsParamsSchema>;
@@ -3733,6 +3734,7 @@ export const googleOauthSearchDriveByQueryParamsSchema = z.object({
       "The orderBy query for sorting results (e.g., 'modifiedTime desc', 'name', 'createdTime desc'). Defaults to 'modifiedTime desc'",
     )
     .optional(),
+  includeTrashed: z.boolean().describe("Whether to include trashed files in the search results").optional(),
 });
 
 export type googleOauthSearchDriveByQueryParamsType = z.infer<typeof googleOauthSearchDriveByQueryParamsSchema>;
@@ -3771,6 +3773,7 @@ export const googleOauthSearchDriveByKeywordsAndGetFileContentParamsSchema = z.o
       "The orderBy query for sorting results (e.g., 'modifiedTime desc', 'name', 'createdTime desc'). Defaults to 'modifiedTime desc'",
     )
     .optional(),
+  includeTrashed: z.boolean().describe("Whether to include trashed files in the search results").optional(),
 });
 
 export type googleOauthSearchDriveByKeywordsAndGetFileContentParamsType = z.infer<
@@ -3820,6 +3823,7 @@ export const googleOauthSearchDriveByQueryAndGetFileContentParamsSchema = z.obje
       "The orderBy query for sorting results (e.g., 'modifiedTime desc', 'name', 'createdTime desc'). Defaults to 'modifiedTime desc'",
     )
     .optional(),
+  includeTrashed: z.boolean().describe("Whether to include trashed files in the search results").optional(),
 });
 
 export type googleOauthSearchDriveByQueryAndGetFileContentParamsType = z.infer<
