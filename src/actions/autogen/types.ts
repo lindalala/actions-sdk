@@ -423,7 +423,9 @@ export type slackGetChannelMessagesFunction = ActionFunction<
 export const slackUserSearchSlackParamsSchema = z.object({
   emails: z
     .array(z.string().email())
-    .describe("Participants identified strictly by email (one email = 1:1 DM, multiple = MPIM).")
+    .describe(
+      "List of participant emails to search conversations for.  If a single email is provided, searches your 1:1 DM with that user  as well as any channel discussions they participated in.  If multiple emails are provided, searches group DMs/MPIMs with those participants  and channel discussions where at least one of them posted.  The current user is always excluded from the participant check.\n",
+    )
     .optional(),
   channel: z.string().describe('Channel name or ID. Examples - "#eng-updates", "eng-updates", "C01234567".').optional(),
   topic: z.string().describe('Keyword(s) to search for (e.g., "jogging decision").').optional(),
@@ -457,6 +459,16 @@ export const slackUserSearchSlackOutputSchema = z.object({
           permalink: z
             .string()
             .describe("A Slack permalink to the anchor (message or thread root), if resolvable.")
+            .optional(),
+          members: z
+            .array(
+              z.object({
+                userId: z.string().describe("The ID of the member").optional(),
+                userEmail: z.string().describe("The email of the member").optional(),
+                userName: z.string().describe("The name of the member").optional(),
+              }),
+            )
+            .describe("The members of the result")
             .optional(),
           context: z
             .array(
