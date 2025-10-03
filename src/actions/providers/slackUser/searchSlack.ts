@@ -45,24 +45,42 @@ interface SlackMessage {
 
 class SlackUserCache {
   private cache: Map<string, { email: string; name: string }>;
+  private pendingRequests: Map<string, Promise<{ email: string; name: string } | undefined>>;
+
   constructor(private client: WebClient) {
     this.cache = new Map();
+    this.pendingRequests = new Map();
     this.client = client;
   }
+
   async get(id: string): Promise<{ email: string; name: string } | undefined> {
     const cached = this.cache.get(id);
     if (cached) return cached;
-    const res = await this.client.users.info({ user: id });
-    const u = {
-      name: res.user?.profile?.display_name ?? res.user?.real_name ?? res.user?.name ?? "",
-      email: res.user?.profile?.email ?? "",
-    };
-    if (res.user && id) {
-      this.cache.set(id, u);
-      return u;
-    }
-    return undefined;
+
+    const pending = this.pendingRequests.get(id);
+    if (pending) return pending;
+
+    const promise = (async () => {
+      try {
+        const res = await this.client.users.info({ user: id });
+        const u = {
+          name: res.user?.profile?.display_name ?? res.user?.real_name ?? res.user?.name ?? "",
+          email: res.user?.profile?.email ?? "",
+        };
+        if (res.user && id) {
+          this.cache.set(id, u);
+          return u;
+        }
+        return undefined;
+      } finally {
+        this.pendingRequests.delete(id);
+      }
+    })();
+
+    this.pendingRequests.set(id, promise);
+    return promise;
   }
+
   set(id: string, { email, name }: { email: string; name: string }) {
     this.cache.set(id, { email, name });
   }
@@ -262,28 +280,40 @@ const searchSlack: slackUserSearchSlackFunction = async ({
 
   const allMatches: Match[] = [];
 
-  // --- Scoped DM/MPIM searches ---
+  // --- Parallel search execution for better performance ---
+  const searchPromises: Promise<Match[]>[] = [];
+
+  // Scoped DM/MPIM searches
   if (filteredTargetIds.length === 1) {
-    allMatches.push(...(await searchScoped({ client, scope: `<@${filteredTargetIds[0]}>`, topic, timeRange, limit })));
+    searchPromises.push(searchScoped({ client, scope: `<@${filteredTargetIds[0]}>`, topic, timeRange, limit }));
   } else if (filteredTargetIds.length >= 2) {
-    const mpimName = await tryGetMPIMName(client, filteredTargetIds);
-    if (mpimName) {
-      allMatches.push(...(await searchScoped({ client, scope: mpimName, topic, timeRange, limit })));
-    }
-    for (const id of filteredTargetIds) {
-      allMatches.push(...(await searchScoped({ client, scope: `<@${id}>`, topic, timeRange, limit })));
-    }
-  } else if (channel) {
-    allMatches.push(
-      ...(await searchScoped({ client, scope: normalizeChannelOperand(channel), topic, timeRange, limit })),
+    // Run MPIM lookup and individual DM searches in parallel
+    const searchMPIM = async () => {
+      const mpimName = await tryGetMPIMName(client, filteredTargetIds);
+      return mpimName ? searchScoped({ client, scope: mpimName, topic, timeRange, limit }) : [];
+    };
+
+    searchPromises.push(searchMPIM());
+
+    // Add individual DM searches
+    searchPromises.push(
+      ...filteredTargetIds.map(id => searchScoped({ client, scope: `<@${id}>`, topic, timeRange, limit })),
     );
+  } else if (channel) {
+    searchPromises.push(searchScoped({ client, scope: normalizeChannelOperand(channel), topic, timeRange, limit }));
   }
 
-  // --- Topic-wide search ---
-  const topicMatches = topic ? await searchByTopic({ client, topic, timeRange, limit }) : [];
-  allMatches.push(...topicMatches);
+  // Topic-wide search in parallel
+  searchPromises.push(...(topic ? [searchByTopic({ client, topic, timeRange, limit })] : []));
+
+  // Execute all searches in parallel
+  const searchResults = await Promise.all(searchPromises);
+  searchResults.forEach(matches => allMatches.push(...matches));
 
   // --- Expand hits with context + filter overlap ---
+  // Create a channel info cache to avoid redundant API calls
+  const channelInfoCache = new Map<string, { isIm: boolean; isMpim: boolean; members?: string[] }>();
+
   const expanded = await Promise.all(
     allMatches.map(m =>
       limitHit(async () => {
@@ -293,10 +323,17 @@ const searchSlack: slackUserSearchSlackFunction = async ({
 
         let members: { userId: string | undefined; userEmail: string | undefined; userName: string | undefined }[] = [];
 
-        // Check convo type (DM, MPIM, channel)
-        const convoInfo = await client.conversations.info({ channel: m.channel.id });
-        const isIm = convoInfo.channel?.is_im;
-        const isMpim = convoInfo.channel?.is_mpim;
+        // Check convo type (DM, MPIM, channel) with caching
+        let channelInfo = channelInfoCache.get(m.channel.id);
+        if (!channelInfo) {
+          const convoInfo = await client.conversations.info({ channel: m.channel.id });
+          channelInfo = {
+            isIm: convoInfo.channel?.is_im ?? false,
+            isMpim: convoInfo.channel?.is_mpim ?? false,
+          };
+          channelInfoCache.set(m.channel.id, channelInfo);
+        }
+        const { isIm, isMpim } = channelInfo;
 
         const [contextMsgs, permalink] = anchor?.thread_ts
           ? [await fetchThread(client, m.channel.id, rootTs), await getPermalink(client, m.channel.id, rootTs)]
