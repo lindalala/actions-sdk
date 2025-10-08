@@ -13,12 +13,13 @@ async function testGetTeams() {
   );
 
   assert(result.success, result.error || "getTeams did not succeed");
-  assert(Array.isArray(result.teams), "Teams should be an array");
-  assert(result.teams.length > 0, "Should return at least one team");
-  assert(result.teams[0].id, "Team should have an id");
-  assert(result.teams[0].name, "Team should have a name");
+  assert(Array.isArray(result.results), "Teams should be an array");
+  assert(result.results.length > 0, "Should return at least one team");
+  assert(result.results[0].contents.id, "Team should have an id");
+  assert(result.results[0].name, "Team should have a name");
+  assert(result.results[0].url, "Team should have a url");
 
   console.log(JSON.stringify(result, null, 2));
 }
 
-testGetTeams(); 
+testGetTeams();
