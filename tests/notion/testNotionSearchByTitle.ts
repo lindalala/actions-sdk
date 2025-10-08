@@ -1,11 +1,14 @@
 import assert from "node:assert";
+import dotenv from "dotenv";
 import { runAction } from "../../src/app.js";
+
+dotenv.config();
 
 async function runTest() {
   const result = await runAction(
     "searchByTitle",
     "notion",
-    { authToken: "replace-me-with-token" },
+    { authToken: process.env.NOTION_AUTH_TOKEN },
     { query: "replace-me-withsearch-query" }
   );
 
@@ -16,7 +19,7 @@ async function runTest() {
 }
 
 runTest().catch((error) => {
- console.error("Test failed:", error);
+  console.error("Test failed:", error);
   if (error.response) {
     console.error("API response:", error.response.data);
     console.error("Status code:", error.response.status);
