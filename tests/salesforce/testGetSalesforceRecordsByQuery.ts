@@ -22,17 +22,32 @@ async function runTest() {
       limit: 10,
     }
   )) as salesforceGetSalesforceRecordsByQueryOutputType;
-  console.log(JSON.stringify(regularQueryResult, null, 2));
-  assert.strictEqual(
-    regularQueryResult.success,
-    true,
-    "Regular query should succeed"
-  );
+  console.log("Result:", JSON.stringify(regularQueryResult, null, 2));
+
+  // Validate response structure
+  assert(regularQueryResult, "Response should not be null");
+  assert.strictEqual(regularQueryResult.success, true, "Success should be true");
+  assert(Array.isArray(regularQueryResult.results), "Results should be an array");
   assert.strictEqual(
     regularQueryResult.results?.length,
     10,
-    "Regular query should have results"
+    "Regular query should have 10 results"
   );
+
+  // Validate first result structure if results exist
+  if (regularQueryResult.results && regularQueryResult.results.length > 0) {
+    const firstResult = regularQueryResult.results[0];
+    assert(firstResult.name && typeof firstResult.name === "string", "First result should have a name (string)");
+    assert(firstResult.url && typeof firstResult.url === "string", "First result should have a url (string)");
+    assert(firstResult.contents && typeof firstResult.contents === "object", "First result should have contents (object)");
+
+    // Validate contents has reasonable fields
+    const contents = firstResult.contents;
+    assert(
+      contents.Id || contents.id,
+      "Contents should have at least one reasonable field (Id or id)"
+    );
+  }
 
   // Test 2: Aggregate query without limit
   const aggregateQueryResult = (await runAction(
@@ -47,12 +62,13 @@ async function runTest() {
       limit: 10,
     }
   )) as salesforceGetSalesforceRecordsByQueryOutputType;
-  console.log(JSON.stringify(aggregateQueryResult, null, 2));
+  console.log("Result:", JSON.stringify(aggregateQueryResult, null, 2));
   assert.strictEqual(
     aggregateQueryResult.success,
     true,
     "Aggregate query should succeed"
   );
+  assert(Array.isArray(aggregateQueryResult.results), "Results should be an array");
   assert.strictEqual(
     aggregateQueryResult.results?.length,
     1,
@@ -223,6 +239,14 @@ async function runTest() {
   );
 
   console.log("All tests passed!");
+  console.log("All Salesforce query tests validated standardized response format!");
 }
 
-runTest().catch(console.error);
+runTest().catch((error) => {
+  console.error("Test failed:", error);
+  if (error.response) {
+    console.error("API response:", error.response.data);
+    console.error("Status code:", error.response.status);
+  }
+  process.exit(1);
+});

@@ -63,22 +63,22 @@ const searchAllSalesforceRecords: salesforceSearchAllSalesforceRecordsFunction =
     }
 
     // Salesforce record types are confusing and non standard
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const recordsWithUrl = response.data.searchRecords.map(
-      (record: {
-        Id: string;
-        Name?: string;
-        Title?: string;
-        Subject?: string;
-        CaseNumber?: string;
-        AccountName?: string;
-        ContactName?: string;
-      }) => {
-        const recordId = record.Id;
-        const webUrl = recordId ? `${baseUrl}/lightning/r/${recordId}/view` : undefined;
-        return { ...record, webUrl };
-      },
-    );
+    interface SalesforceSearchRecord {
+      Id: string;
+      Name?: string;
+      Title?: string;
+      Subject?: string;
+      CaseNumber?: string;
+      AccountName?: string;
+      ContactName?: string;
+      [key: string]: unknown;
+    }
+
+    const recordsWithUrl = response.data.searchRecords.map((record: SalesforceSearchRecord) => {
+      const recordId = record.Id;
+      const webUrl = recordId ? `${baseUrl}/lightning/r/${recordId}/view` : undefined;
+      return { ...record, webUrl };
+    });
 
     return {
       success: true,

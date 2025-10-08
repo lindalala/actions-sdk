@@ -38,7 +38,7 @@ const searchAsanaTasks: asanaSearchTasksFunction = async ({
       const workspaceId = workspace.gid;
       try {
         // Build query params according to Asana API
-        const searchParams: Record<string, any> = {};
+        const searchParams: Record<string, string | boolean> = {};
         if (text) searchParams.text = text;
         if (assignee) searchParams["assignee.any"] = assignee;
         if (projects && projects.length > 0) searchParams["projects.any"] = projects.join(",");

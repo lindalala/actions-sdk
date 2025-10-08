@@ -220,20 +220,17 @@ const searchOrganization: githubSearchOrganizationFunction = async ({
       ...codeResults.map(result => ({
         name: result.name,
         url: result.url,
-        type: "code" as const,
-        content: result,
+        contents: { type: "code" as const, ...result },
       })),
       ...enrichedCommits.map(result => ({
         name: result.sha,
         url: result.url,
-        type: "commit" as const,
-        content: result,
+        contents: { type: "commit" as const, ...result },
       })),
       ...issuesAndPRs.map(result => ({
         name: result.title,
         url: result.html_url,
-        type: "issueOrPullRequest" as const,
-        content: result,
+        contents: { type: "issueOrPullRequest" as const, ...result },
       })),
     ],
   };
