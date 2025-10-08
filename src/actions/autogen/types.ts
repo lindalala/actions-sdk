@@ -280,7 +280,17 @@ export type asanaUpdateTaskFunction = ActionFunction<
   asanaUpdateTaskOutputType
 >;
 
-export const asanaSearchTasksParamsSchema = z.object({ query: z.string().describe("Search query") });
+export const asanaSearchTasksParamsSchema = z.object({
+  text: z.string().describe("Free text search string to match against task names and descriptions").optional(),
+  assignee: z.string().describe("The assignee's GID to filter by").optional(),
+  projects: z.array(z.string()).describe("Array of project GIDs to filter by").optional(),
+  completed: z.boolean().describe("Filter to completed (true) or incomplete (false) tasks").optional(),
+  is_subtask: z.boolean().describe("Filter to subtasks (true) or non-subtasks (false)").optional(),
+  sort_by: z
+    .enum(["due_date", "created_at", "completed_at", "likes", "modified_at"])
+    .describe("Sort results by this field")
+    .optional(),
+});
 
 export type asanaSearchTasksParamsType = z.infer<typeof asanaSearchTasksParamsSchema>;
 

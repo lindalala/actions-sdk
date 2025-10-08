@@ -306,15 +306,32 @@ actions:
             type: string
             description: The url to the updated Asana task
     searchTasks:
-      description: List all tasks associated with search query
+      description: Search for tasks in Asana with various filters
       scopes: []
       parameters:
         type: object
-        required: [query]
         properties:
-          query:
+          text:
             type: string
-            description: Search query
+            description: Free text search string to match against task names and descriptions
+          assignee:
+            type: string
+            description: The assignee's GID to filter by
+          projects:
+            type: array
+            description: Array of project GIDs to filter by
+            items:
+              type: string
+          completed:
+            type: boolean
+            description: Filter to completed (true) or incomplete (false) tasks
+          is_subtask:
+            type: boolean
+            description: Filter to subtasks (true) or non-subtasks (false)
+          sort_by:
+            type: string
+            description: Sort results by this field
+            enum: [due_date, created_at, completed_at, likes, modified_at]
       output:
         type: object
         required: [success]
