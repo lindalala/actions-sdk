@@ -24,12 +24,7 @@ async function runTest() {
 
   // Validate response
   assert(result, "Response should not be null");
-  assert(Array.isArray(result.code), "Code should be an array");
-  assert(Array.isArray(result.commits), "Commits should be an array");
-  assert(
-    Array.isArray(result.issuesAndPullRequests),
-    "Issues and pull requests should be an array"
-  );
+  assert(Array.isArray(result.results), "Results should be an array");
 }
 
 runTest().catch((error) => {
