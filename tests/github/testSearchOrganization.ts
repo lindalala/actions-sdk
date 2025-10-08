@@ -34,11 +34,16 @@ async function runSearchOrganizationWithoutRepository() {
     assert(firstResult.url && typeof firstResult.url === "string", "First result should have a url (string)");
     assert(firstResult.contents && typeof firstResult.contents === "object", "First result should have contents (object)");
 
-    // Validate contents has reasonable fields
+    // Validate contents has type field and reasonable fields
     const contents = firstResult.contents;
+    assert(contents.type, "Contents should have a type field");
     assert(
-      contents.path || contents.repository || contents.sha,
-      "Contents should have at least one reasonable field (path, repository, or sha)"
+      ["code", "commit", "issueOrPullRequest"].includes(contents.type),
+      "Contents type should be code, commit, or issueOrPullRequest"
+    );
+    assert(
+      contents.path || contents.sha || contents.title || contents.message,
+      "Contents should have at least one reasonable field (path, sha, title, or message)"
     );
   }
 
@@ -75,11 +80,16 @@ async function runSearchOrganizationWithRepository() {
     assert(firstResult.url && typeof firstResult.url === "string", "First result should have a url (string)");
     assert(firstResult.contents && typeof firstResult.contents === "object", "First result should have contents (object)");
 
-    // Validate contents has reasonable fields
+    // Validate contents has type field and reasonable fields
     const contents = firstResult.contents;
+    assert(contents.type, "Contents should have a type field");
     assert(
-      contents.path || contents.repository || contents.sha,
-      "Contents should have at least one reasonable field (path, repository, or sha)"
+      ["code", "commit", "issueOrPullRequest"].includes(contents.type),
+      "Contents type should be code, commit, or issueOrPullRequest"
+    );
+    assert(
+      contents.path || contents.sha || contents.title || contents.message,
+      "Contents should have at least one reasonable field (path, sha, title, or message)"
     );
   }
 

@@ -6321,11 +6321,11 @@ export const githubSearchOrganizationOutputSchema = z.object({
       z.object({
         name: z.string().describe("The name of the result (file name, commit SHA, or issue/PR title)"),
         url: z.string().describe("The URL of the result"),
-        type: z.enum(["code", "commit", "issueOrPullRequest"]).describe("The type of the result"),
-        content: z.any().superRefine((x, ctx) => {
+        contents: z.any().superRefine((x, ctx) => {
           const schemas = [
             z
               .object({
+                type: z.literal("code").describe("The type of result"),
                 name: z.string().describe("The name of the file that had a match"),
                 path: z.string().describe("The path of the file that had a match"),
                 sha: z.string().describe("The SHA of the commit that had a match"),
@@ -6355,27 +6355,27 @@ export const githubSearchOrganizationOutputSchema = z.object({
               .describe("Code result content"),
             z
               .object({
+                type: z.literal("commit").describe("The type of result"),
                 sha: z.string().describe("The SHA of the commit that had a match"),
                 url: z.string().describe("The URL of the commit that had a match"),
-                commit: z
-                  .object({
-                    author: z.object({
-                      name: z.string().describe("The name of the author"),
-                      email: z.string().describe("The email of the author"),
-                      date: z.string().describe("The date of the commit"),
-                    }),
-                    message: z.string().describe("The message of the commit"),
-                  })
-                  .optional(),
+                commit: z.object({
+                  author: z.object({
+                    name: z.string().describe("The name of the author"),
+                    email: z.string().describe("The email of the author"),
+                    date: z.string().describe("The date of the commit"),
+                  }),
+                  message: z.string().describe("The message of the commit"),
+                }),
               })
               .describe("Commit result content"),
             z
               .object({
-                number: z.number().describe("The number of the issue or pull request").optional(),
+                type: z.literal("issueOrPullRequest").describe("The type of result"),
+                number: z.number().describe("The number of the issue or pull request"),
                 title: z.string().describe("The title of the issue or pull request"),
-                html_url: z.string().describe("The URL of the issue or pull request").optional(),
+                html_url: z.string().describe("The URL of the issue or pull request"),
                 state: z.enum(["open", "closed"]).describe("The state of the issue or pull request"),
-                isPullRequest: z.boolean().describe("Whether the issue or pull request is a pull request").optional(),
+                isPullRequest: z.boolean().describe("Whether the issue or pull request is a pull request"),
                 body: z.string().describe("The body of the issue or pull request").optional(),
                 score: z.number().describe("The score of the issue or pull request").optional(),
                 files: z
@@ -6724,11 +6724,11 @@ export const gitlabSearchGroupOutputSchema = z.object({
       z.object({
         name: z.string().describe("The name/title of the search result"),
         url: z.string().describe("The URL to view the result in GitLab"),
-        type: z.enum(["mergeRequest", "blob", "commit"]).describe("The type of search result"),
         contents: z.any().superRefine((x, ctx) => {
           const schemas = [
             z
               .object({
+                type: z.literal("mergeRequest").describe("The type of search result"),
                 metadata: z
                   .object({
                     id: z.number().describe("The ID of the merge request"),
@@ -6761,6 +6761,7 @@ export const gitlabSearchGroupOutputSchema = z.object({
               .describe("Merge request contents"),
             z
               .object({
+                type: z.literal("blob").describe("The type of search result"),
                 metadata: z.object({
                   path: z.string().describe("The path of the blob"),
                   basename: z.string().describe("The basename of the blob"),
@@ -6785,6 +6786,7 @@ export const gitlabSearchGroupOutputSchema = z.object({
               .describe("Blob contents"),
             z
               .object({
+                type: z.literal("commit").describe("The type of search result"),
                 sha: z.string().describe("The commit SHA"),
                 web_url: z.string().describe("The URL to view the commit in GitLab"),
                 message: z.string().describe("The full commit message"),

@@ -12561,7 +12561,7 @@ export const githubSearchOrganizationDefinition: ActionTemplate = {
         description: "Array of search results",
         items: {
           type: "object",
-          required: ["name", "url", "type", "content"],
+          required: ["name", "url", "contents"],
           properties: {
             name: {
               type: "string",
@@ -12571,18 +12571,18 @@ export const githubSearchOrganizationDefinition: ActionTemplate = {
               type: "string",
               description: "The URL of the result",
             },
-            type: {
-              type: "string",
-              enum: ["code", "commit", "issueOrPullRequest"],
-              description: "The type of the result",
-            },
-            content: {
+            contents: {
               oneOf: [
                 {
                   type: "object",
                   description: "Code result content",
-                  required: ["name", "path", "sha", "url", "score", "textMatches"],
+                  required: ["type", "name", "path", "sha", "url", "score", "textMatches"],
                   properties: {
+                    type: {
+                      type: "string",
+                      enum: ["code"],
+                      description: "The type of result",
+                    },
                     name: {
                       type: "string",
                       description: "The name of the file that had a match",
@@ -12650,8 +12650,13 @@ export const githubSearchOrganizationDefinition: ActionTemplate = {
                 {
                   type: "object",
                   description: "Commit result content",
-                  required: ["sha", "url", "message", "author", "committer", "parents", "tree", "commitDate"],
+                  required: ["type", "sha", "url", "commit"],
                   properties: {
+                    type: {
+                      type: "string",
+                      enum: ["commit"],
+                      description: "The type of result",
+                    },
                     sha: {
                       type: "string",
                       description: "The SHA of the commit that had a match",
@@ -12719,8 +12724,13 @@ export const githubSearchOrganizationDefinition: ActionTemplate = {
                 {
                   type: "object",
                   description: "Issue or pull request result content",
-                  required: ["title", "url", "state", "createdAt", "updatedAt", "user"],
+                  required: ["type", "number", "title", "html_url", "state", "isPullRequest"],
                   properties: {
+                    type: {
+                      type: "string",
+                      enum: ["issueOrPullRequest"],
+                      description: "The type of result",
+                    },
                     number: {
                       type: "number",
                       description: "The number of the issue or pull request",
@@ -13452,7 +13462,7 @@ export const gitlabSearchGroupDefinition: ActionTemplate = {
         description: "A list of search results that match the query",
         items: {
           type: "object",
-          required: ["name", "url", "type", "contents"],
+          required: ["name", "url", "contents"],
           properties: {
             name: {
               type: "string",
@@ -13462,18 +13472,18 @@ export const gitlabSearchGroupDefinition: ActionTemplate = {
               type: "string",
               description: "The URL to view the result in GitLab",
             },
-            type: {
-              type: "string",
-              enum: ["mergeRequest", "blob", "commit"],
-              description: "The type of search result",
-            },
             contents: {
               oneOf: [
                 {
                   type: "object",
                   description: "Merge request contents",
-                  required: ["metadata", "diffs"],
+                  required: ["type", "metadata", "diffs"],
                   properties: {
+                    type: {
+                      type: "string",
+                      enum: ["mergeRequest"],
+                      description: "The type of search result",
+                    },
                     metadata: {
                       type: "object",
                       required: ["id", "iid", "project_id", "title", "web_url"],
@@ -13562,8 +13572,13 @@ export const gitlabSearchGroupDefinition: ActionTemplate = {
                 {
                   type: "object",
                   description: "Blob contents",
-                  required: ["metadata", "matchedMergeRequests"],
+                  required: ["type", "metadata", "matchedMergeRequests"],
                   properties: {
+                    type: {
+                      type: "string",
+                      enum: ["blob"],
+                      description: "The type of search result",
+                    },
                     metadata: {
                       type: "object",
                       required: ["path", "basename", "data", "project_id", "ref", "startline", "filename", "web_url"],
@@ -13633,8 +13648,13 @@ export const gitlabSearchGroupDefinition: ActionTemplate = {
                 {
                   type: "object",
                   description: "Commit contents",
-                  required: ["sha", "web_url", "message", "author", "created_at", "files"],
+                  required: ["type", "sha", "web_url", "message", "author", "created_at", "files"],
                   properties: {
+                    type: {
+                      type: "string",
+                      enum: ["commit"],
+                      description: "The type of search result",
+                    },
                     sha: {
                       type: "string",
                       description: "The commit SHA",
