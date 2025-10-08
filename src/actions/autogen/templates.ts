@@ -9455,34 +9455,43 @@ export const oktaListOktaUserGroupsDefinition: ActionTemplate = {
   },
   output: {
     type: "object",
-    required: ["success"],
     properties: {
-      success: {
-        type: "boolean",
-        description: "Whether the groups were successfully retrieved.",
-      },
-      groups: {
+      results: {
         type: "array",
         description: "List of groups the user belongs to.",
         items: {
           type: "object",
-          required: ["id", "profile"],
+          required: ["name", "url", "contents"],
           properties: {
-            id: {
+            name: {
               type: "string",
-              description: "The group's ID.",
+              description: "The group's name.",
             },
-            profile: {
+            url: {
+              type: "string",
+              description: "URL to the group in the Okta admin console.",
+            },
+            contents: {
               type: "object",
-              required: ["name", "description"],
+              required: ["id", "profile"],
               properties: {
-                name: {
+                id: {
                   type: "string",
-                  description: "The group's name.",
+                  description: "The group's ID.",
                 },
-                description: {
-                  type: "string",
-                  description: "The group's description.",
+                profile: {
+                  type: "object",
+                  required: ["name"],
+                  properties: {
+                    name: {
+                      type: "string",
+                      description: "The group's name.",
+                    },
+                    description: {
+                      type: "string",
+                      description: "The group's description.",
+                    },
+                  },
                 },
               },
             },
@@ -9519,12 +9528,7 @@ export const oktaListOktaGroupsDefinition: ActionTemplate = {
   },
   output: {
     type: "object",
-    required: ["success"],
     properties: {
-      success: {
-        type: "boolean",
-        description: "Whether the groups were successfully retrieved.",
-      },
       results: {
         type: "array",
         description: "List of Okta groups.",
@@ -9708,97 +9712,107 @@ export const oktaListOktaGroupMembersDefinition: ActionTemplate = {
   },
   output: {
     type: "object",
-    required: ["success"],
     properties: {
-      success: {
-        type: "boolean",
-        description: "Whether the members were successfully retrieved.",
-      },
-      members: {
+      results: {
         type: "array",
         description: "List of members in the group.",
         items: {
           type: "object",
+          required: ["name", "url", "contents"],
           properties: {
-            id: {
+            name: {
               type: "string",
-              description: "The user's ID.",
+              description: "The user's display name",
             },
-            status: {
+            url: {
               type: "string",
-              description: "The user's status.",
+              description: "The URL to view the user in Okta",
             },
-            created: {
-              type: "string",
-              format: "date-time",
-              description: "The timestamp when the user was created.",
-            },
-            activated: {
-              type: "string",
-              format: "date-time",
-              nullable: true,
-              description: "The timestamp when the user was activated.",
-            },
-            statusChanged: {
-              type: "string",
-              format: "date-time",
-              nullable: true,
-              description: "The timestamp when the user's status changed.",
-            },
-            lastLogin: {
-              type: "string",
-              format: "date-time",
-              nullable: true,
-              description: "The timestamp of the user's last login.",
-            },
-            lastUpdated: {
-              type: "string",
-              format: "date-time",
-              description: "The timestamp of the user's last update.",
-            },
-            passwordChanged: {
-              type: "string",
-              format: "date-time",
-              description: "The timestamp when the user's password was last changed.",
-            },
-            type: {
+            contents: {
               type: "object",
+              description: "The user details",
               properties: {
                 id: {
                   type: "string",
-                  description: "The type ID of the user.",
+                  description: "The user's ID.",
                 },
-              },
-            },
-            profile: {
-              type: "object",
-              description: "The user's profile information.",
-              properties: {
-                firstName: {
+                status: {
                   type: "string",
-                  description: "The user's first name.",
+                  description: "The user's status.",
                 },
-                lastName: {
+                created: {
                   type: "string",
-                  description: "The user's last name.",
+                  format: "date-time",
+                  description: "The timestamp when the user was created.",
                 },
-                mobilePhone: {
+                activated: {
                   type: "string",
+                  format: "date-time",
                   nullable: true,
-                  description: "The user's mobile phone number.",
+                  description: "The timestamp when the user was activated.",
                 },
-                secondEmail: {
+                statusChanged: {
                   type: "string",
+                  format: "date-time",
                   nullable: true,
-                  description: "The user's secondary email address.",
+                  description: "The timestamp when the user's status changed.",
                 },
-                login: {
+                lastLogin: {
                   type: "string",
-                  description: "The user's login.",
+                  format: "date-time",
+                  nullable: true,
+                  description: "The timestamp of the user's last login.",
                 },
-                email: {
+                lastUpdated: {
                   type: "string",
-                  description: "The user's email address.",
+                  format: "date-time",
+                  description: "The timestamp of the user's last update.",
+                },
+                passwordChanged: {
+                  type: "string",
+                  format: "date-time",
+                  description: "The timestamp when the user's password was last changed.",
+                },
+                type: {
+                  type: "object",
+                  properties: {
+                    id: {
+                      type: "string",
+                      description: "The type ID of the user.",
+                    },
+                  },
+                },
+                profile: {
+                  type: "object",
+                  description: "The user's profile information.",
+                  properties: {
+                    firstName: {
+                      type: "string",
+                      description: "The user's first name.",
+                    },
+                    lastName: {
+                      type: "string",
+                      description: "The user's last name.",
+                    },
+                    mobilePhone: {
+                      type: "string",
+                      nullable: true,
+                      description: "The user's mobile phone number.",
+                    },
+                    secondEmail: {
+                      type: "string",
+                      nullable: true,
+                      description: "The user's secondary email address.",
+                    },
+                    login: {
+                      type: "string",
+                      description: "The user's login.",
+                    },
+                    email: {
+                      type: "string",
+                      description: "The user's email address.",
+                    },
+                  },
                 },
               },
             },
@@ -9903,12 +9917,7 @@ export const oktaListOktaUsersDefinition: ActionTemplate = {
   },
   output: {
     type: "object",
-    required: ["success"],
     properties: {
-      success: {
-        type: "boolean",
-        description: "Whether the user list was successfully retrieved",
-      },
       results: {
         type: "array",
         description: "List of Okta users matching the query",

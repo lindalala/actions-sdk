@@ -25,7 +25,7 @@ async function runTest() {
 
   // Validate response structure
   assert(result, "Response should not be null");
-  assert.strictEqual(result.success, true, "Success should be true");
+  assert(!result.error, `Should not have error. Got: ${result.error}`);
   assert(Array.isArray(result.results), "Results should be an array");
 
   // Validate first result structure if results exist
@@ -50,7 +50,7 @@ async function runTest() {
     maxResults: 201,
   });
   assert(result, "Response should not be null");
-  assert.strictEqual(result.success, true, "Success should be true");
+  assert(!result.error, `Should not have error. Got: ${result.error}`);
   assert(Array.isArray(result.results), "Results should be an array");
   assert(
     result.results.length <= 201,
@@ -68,7 +68,7 @@ async function runTest() {
       searchQuery: `profile.name sw "${testGroupName}"`,
     });
     assert(searchResult, "Search response should not be null");
-    assert.strictEqual(searchResult.success, true, "Success should be true");
+    assert(!searchResult.error, `Should not have error. Got: ${searchResult.error}`);
     assert(Array.isArray(searchResult.results), "Results should be an array");
     assert(
       searchResult.results.length > 0,
@@ -84,7 +84,7 @@ async function runTest() {
     assert(foundGroup.contents.id, "Found group contents should have an ID");
     console.log("Found group Name:", foundGroup.contents.profile.name);
     assert(
-      foundGroup.contents.profile.name.startsWith(testGroupName),
+      foundGroup.contents.profile.name.toLowerCase().startsWith(testGroupName.toLowerCase()),
       "Found group's name should match the test name"
     );
     console.log("Found group:", JSON.stringify(foundGroup, null, 2));

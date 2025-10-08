@@ -7,6 +7,7 @@ import type {
   oktaListOktaUsersParamsType,
 } from "../../autogen/types.js";
 import { axiosClient } from "../../util/axiosClient.js";
+import { getOktaAdminUrl } from "./listOktaGroups.js";
 
 // page limit default in Okta documentation
 // https://developer.okta.com/docs/api/openapi/okta-management/management/tag/User/#tag/User/operation/listUsers
@@ -23,7 +24,6 @@ const listOktaUsers: oktaListOktaUsersFunction = async ({
 
   if (!authToken || !baseUrl) {
     return {
-      success: false,
       error: "Missing Okta OAuth token (authToken) or base URL (baseUrl) in authParams.",
     };
   }
@@ -69,7 +69,7 @@ const listOktaUsers: oktaListOktaUsersFunction = async ({
               }
               return (profile?.email as string) || (user.id as string) || "Unknown User";
             })(),
-            url: `${baseUrl}/admin/user/profile/view/${user.id}`,
+            url: `${getOktaAdminUrl(baseUrl)}/admin/user/profile/view/${user.id}`,
             contents: user as {
               id: string;
               profile: {
@@ -97,12 +97,11 @@ const listOktaUsers: oktaListOktaUsersFunction = async ({
       } else {
         const errorDetail =
           response.data?.errorSummary || response.data?.message || `Okta API responded with status ${response.status}`;
-        return { success: false, error: `Failed to list Okta users: ${errorDetail}` };
+        return { error: `Failed to list Okta users: ${errorDetail}` };
       }
     }
 
     return {
-      success: true,
       results: users,
     };
   } catch (error) {
@@ -118,7 +117,6 @@ const listOktaUsers: oktaListOktaUsersFunction = async ({
     }
 
     return {
-      success: false,
       error: errorMessage,
     };
   }

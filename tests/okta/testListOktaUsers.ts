@@ -27,7 +27,7 @@ async function runTest() {
 
   // Validate response structure
   assert(result, "Response should not be null");
-  assert.strictEqual(result.success, true, "Success should be true");
+  assert(!result.error, `Should not have error. Got: ${result.error}`);
   assert(Array.isArray(result.results), "Results should be an array");
 
   // Validate first result structure if results exist
@@ -52,7 +52,7 @@ async function runTest() {
     maxResults: 2,
   });
   assert(result, "Response should not be null");
-  assert.strictEqual(result.success, true, "Success should be true");
+  assert(!result.error, `Should not have error. Got: ${result.error}`);
   assert(Array.isArray(result.results), "Results should be an array");
   assert(
     result.results.length <= 2,
@@ -70,7 +70,7 @@ async function runTest() {
       searchQuery: `profile.email eq "${testUserEmail}"`,
     });
     assert(searchResult, "Search response should not be null");
-    assert.strictEqual(searchResult.success, true, "Success should be true");
+    assert(!searchResult.error, `Should not have error. Got: ${searchResult.error}`);
     assert(Array.isArray(searchResult.results), "Results should be an array");
     assert(
       searchResult.results.length > 0,

@@ -4779,14 +4779,17 @@ export const oktaListOktaUserGroupsParamsSchema = z.object({
 export type oktaListOktaUserGroupsParamsType = z.infer<typeof oktaListOktaUserGroupsParamsSchema>;
 
 export const oktaListOktaUserGroupsOutputSchema = z.object({
-  success: z.boolean().describe("Whether the groups were successfully retrieved."),
-  groups: z
+  results: z
     .array(
       z.object({
-        id: z.string().describe("The group's ID."),
-        profile: z.object({
-          name: z.string().describe("The group's name."),
-          description: z.string().describe("The group's description."),
+        name: z.string().describe("The group's name."),
+        url: z.string().describe("URL to the group in the Okta admin console."),
+        contents: z.object({
+          id: z.string().describe("The group's ID."),
+          profile: z.object({
+            name: z.string().describe("The group's name."),
+            description: z.string().describe("The group's description.").optional(),
+          }),
         }),
       }),
     )
@@ -4815,7 +4818,6 @@ export const oktaListOktaGroupsParamsSchema = z.object({
 export type oktaListOktaGroupsParamsType = z.infer<typeof oktaListOktaGroupsParamsSchema>;
 
 export const oktaListOktaGroupsOutputSchema = z.object({
-  success: z.boolean().describe("Whether the groups were successfully retrieved."),
   results: z
     .array(
       z.object({
@@ -4904,53 +4906,62 @@ export const oktaListOktaGroupMembersParamsSchema = z.object({
 export type oktaListOktaGroupMembersParamsType = z.infer<typeof oktaListOktaGroupMembersParamsSchema>;
 
 export const oktaListOktaGroupMembersOutputSchema = z.object({
-  success: z.boolean().describe("Whether the members were successfully retrieved."),
-  members: z
+  results: z
     .array(
       z.object({
-        id: z.string().describe("The user's ID.").optional(),
-        status: z.string().describe("The user's status.").optional(),
-        created: z.string().datetime({ offset: true }).describe("The timestamp when the user was created.").optional(),
-        activated: z
-          .string()
-          .datetime({ offset: true })
-          .nullable()
-          .describe("The timestamp when the user was activated.")
-          .optional(),
-        statusChanged: z
-          .string()
-          .datetime({ offset: true })
-          .nullable()
-          .describe("The timestamp when the user's status changed.")
-          .optional(),
-        lastLogin: z
-          .string()
-          .datetime({ offset: true })
-          .nullable()
-          .describe("The timestamp of the user's last login.")
-          .optional(),
-        lastUpdated: z
-          .string()
-          .datetime({ offset: true })
-          .describe("The timestamp of the user's last update.")
-          .optional(),
-        passwordChanged: z
-          .string()
-          .datetime({ offset: true })
-          .describe("The timestamp when the user's password was last changed.")
-          .optional(),
-        type: z.object({ id: z.string().describe("The type ID of the user.").optional() }).optional(),
-        profile: z
+        name: z.string().describe("The user's display name"),
+        url: z.string().describe("The URL to view the user in Okta"),
+        contents: z
           .object({
-            firstName: z.string().describe("The user's first name.").optional(),
-            lastName: z.string().describe("The user's last name.").optional(),
-            mobilePhone: z.string().nullable().describe("The user's mobile phone number.").optional(),
-            secondEmail: z.string().nullable().describe("The user's secondary email address.").optional(),
-            login: z.string().describe("The user's login.").optional(),
-            email: z.string().describe("The user's email address.").optional(),
+            id: z.string().describe("The user's ID.").optional(),
+            status: z.string().describe("The user's status.").optional(),
+            created: z
+              .string()
+              .datetime({ offset: true })
+              .describe("The timestamp when the user was created.")
+              .optional(),
+            activated: z
+              .string()
+              .datetime({ offset: true })
+              .nullable()
+              .describe("The timestamp when the user was activated.")
+              .optional(),
+            statusChanged: z
+              .string()
+              .datetime({ offset: true })
+              .nullable()
+              .describe("The timestamp when the user's status changed.")
+              .optional(),
+            lastLogin: z
+              .string()
+              .datetime({ offset: true })
+              .nullable()
+              .describe("The timestamp of the user's last login.")
+              .optional(),
+            lastUpdated: z
+              .string()
+              .datetime({ offset: true })
+              .describe("The timestamp of the user's last update.")
+              .optional(),
+            passwordChanged: z
+              .string()
+              .datetime({ offset: true })
+              .describe("The timestamp when the user's password was last changed.")
+              .optional(),
+            type: z.object({ id: z.string().describe("The type ID of the user.").optional() }).optional(),
+            profile: z
+              .object({
+                firstName: z.string().describe("The user's first name.").optional(),
+                lastName: z.string().describe("The user's last name.").optional(),
+                mobilePhone: z.string().nullable().describe("The user's mobile phone number.").optional(),
+                secondEmail: z.string().nullable().describe("The user's secondary email address.").optional(),
+                login: z.string().describe("The user's login.").optional(),
+                email: z.string().describe("The user's email address.").optional(),
+              })
+              .describe("The user's profile information.")
+              .optional(),
           })
-          .describe("The user's profile information.")
-          .optional(),
+          .describe("The user details"),
       }),
     )
     .describe("List of members in the group.")
@@ -5016,7 +5027,6 @@ export const oktaListOktaUsersParamsSchema = z.object({
 export type oktaListOktaUsersParamsType = z.infer<typeof oktaListOktaUsersParamsSchema>;
 
 export const oktaListOktaUsersOutputSchema = z.object({
-  success: z.boolean().describe("Whether the user list was successfully retrieved"),
   results: z
     .array(
       z.object({
