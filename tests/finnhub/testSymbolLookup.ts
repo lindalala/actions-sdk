@@ -1,12 +1,15 @@
-import { runAction } from "../../src/app.js";
 import { assert } from "node:console";
+import dotenv from "dotenv";
+import { runAction } from "../../src/app.js";
+
+dotenv.config();
 
 async function runTest() {
   const result = await runAction(
     "symbolLookup",
     "finnhub",
-    { apiKey: "insert-api-key" },
-    { query: "AAPL" },
+    { apiKey: process.env.FINNHUB_API_KEY },
+    { query: "AAPL" }
   );
   console.log(result);
   assert(result.results.length > 0, "Result should not be empty");
@@ -14,17 +17,17 @@ async function runTest() {
   const basicFinancialsResult = await runAction(
     "getBasicFinancials",
     "finnhub",
-    { apiKey: "insert-api-key" },
-    { symbol: "AAPL" },
+    { apiKey: process.env.FINNHUB_API_KEY },
+    { symbol: "AAPL" }
   );
   console.log(basicFinancialsResult);
   assert(
     basicFinancialsResult.result.annual.length > 0,
-    "Annual financials should not be empty",
+    "Annual financials should not be empty"
   );
   assert(
     basicFinancialsResult.result.quarterly.length > 0,
-    "Quarterly financials should not be empty",
+    "Quarterly financials should not be empty"
   );
 }
 
