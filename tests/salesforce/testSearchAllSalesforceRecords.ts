@@ -61,13 +61,13 @@ async function runTest() {
 
   // Verify we get results with higher limit
   assert.ok(
-    result10.searchRecords.length >= 1,
+    result10.results?.length ?? 0 >= 1,
     "Should find at least 1 result with LIMIT 10"
   );
 
   console.log("All tests passed!");
-  console.log(`LIMIT 1 found: ${result1.searchRecords.length} result(s)`);
-  console.log(`LIMIT 10 found: ${result10.searchRecords.length} result(s)`);
+  console.log(`LIMIT 1 found: ${result1.results?.length ?? 0} result(s)`);
+  console.log(`LIMIT 10 found: ${result10.results?.length ?? 0} result(s)`);
 }
 
 runTest().catch(console.error);

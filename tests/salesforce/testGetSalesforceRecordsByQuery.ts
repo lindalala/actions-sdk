@@ -84,12 +84,12 @@ async function runTest() {
   // Check that at least one result has a non-null Industry (skip null values from GROUP BY)
   const resultWithIndustry = groupByQueryResult.results?.find(
     (r) =>
-      (r as { content?: { Industry?: string | null } }).content?.Industry !==
+      (r as { contents?: { Industry?: string | null } }).contents?.Industry !==
       null
   );
   assert.ok(
-    (resultWithIndustry as { content?: { Industry?: string | null } })?.content
-      ?.Industry !== undefined,
+    (resultWithIndustry as { contents?: { Industry?: string | null } })
+      ?.contents?.Industry !== undefined,
     "Group by query should have results with Industry"
   );
 
