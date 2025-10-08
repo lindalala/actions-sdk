@@ -6615,9 +6615,14 @@ export const notionSearchByTitleOutputSchema = z.object({
   results: z
     .array(
       z.object({
-        id: z.string().describe("The Notion page ID"),
-        title: z.string().nullable().describe("The page title").optional(),
+        name: z.string().describe("The page title"),
         url: z.string().describe("The URL to the Notion page"),
+        contents: z.object({
+          id: z.string().describe("The Notion page ID"),
+          title: z.string().describe("The page title").optional(),
+          url: z.string().describe("The URL to the Notion page"),
+          object: z.string().describe("The type of Notion object (page or database)"),
+        }),
       }),
     )
     .describe("List of matching Notion pages")

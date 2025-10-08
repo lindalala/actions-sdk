@@ -8457,18 +8457,30 @@ actions:
             description: List of matching Notion pages
             items:
               type: object
-              required: [id, url]
+              required: [name, url, contents]
               properties:
-                id:
-                  type: string
-                  description: The Notion page ID
-                title:
+                name:
                   type: string
                   description: The page title
-                  nullable: true
                 url:
                   type: string
                   description: The URL to the Notion page
+                contents:
+                  type: object
+                  required: [id, url, object]
+                  properties:
+                    id:
+                      type: string
+                      description: The Notion page ID
+                    title:
+                      type: string
+                      description: The page title
+                    url:
+                      type: string
+                      description: The URL to the Notion page
+                    object:
+                      type: string
+                      description: The type of Notion object (page or database)
           error:
             type: string
             description: Error message if search failed
